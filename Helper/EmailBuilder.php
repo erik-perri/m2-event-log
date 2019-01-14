@@ -127,8 +127,15 @@ class EmailBuilder
             ])
             ->setFrom($this->config->getEmailIdentity());
 
+        $setToHeader = false;
         foreach ($this->config->getRecipients() as $address) {
-            $builder->addTo($address);
+            if (!$setToHeader) {
+                $builder->addTo($address);
+                $setToHeader = true;
+            }
+            else {
+                $builder->addBcc($address);
+            }
         }
 
         return $builder;
