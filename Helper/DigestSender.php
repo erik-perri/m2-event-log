@@ -71,7 +71,7 @@ class DigestSender
             $this->orderReporter->reportOrdersInDigest($digest);
 
             if (!$this->digestHelper->createNewDigest()) {
-                $this->logger->critical('Failed to create next digest, attempting to send current digest.');
+                $this->logger->critical('Failed to create next digest');
             }
         }
 
