@@ -153,7 +153,7 @@ class EmailBuilder
         $previousUseInternalErrors = libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument();
-        $dom->loadHTML($content);
+        $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
         $path = new \DOMXPath($dom);
         $links = $path->query('//a');
