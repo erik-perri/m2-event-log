@@ -82,9 +82,8 @@ abstract class AbstractLinksGroup extends AbstractGroup
      */
     protected function renderHeading($entries, $hasUserColumn)
     {
-        /** @var \Magento\Backend\Block\Template $block */
-        $block = $this->getLayout()->createBlock(static::HEADER_BLOCK_CLASS);
-        return $block->setTemplate(static::HEADER_TEMPLATE)
+        return $this->createBlock(static::HEADER_BLOCK_CLASS)
+            ->setTemplate(static::HEADER_TEMPLATE)
             ->addData([
                 'title' => $this->getTitle(),
                 'summary' => $this->getSummarizer()->buildSummaryMessage($entries),
@@ -103,9 +102,8 @@ abstract class AbstractLinksGroup extends AbstractGroup
             return '';
         }
 
-        /** @var \Magento\Backend\Block\Template $block */
-        $block = $this->getLayout()->createBlock(\Magento\Backend\Block\Template::class);
-        return $block->setTemplate('Ryvon_EventLog::heading/links.phtml')
+        return $this->createBlock(\Magento\Backend\Block\Template::class)
+            ->setTemplate('Ryvon_EventLog::heading/links.phtml')
             ->addData([
                 'links' => $this->getHeadingLinks(),
             ])
