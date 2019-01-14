@@ -2,6 +2,8 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Magento\Framework\App\Area;
+use Magento\Framework\View\LayoutInterface;
 use Ryvon\EventLog\Model\Entry;
 
 class DigestRenderer
@@ -17,16 +19,24 @@ class DigestRenderer
     private $groupFinder;
 
     /**
+     * @var LayoutInterface
+     */
+    private $layout;
+
+    /**
      * @param GroupSorter $groupSorter
      * @param GroupFinder $groupFinder
+     * @param LayoutInterface $layout
      */
     public function __construct(
         GroupSorter $groupSorter,
-        GroupFinder $groupFinder
+        GroupFinder $groupFinder,
+        LayoutInterface $layout
     )
     {
         $this->groupSorter = $groupSorter;
         $this->groupFinder = $groupFinder;
+        $this->layout = $layout;
     }
 
     /**
@@ -58,5 +68,16 @@ class DigestRenderer
         $return = array_filter($return);
 
         return implode('', $return);
+    }
+
+    /**
+     * @return string
+     */
+    public function renderNoEntries()
+    {
+        /** @var \Magento\Backend\Block\Template $block */
+        $block = $this->layout->createBlock(\Magento\Backend\Block\Template::class);
+        $block->setData('area', Area::AREA_ADMINHTML);
+        return $block->setTemplate('Ryvon_EventLog::no-entries.phtml')->toHtml();
     }
 }

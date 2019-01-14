@@ -111,6 +111,14 @@ class EmailBuilder
             strip_tags($this->dateRangeBuilder->buildTimeRange($digest))
         );
 
+        $emailData = $this->digestRenderer->renderEntries($entries);
+        if ($emailData) {
+            $emailData = $this->updateEmailUrls($digest, $emailData);
+        }
+        else {
+            $emailData = $this->digestRenderer->renderNoEntries();
+        }
+
         $builder = $this->transportBuilder
             ->setTemplateIdentifier('event_log_digest_email_template')
             ->setTemplateOptions([
@@ -123,7 +131,7 @@ class EmailBuilder
                 'digestUrl' => $this->digestRequestHelper->getDigestUrl($digest, [
                     '_source' => $digest->getDigestKey(), // For the other links in the email this is added in addEmailKeyToUrls
                 ]),
-                'data' => $this->updateEmailUrls($digest, $this->digestRenderer->renderEntries($entries)),
+                'data' => $emailData,
             ])
             ->setFrom($this->config->getEmailIdentity());
 
