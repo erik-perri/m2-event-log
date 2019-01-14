@@ -95,7 +95,8 @@ class FinishDigestCommand extends Command
             $this->state->setAreaCode(Area::AREA_ADMINHTML);
 
             // We need to initialize this after the area code has been set since we're using LayoutInterface in
-            // a constructor it relies on
+            // a constructor it relies on.  If we don't the command handler ends up crashing and preventing commands
+            // from being run.
             $this->digestSender = $this->objectManager->create(DigestSender::class);
         } catch (LocalizedException $e) {
         }

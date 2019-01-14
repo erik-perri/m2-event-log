@@ -114,8 +114,7 @@ class EmailBuilder
         $emailData = $this->digestRenderer->renderEntries($entries);
         if ($emailData) {
             $emailData = $this->updateEmailUrls($digest, $emailData);
-        }
-        else {
+        } else {
             $emailData = $this->digestRenderer->renderNoEntries();
         }
 
@@ -140,8 +139,7 @@ class EmailBuilder
             if (!$setToHeader) {
                 $builder->addTo($address);
                 $setToHeader = true;
-            }
-            else {
+            } else {
                 $builder->addBcc($address);
             }
         }

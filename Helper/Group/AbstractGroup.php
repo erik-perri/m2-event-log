@@ -245,7 +245,7 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
-     * @param $type
+     * @param string $type
      * @param string $name
      * @param array $arguments
      * @return \Magento\Backend\Block\Template
@@ -254,6 +254,8 @@ abstract class AbstractGroup implements GroupInterface
     {
         /** @var \Magento\Backend\Block\Template $block */
         $block = $this->getLayout()->createBlock($type, $name, $arguments);
+        // We need to set the area on the block or Magento will set it to crontab
+        // and fail to find the templates when running this code through the cron.
         $block->setData('area', Area::AREA_ADMINHTML);
         return $block;
     }
