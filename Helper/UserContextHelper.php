@@ -45,7 +45,7 @@ class UserContextHelper
         return array_merge($context, [
             'user-id' => $user->getId(),
             'user-name' => $user->getUserName(),
-            'user-ip' => $this->remoteAddress->getRemoteAddress(),
+            'user-ip' => $this->getClientIp(),
         ]);
     }
 
@@ -61,5 +61,40 @@ class UserContextHelper
         }
 
         return $this->getContextFromUser($user, $context);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClientIp()
+    {
+        $ip = $this->remoteAddress->getRemoteAddress();
+        if ($this->isValidIp($ip)) {
+            return $ip;
+        }
+
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = array_map('trim', explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
+            foreach ($ips as $test) {
+                if ($this->isValidIp($test)) {
+                    return $test;
+                }
+            }
+        }
+
+        if (isset($_SERVER['HTTP_X_REAL_IP']) && $this->isValidIp($_SERVER['HTTP_X_REAL_IP'])) {
+            return $_SERVER['HTTP_X_REAL_IP'];
+        }
+
+        return $ip;
+    }
+
+    /**
+     * @param string $ip
+     * @return bool
+     */
+    protected function isValidIp($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ? true : false;
     }
 }
