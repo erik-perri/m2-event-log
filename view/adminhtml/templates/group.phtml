@@ -1,0 +1,12 @@
+<?php
+/** @var \Magento\Backend\Block\Template $block */
+
+$entries = $block->getData('entries');
+$heading = $block->getData('heading');
+?>
+<table class="data-grid" style="margin-bottom: 2rem;">
+    <thead>
+    <?php echo $heading; ?>
+    </thead>
+    <?php echo $entries; ?>
+</table>

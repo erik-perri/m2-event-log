@@ -1,0 +1,43 @@
+<?php
+/** @var \Ryvon\EventLog\Block\Adminhtml\Digest\EntryBlock $block */
+$entry = $block->getEntry();
+if (!$entry) {
+    return;
+}
+
+$duplicates = $block->getData('duplicates');
+?>
+<tr class="data-row <?php echo $block->getRowClass($entry); ?>">
+    <td class="log-time">
+        <div class="data-grid-cell-content" title="<?php echo $block->formatTitleTime($entry->getCreatedAt()); ?>">
+            <?php echo $block->formatLogTime($entry->getCreatedAt()); ?>
+        </div>
+    </td>
+    <td class="log-message">
+        <div class="data-grid-cell-content">
+            <?php echo $block->replacePlaceholders($entry->getEntryMessage(), $entry->getEntryContext()); ?>
+            <?php if ($duplicates > 1) {
+                $displayCount = number_format($duplicates - 1);
+                ?>
+                <span class="duplicate-count" title="<?php
+                            echo sprintf('%s %s', $displayCount, $displayCount === '1' ? 'duplicate' : 'duplicates');
+                        ?> of this message <?php echo $displayCount === '1' ? 'was' : 'were'; ?> hidden, this is the most recent.">
+                    +<?php echo $displayCount; ?>
+                </span>
+                <?php
+            } ?>
+        </div>
+    </td>
+    <?php
+    if ($block->getData('user-column')) {
+        ?>
+        <td class="log-user-name">
+            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user-name}', $entry->getEntryContext()); ?></div>
+        </td>
+        <td class="log-user-ip">
+            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user-ip}', $entry->getEntryContext()); ?></div>
+        </td>
+        <?php
+    }
+    ?>
+</tr>

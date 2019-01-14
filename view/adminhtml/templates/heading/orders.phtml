@@ -1,0 +1,21 @@
+<?php
+/** @var \Magento\Backend\Block\Template $block */
+?>
+<tr>
+    <th class="data-grid-th" colspan="10">
+        <span class="data-grid-cell-content">
+            <span class="group-title"><?php echo $block->getData('title'); ?></span>
+            <?php echo $block->getData('links') ?: ''; ?>
+            <small class="group-message"><?php echo $block->getData('summary'); ?></small>
+        </span>
+    </th>
+</tr>
+<tr>
+    <th class="data-grid-th"><div class="data-grid-cell-content">ID</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">Purchase Date</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">Bill-to Name</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">Grand Total</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">Status</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">Payment Method</div></th>
+    <th class="data-grid-th"><div class="data-grid-cell-content">IP</div></th>
+</tr>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <event_log>
+                <hide_duplicates>1</hide_duplicates>
+                <enable_digest_email>1</enable_digest_email>
+                <internal_digest_cron>1</internal_digest_cron>
+                <sender_email_identity>custom2</sender_email_identity>
+                <recipient_email>
+                    <![CDATA[user@example.com]]>
+                </recipient_email>
+            </event_log>
+        </system>
+    </default>
+</config>

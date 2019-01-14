@@ -1,0 +1,90 @@
+.data-grid th a {
+    color: #009bff;
+}
+
+.data-grid a svg path {
+    fill: #007bdb;
+}
+
+.data-grid svg {
+    width: 13px;
+    height: auto;
+    vertical-align: middle;
+}
+
+.data-row.error td, .data-row.error:hover td {
+    background: rgba(220, 53, 69, .3);
+}
+
+.data-row._odd-row.error td, .data-row._odd-row.error:hover td {
+    background: rgba(220, 53, 69, .5);
+}
+
+.data-row.warning td, .data-row.warning:hover td {
+    background: rgba(255, 251, 187, .3);
+}
+
+.data-row._odd-row.warning td, .data-row._odd-row.warning:hover td {
+    background: rgba(255, 251, 187, .5);
+}
+
+.data-row.security td, .data-row.security:hover td {
+    background: rgba(255, 251, 187, .3);
+}
+
+.data-row._odd-row.security td, .data-row._odd-row.security:hover td {
+    background: rgba(255, 251, 187, .5);
+}
+
+.data-row.info td, .data-row.info:hover td {
+    background: #fff;
+}
+
+.data-row._odd-row.info td, .data-row._odd-row.info:hover td {
+    background: #f5f5f5;
+}
+
+.log-time {
+    width: 1%;
+    white-space: nowrap;
+}
+
+a.icon {
+    margin-left: 5px;
+}
+
+.group-title {
+    font-size: 15px;
+}
+
+.group-message {
+    float: right;
+    line-height: 20px;
+}
+
+.admin__control-support-text {
+    color: #888;
+}
+
+.admin__control-support-text .date {
+    color: #000;
+}
+
+.duplicate-count {
+    float: right;
+    margin-top: 2px;
+
+    display: inline-block;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+
+    padding: .25em .6em;
+    border-radius: 10rem;
+
+    color: #fff;
+    background-color: rgba(108, 134, 125, .5);
+}

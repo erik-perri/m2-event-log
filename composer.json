@@ -1,0 +1,18 @@
+{
+  "name": "erik-perri/event-log",
+  "description": "Magento 2 plugin to log events.",
+  "version": "0.0.6",
+  "license": "MIT",
+  "require": {
+    "php": "~7.0.13|~7.1.0"
+  },
+  "type": "magento2-module",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ryvon\\EventLog\\": ""
+    }
+  }
+}

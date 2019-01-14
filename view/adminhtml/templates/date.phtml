@@ -1,0 +1,41 @@
+<?php
+/** @var \Ryvon\EventLog\Block\Adminhtml\Digest\DateBlock $this */
+
+$current = $this->getCurrentDigest();
+if (!$current) {
+    return;
+}
+
+$previous = $this->getPreviousDigest($current);
+$next = $this->getNextDigest($current);
+?>
+<div class="admin__data-grid-header-row">
+    <div style="padding: 0 0 15px 0; text-align: center">
+        <?php if ($previous) { ?>
+            <button type="button" title="Previous page" class="action-previous" onclick="window.location.href = '<?php echo $this->getDigestUrl($previous); ?>';return false;">
+                <span>Previous page</span>
+            </button>
+        <?php } else { ?>
+            <button type="button" class="action-previous disabled">
+                <span>Previous page</span>
+            </button>
+        <?php } ?>
+        <span class="admin__control-support-text" style="margin-right: 10px;">
+            <?php if ($current) {
+                echo 'Showing ' . $this->getDateRangeBuilder()->buildDateRange($current)
+                    . ', ' . $this->getDateRangeBuilder()->buildTimeRange($current);
+            } else {
+                echo 'Unknown date specified';
+            } ?>
+        </span>
+        <?php if ($next) { ?>
+            <button type="button" title="Next page" class="action-next" onclick="window.location.href = '<?php echo $this->getDigestUrl($next); ?>';return false;">
+                <span>Next page</span>
+            </button>
+        <?php } else { ?>
+            <button type="button" class="action-next disabled">
+                <span>Next page</span>
+            </button>
+        <?php } ?>
+    </div>
+</div>

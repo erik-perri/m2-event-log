@@ -1,0 +1,12 @@
+<?php
+/** @var \Magento\Backend\Block\Template $block */
+?>
+<tr>
+    <th class="data-grid-th" colspan="<?php echo $block->getData('user-column') ? '4' : '2'; ?>">
+        <span class="data-grid-cell-content">
+            <span class="group-title"><?php echo $block->getData('title'); ?></span>
+            <?php echo $block->getData('links') ?: ''; ?>
+            <small class="group-message"><?php echo $block->getData('summary'); ?></small>
+        </span>
+    </th>
+</tr>

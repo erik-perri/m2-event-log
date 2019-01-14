@@ -1,0 +1,60 @@
+<?php
+/** @var \Ryvon\EventLog\Block\Adminhtml\Digest\OrderBlock $block */
+$entry = $block->getEntry();
+if (!$entry) {
+    return;
+}
+
+$context = $entry->getEntryContext();
+$incrementId = $context->getData('order');
+$orderId = $context->getData('order-id');
+
+if (!$incrementId) {
+    return;
+}
+?>
+<tr class="data-row <?php echo $block->getRowClass($entry); ?>">
+    <td>
+        <div class="data-grid-cell-content">
+            <?php if ($orderId) { ?>
+                <a target="_blank" href="<?php echo $block->getOrderUrl($orderId); ?>"><?php echo $incrementId; ?></a>
+            <?php } else { ?>
+                <?php echo $incrementId; ?>
+            <?php } ?>
+        </div>
+    </td>
+    <td>
+        <div class="data-grid-cell-content" title="<?php echo $block->formatTitleTime($entry->getCreatedAt()); ?>">
+            <?php echo $block->formatOrderTime($context->getData('created-at')); ?>
+        </div>
+    </td>
+    <td>
+        <div class="data-grid-cell-content"><?php echo $context->getData('bill-to-name'); ?></div>
+    </td>
+    <td>
+        <div class="data-grid-cell-content"><?php echo $block->formatPrice($context->getData('price')); ?></div>
+    </td>
+    <td>
+        <div class="data-grid-cell-content"><?php echo $context->getData('status'); ?></div>
+    </td>
+    <td>
+        <div class="data-grid-cell-content"><?php echo $context->getData('payment-method'); ?></div>
+    </td>
+    <td class="ip">
+        <?php
+        $ips = $context->getData('ips') ?: [];
+        if ($ips && is_array($ips)) {
+            foreach ($ips as $ip) {
+                $link = $block->getLocationHelper()->generateLocateLinkTag($ip, [
+                    'title' => 'View information for IP: ' . $ip,
+                    'target' => '_blank',
+                    'class' => 'icon',
+                ], $ip);
+                if ($link) {
+                    echo $link . '<br/>';
+                }
+            }
+        }
+        ?>
+    </td>
+</tr>

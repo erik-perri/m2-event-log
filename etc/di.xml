@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Add the CLI commands -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="event_log_finish_digest_command" xsi:type="object">Ryvon\EventLog\Console\Command\FinishDigestCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Add the placeholders to the placeholder replacer -->
+    <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
+        <arguments>
+            <argument name="placeholders" xsi:type="array">
+                <item name="orderPlaceholder" xsi:type="object">Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder</item>
+                <item name="userIpPlaceholder" xsi:type="object">Ryvon\EventLog\Helper\Placeholder\UserIpPlaceholder</item>
+                <item name="userNamePlaceholder" xsi:type="object">Ryvon\EventLog\Helper\Placeholder\UserNamePlaceholder</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Add the groups to the group finder -->
+    <type name="Ryvon\EventLog\Helper\GroupFinder">
+        <arguments>
+            <argument name="groups" xsi:type="array">
+                <item name="adminGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\AdminGroup</item>
+                <item name="cleanupGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\CleanupGroup</item>
+                <item name="ordersGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\OrdersGroup</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- This is needed for the email send to not fail when sending through the CLI -->
+    <type name="Magento\Developer\Model\TemplateEngine\Plugin\DebugHints">
+        <arguments>
+            <argument name="debugHintsPath" xsi:type="string">dev/debug/template_hints_storefront</argument>
+        </arguments>
+    </type>
+
+    <!-- Add a plugin to disable the url key check if we were provided a valid digest key for a whitelisted page -->
+    <type name="Magento\Backend\App\AbstractAction">
+        <plugin name="event_log_abstract_action" type="Ryvon\EventLog\Plugin\DisableUrlKeyPlugin" sortOrder="1"/>
+    </type>
+</config>

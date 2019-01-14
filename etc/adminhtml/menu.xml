@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add
+                id="Ryvon_EventLog::index"
+                title="Event Log"
+                translate="title"
+                sortOrder="200"
+                module="Ryvon_EventLog"
+                parent="Magento_Backend::system_tools"
+                dependsOnModule="Ryvon_EventLog"
+                action="event_log/digest/index"
+                resource="Ryvon_EventLog::index"
+        />
+    </menu>
+</config>

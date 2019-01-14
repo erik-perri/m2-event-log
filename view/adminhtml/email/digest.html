@@ -1,0 +1,22 @@
+<!--@subject {{var subject|raw}} @-->
+
+<!--@vars {
+"var data":"Digest content",
+"var storeName":"Store name",
+"var storeUrl":"Store URL",
+"var digestUrl":"Digest URL",
+} @-->
+
+<style type="text/css">
+    {{css file="Ryvon_EventLog::css/styles.css"}}
+    {{css file="Ryvon_EventLog::css/email.css"}}
+</style>
+
+<div class="content">
+    <div class="header">
+        <a style="float: right;" href="{{var storeUrl}}" target="_blank">View frontend</a>
+        <a href="{{var digestUrl}}" rel="nofollow noindex noopener noreferrer" target="_blank">View digest in the admin</a>
+    </div>
+
+    {{var data|raw}}
+</div>

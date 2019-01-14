@@ -1,0 +1,19 @@
+<?php
+/** @var \Ryvon\EventLog\Block\Adminhtml\Digest\EntryListBlock $this */
+
+$digest = $this->getCurrentDigest();
+$entries = $this->getEntries($digest);
+if (!$digest || !$entries) {
+    ?>
+    <div class="messages">
+        <div class="message message-notice notice">
+            <div data-ui-id="messages-message-error">
+                No <?php echo (!$digest ? 'digests' : 'entries'); ?> found.
+            </div>
+        </div>
+    </div>
+    <?php
+    return;
+}
+
+echo $this->getDigestRenderer()->renderEntries($entries);
