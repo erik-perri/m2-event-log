@@ -148,6 +148,10 @@ class EmailBuilder
      */
     protected function updateEmailUrls(Digest $digest, $content)
     {
+        if (!$content) {
+            return $content;
+        }
+
         $adminPath = sprintf('/%s/', $this->deploymentConfig->get('backend/frontName') ?: 'admin');
 
         $previousUseInternalErrors = libxml_use_internal_errors(true);
