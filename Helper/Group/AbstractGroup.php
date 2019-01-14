@@ -2,6 +2,7 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
+use Magento\Framework\App\Area;
 use Magento\Framework\View\LayoutInterface;
 use Ryvon\EventLog\Helper\DigestSummarizer;
 use Ryvon\EventLog\Helper\DuplicateChecker;
@@ -178,9 +179,8 @@ abstract class AbstractGroup implements GroupInterface
 
         $headingHtml = $this->renderHeading($entries, $hasUserContext);
 
-        /** @var \Magento\Backend\Block\Template $block */
-        $block = $this->getLayout()->createBlock(static::GROUP_BLOCK_CLASS);
-        return $block->setTemplate(static::GROUP_TEMPLATE)
+        return $this->createBlock(static::GROUP_BLOCK_CLASS)
+            ->setTemplate(static::GROUP_TEMPLATE)
             ->addData([
                 'title' => $this->getTitle(),
                 'entries' => $entitiesHtml,
@@ -197,7 +197,6 @@ abstract class AbstractGroup implements GroupInterface
     protected function renderEntries($entries, $hasUserColumn)
     {
         $entitiesHtml = [];
-
         $entriesToRender = [];
 
         // We loop through the reversed array so we show the latest duplicate (if duplicates are hidden)
@@ -209,11 +208,8 @@ abstract class AbstractGroup implements GroupInterface
             }
         }
 
-        foreach ($entriesToRender as $entry) {
-            /** @var \Magento\Framework\View\Element\Template $block */
-            $block = $this->getLayout()->createBlock(static::ENTRY_BLOCK_CLASS);
-
-            $renderedEntry = $block
+        foreach ($entriesToRender as $index => $entry) {
+            $renderedEntry = $this->createBlock(static::ENTRY_BLOCK_CLASS)
                 ->setTemplate(static::ENTRY_TEMPLATE)
                 ->addData([
                     'entry' => $entry,
@@ -238,15 +234,28 @@ abstract class AbstractGroup implements GroupInterface
      */
     protected function renderHeading($entries, $hasUserColumn)
     {
-        /** @var \Magento\Backend\Block\Template $block */
-        $block = $this->getLayout()->createBlock(static::HEADER_BLOCK_CLASS);
-        return $block->setTemplate(static::HEADER_TEMPLATE)
+        return $this->createBlock(static::HEADER_BLOCK_CLASS)
+            ->setTemplate(static::HEADER_TEMPLATE)
             ->addData([
                 'title' => $this->getTitle(),
                 'summary' => $this->getSummarizer()->buildSummaryMessage($entries),
                 'user-column' => $hasUserColumn,
             ])
             ->toHtml();
+    }
+
+    /**
+     * @param $type
+     * @param string $name
+     * @param array $arguments
+     * @return \Magento\Backend\Block\Template
+     */
+    protected function createBlock($type, $name = '', $arguments = [])
+    {
+        /** @var \Magento\Backend\Block\Template $block */
+        $block = $this->getLayout()->createBlock($type, $name, $arguments);
+        $block->setData('area', Area::AREA_ADMINHTML);
+        return $block;
     }
 
     /**
