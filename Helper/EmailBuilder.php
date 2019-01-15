@@ -163,7 +163,12 @@ class EmailBuilder
         $previousUseInternalErrors = libxml_use_internal_errors(true);
 
         $dom = new \DOMDocument();
-        $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        if (defined('LIBXML_HTML_NOIMPLIED') && defined('LIBXML_HTML_NODEFDTD')) {
+            $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        }
+        else {
+            $dom->loadHTML($content);
+        }
 
         $path = new \DOMXPath($dom);
         $links = $path->query('//a');
