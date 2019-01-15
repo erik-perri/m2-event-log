@@ -84,8 +84,8 @@ class DigestSummarizer
     public function getSummaryMessage($summary)
     {
         $map = [
-            DigestHelper::LEVEL_WARNING => ['alert', 'alerts'],
             DigestHelper::LEVEL_ERROR => ['issue', 'issues'],
+            DigestHelper::LEVEL_WARNING => ['alert', 'alerts'],
         ];
         $message = [];
         foreach ($summary as $key => $count) {
