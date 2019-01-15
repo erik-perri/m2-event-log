@@ -13,6 +13,10 @@
         <observer name="event_log_record_security" instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
     </event>
 
+    <event name="event_log_post_finish_digest">
+        <observer name="event_log_report_orders" instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
+    </event>
+
     <event name="backend_auth_user_login_success">
         <observer name="event_log_login_success_observer" instance="Ryvon\EventLog\Observer\AdminLoginSuccessObserver"/>
     </event>

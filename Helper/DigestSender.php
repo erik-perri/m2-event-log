@@ -30,30 +30,22 @@ class DigestSender
     private $digestHelper;
 
     /**
-     * @var OrderReporter
-     */
-    private $orderReporter;
-
-    /**
      * @param LoggerInterface $logger
      * @param ManagerInterface $eventManager
      * @param DigestHelper $digestHelper
      * @param EmailBuilder $emailHelper
-     * @param OrderReporter $orderReporter
      */
     public function __construct(
         LoggerInterface $logger,
         ManagerInterface $eventManager,
         DigestHelper $digestHelper,
-        EmailBuilder $emailHelper,
-        OrderReporter $orderReporter
+        EmailBuilder $emailHelper
     )
     {
         $this->eventManager = $eventManager;
         $this->digestHelper = $digestHelper;
         $this->emailHelper = $emailHelper;
         $this->logger = $logger;
-        $this->orderReporter = $orderReporter;
     }
 
     /**
@@ -68,10 +60,14 @@ class DigestSender
                 return false;
             }
 
-            $this->orderReporter->reportOrdersInDigest($digest);
+            $this->eventManager->dispatch('event_log_post_finish_digest', [
+                'digest' => $digest,
+            ]);
 
             if (!$this->digestHelper->createNewDigest()) {
                 $this->logger->critical('Failed to create next digest');
+                // Don't return false, whatever is asking us to finish the digest
+                // doesn't care whether the next was created or not.
             }
         }
 
