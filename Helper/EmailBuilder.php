@@ -100,13 +100,9 @@ class EmailBuilder
         $entries = $this->entryRepository->findInDigest($digest);
         $summary = $this->digestSummarizer->summarize($entries);
 
-        $warnings = number_format(isset($summary[DigestHelper::LEVEL_WARNING]) ? $summary[DigestHelper::LEVEL_WARNING] : 0);
-        $errors = number_format(isset($summary[DigestHelper::LEVEL_ERROR]) ? $summary[DigestHelper::LEVEL_ERROR] : 0);
-
         $subject = sprintf(
-            'Event digest (%s errors, %s alerts) for %s, %s',
-            $errors,
-            $warnings,
+            'Event digest (%s) for %s, %s',
+            $this->digestSummarizer->getSummaryMessage($summary, true),
             strip_tags($this->dateRangeBuilder->buildDateRange($digest)),
             strip_tags($this->dateRangeBuilder->buildTimeRange($digest))
         );
