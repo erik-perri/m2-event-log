@@ -45,6 +45,7 @@ class DigestSummarizer
             static::HIDDEN_DUPLICATES_KEY => 0,
         ];
 
+        /** @var DuplicateChecker $duplicateChecker */
         $duplicateChecker = $this->duplicateCheckerFactory->create();
 
         $hideDuplicates = $this->config->getHideDuplicateEntries();
@@ -69,19 +70,21 @@ class DigestSummarizer
 
     /**
      * @param Entry[] $entries
+     * @param bool $includeEmpty
      * @return string
      */
-    public function buildSummaryMessage($entries)
+    public function buildSummaryMessage($entries, $includeEmpty = false)
     {
         $summary = $this->summarize($entries);
-        return $this->getSummaryMessage($summary);
+        return $this->getSummaryMessage($summary, $includeEmpty);
     }
 
     /**
      * @param array $summary
+     * @param bool $includeEmpty
      * @return string
      */
-    public function getSummaryMessage($summary)
+    public function getSummaryMessage($summary, $includeEmpty)
     {
         $map = [
             DigestHelper::LEVEL_ERROR => ['issue', 'issues'],
@@ -89,9 +92,14 @@ class DigestSummarizer
         ];
         $message = [];
         foreach ($summary as $key => $count) {
-            if ($count && isset($map[$key])) {
-                $message[] = number_format($count) . ' ' . ($count === 1 ? $map[$key][0] : $map[$key][1]);
+            if (!isset($map[$key])) {
+                continue;
             }
+            if (!$includeEmpty && !$count) {
+                continue;
+            }
+
+            $message[] = number_format($count) . ' ' . ($count === 1 ? $map[$key][0] : $map[$key][1]);
         }
         return implode(', ', $message);
     }
