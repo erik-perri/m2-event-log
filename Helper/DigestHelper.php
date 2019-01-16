@@ -54,15 +54,15 @@ class DigestHelper
     }
 
     /**
-     * @return string|false
+     * @return string|null
      */
     protected function getNow()
     {
         try {
             return (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s');
         } catch (\Exception $e) {
-            return false;
         }
+        return null;
     }
 
     /**
