@@ -124,7 +124,7 @@ class EmailBuilder
                 'subject' => $subject,
                 'storeUrl' => $this->getStoreUrl(),
                 'digestUrl' => $this->digestRequestHelper->getDigestUrl($digest, [
-                    '_source' => $digest->getDigestKey(), // For the other links in the email this is added in addEmailKeyToUrls
+                    '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
                 ]),
                 'data' => $emailData,
             ])
