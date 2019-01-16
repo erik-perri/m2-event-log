@@ -60,6 +60,7 @@ class DisableUrlKeyPlugin
             'catalog_product_edit',
             'cms_page_edit',
             'event_log_digest_index',
+            'event_log_lookup_ip',
             'sales_order_index',
             'sales_order_view',
         ]);
