@@ -150,14 +150,14 @@ class EntryBlock extends Template
         $startedAt = $this->timezone->date($digest->getStartedAt());
 
         if ($digest->getFinishedAt()) {
-            $finishedAt = $this->timezone->date($digest->getFinishedAt());
-
-            return $startedAt->format('Y-m-d') !== $finishedAt->format('Y-m-d');
+            $compareTo = $this->timezone->date($digest->getFinishedAt());
+        }
+        else {
+            // If the digest isn't finished we can compare to now
+            $compareTo = $this->timezone->date();
         }
 
-        $now = $this->timezone->date();
-
-        return $startedAt->format('Y-m-d') !== $now->format('Y-m-d');
+        return $startedAt->format('Y-m-d') !== $compareTo->format('Y-m-d');
     }
 
     /**

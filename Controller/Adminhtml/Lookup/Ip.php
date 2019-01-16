@@ -3,19 +3,22 @@
 namespace Ryvon\EventLog\Controller\Adminhtml\Lookup;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NotFoundException;
 
 class Ip extends Action
 {
     /**
-     * @return \Magento\Framework\Controller\ResultInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface
+     * @throws NotFoundException
      */
     public function execute()
     {
         $ip = $this->getIpAddress();
         if (!$ip) {
-            throw new \Magento\Framework\Exception\NotFoundException(__('Invalid IP'));
+            throw new NotFoundException(__('Invalid IP'));
         }
 
         return $this->createRedirect('https://tools.keycdn.com/geo?host=' . $ip);
@@ -23,12 +26,12 @@ class Ip extends Action
 
     /**
      * @param string $url
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return ResultInterface
      */
     protected function createRedirect($url)
     {
         /**
-         * @var \Magento\Framework\Controller\Result\Redirect $resultRedirect
+         * @var Redirect $resultRedirect
          */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $resultRedirect->setUrl($url);
