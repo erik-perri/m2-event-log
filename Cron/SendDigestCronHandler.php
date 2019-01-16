@@ -28,7 +28,11 @@ class SendDigestCronHandler
      * @param DigestHelper $digestHelper
      * @param DigestSender $digestSender
      */
-    public function __construct(Config $config, DigestHelper $digestHelper, DigestSender $digestSender)
+    public function __construct(
+        Config $config,
+        DigestHelper $digestHelper,
+        DigestSender $digestSender
+    )
     {
         $this->config = $config;
         $this->digestHelper = $digestHelper;
@@ -40,7 +44,8 @@ class SendDigestCronHandler
      */
     public function execute()
     {
-        if (!$this->config->getEnableDigestEmail() || !$this->config->getInternalDigestCron()) {
+        if (!$this->config->getEnableDigestEmail() ||
+            !$this->config->getInternalDigestCron()) {
             return $this;
         }
 

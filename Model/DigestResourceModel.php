@@ -5,6 +5,7 @@ namespace Ryvon\EventLog\Model;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class DigestResourceModel extends AbstractDb
@@ -22,13 +23,13 @@ class DigestResourceModel extends AbstractDb
     /**
      * @param DateTime $date
      * @param EncryptorInterface $encryptor
-     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
+     * @param Context $context
      * @param string $connectionName
      */
     public function __construct(
         DateTime $date,
         EncryptorInterface $encryptor,
-        \Magento\Framework\Model\ResourceModel\Db\Context $context,
+        Context $context,
         $connectionName = null
     )
     {
