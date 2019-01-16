@@ -54,11 +54,11 @@ class SendDigestCronHandler
             return $this;
         }
 
-        if (!$this->config->getRecipients()) {
+        if (!$this->digestSender->finishDigest($digest)) {
             return $this;
         }
 
-        if (!$this->digestSender->finishDigest($digest)) {
+        if (!$this->config->getRecipients()) {
             return $this;
         }
 
