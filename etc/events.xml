@@ -51,7 +51,7 @@
                   instance="Ryvon\EventLog\Observer\CmsPageModificationObserver"/>
     </event>
 
-    <event name="adminhtml_customer_save_after">
+    <event name="customer_save_after">
         <observer name="event_log_customer_save_after_observer"
                   instance="Ryvon\EventLog\Observer\CustomerModificationObserver"/>
     </event>
