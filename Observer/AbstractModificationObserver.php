@@ -75,6 +75,8 @@ abstract class AbstractModificationObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         try {
+            // If we are not logged in to the backend we do not want to log this
+            // event.
             if (!$this->authSession->getUser()) {
                 return;
             }
