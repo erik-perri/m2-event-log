@@ -31,6 +31,9 @@
                 <item name="configSectionPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\ConfigSectionPlaceholder
                 </item>
+                <item name="customerPlaceholder" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\CustomerPlaceholder
+                </item>
                 <item name="orderPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder
                 </item>
