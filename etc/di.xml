@@ -25,6 +25,9 @@
                 <item name="categoryPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CategoryPlaceholder
                 </item>
+                <item name="cmsPagePlaceholder" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\CmsPagePlaceholder
+                </item>
                 <item name="configSectionPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\ConfigSectionPlaceholder
                 </item>

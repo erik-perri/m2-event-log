@@ -41,4 +41,13 @@
         <observer name="event_log_category_delete_observer"
                   instance="Ryvon\EventLog\Observer\CategoryModificationObserver"/>
     </event>
+
+    <event name="cms_page_save_after">
+        <observer name="event_log_page_save_observer"
+                  instance="Ryvon\EventLog\Observer\CmsPageModificationObserver"/>
+    </event>
+    <event name="cms_page_delete_after">
+        <observer name="event_log_page_delete_observer"
+                  instance="Ryvon\EventLog\Observer\CmsPageModificationObserver"/>
+    </event>
 </config>
