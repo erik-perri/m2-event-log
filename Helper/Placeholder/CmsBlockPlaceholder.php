@@ -27,7 +27,7 @@ class CmsBlockPlaceholder implements PlaceholderInterface
      */
     public function getSearchString()
     {
-        return 'cms-page';
+        return 'cms-block';
     }
 
     /**
