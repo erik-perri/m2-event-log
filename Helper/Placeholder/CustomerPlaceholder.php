@@ -83,7 +83,7 @@ class CustomerPlaceholder implements PlaceholderInterface
     protected function findCustomerById($id)
     {
         try {
-            return $this->customerRepository->get($id);
+            return $this->customerRepository->getById($id);
         } catch (LocalizedException $e) {
             return false;
         }
