@@ -22,11 +22,17 @@
                 <item name="attributeSetPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\AttributeSetPlaceholder
                 </item>
+                <item name="categoryPlaceholder" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\CategoryPlaceholder
+                </item>
                 <item name="configSectionPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\ConfigSectionPlaceholder
                 </item>
                 <item name="orderPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder
+                </item>
+                <item name="productPlaceholder" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\ProductPlaceholder
                 </item>
                 <item name="userIpPlaceholder" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\UserIpPlaceholder

@@ -23,4 +23,22 @@
     <event name="backend_auth_user_login_failed">
         <observer name="event_log_login_failed_observer" instance="Ryvon\EventLog\Observer\AdminLoginFailedObserver"/>
     </event>
+
+    <event name="catalog_product_save_after">
+        <observer name="event_log_product_save_observer"
+                  instance="Ryvon\EventLog\Observer\ProductModificationObserver"/>
+    </event>
+    <event name="catalog_product_delete_after">
+        <observer name="event_log_product_delete_observer"
+                  instance="Ryvon\EventLog\Observer\ProductModificationObserver"/>
+    </event>
+
+    <event name="catalog_category_save_after">
+        <observer name="event_log_category_save_observer"
+                  instance="Ryvon\EventLog\Observer\CategoryModificationObserver"/>
+    </event>
+    <event name="catalog_category_delete_after">
+        <observer name="event_log_category_delete_observer"
+                  instance="Ryvon\EventLog\Observer\CategoryModificationObserver"/>
+    </event>
 </config>
