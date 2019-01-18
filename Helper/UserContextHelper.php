@@ -66,7 +66,7 @@ class UserContextHelper
     /**
      * @return string
      */
-    protected function getClientIp()
+    public function getClientIp()
     {
         $ip = $this->remoteAddress->getRemoteAddress();
         if ($this->isValidIp($ip)) {

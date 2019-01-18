@@ -5,8 +5,8 @@ namespace Ryvon\EventLog\Observer;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Ryvon\EventLog\Helper\Group\AdminGroup;
+use Ryvon\EventLog\Helper\UserContextHelper;
 
 class AdminLoginFailedObserver implements ObserverInterface
 {
@@ -16,18 +16,21 @@ class AdminLoginFailedObserver implements ObserverInterface
     private $eventManager;
 
     /**
-     * @var RemoteAddress
+     * @var UserContextHelper
      */
-    private $remoteAddress;
+    private $userContextHelper;
 
     /**
      * @param ManagerInterface $eventManager
-     * @param RemoteAddress $remoteAddress
+     * @param UserContextHelper $userContextHelper
      */
-    public function __construct(ManagerInterface $eventManager, RemoteAddress $remoteAddress)
+    public function __construct(
+        ManagerInterface $eventManager,
+        UserContextHelper $userContextHelper
+    )
     {
         $this->eventManager = $eventManager;
-        $this->remoteAddress = $remoteAddress;
+        $this->userContextHelper = $userContextHelper;
     }
 
     /*
@@ -43,7 +46,7 @@ class AdminLoginFailedObserver implements ObserverInterface
             'message' => 'User login failed, {error}.',
             'context' => [
                 'user-name' => $userName,
-                'user-ip' => $this->remoteAddress->getRemoteAddress(),
+                'user-ip' => $this->userContextHelper->getClientIp(),
                 'error' => $message,
             ],
         ]);
