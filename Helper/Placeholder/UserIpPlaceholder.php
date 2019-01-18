@@ -45,6 +45,6 @@ class UserIpPlaceholder implements PlaceholderInterface
             'title' => 'View information for IP: ' . $userIp,
             'target' => '_blank',
             'class' => 'icon',
-        ], $userIp) ?: '';
+        ], $userIp) ?: $userIp;
     }
 }
