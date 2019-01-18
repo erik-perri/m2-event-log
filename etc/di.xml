@@ -69,12 +69,12 @@
     <type name="Magento\Config\Model\Config">
         <plugin name="event_log_config_save_plugin" type="Ryvon\EventLog\Plugin\ConfigSavePlugin" sortOrder="1"/>
     </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Attribute">
+        <plugin name="event_log_attribute_plugin" type="Ryvon\EventLog\Plugin\AttributePlugin" sortOrder="1"/>
+    </type>
     <type name="Magento\Eav\Model\ResourceModel\Entity\Attribute\Set">
         <plugin name="event_log_attribute_set_plugin" type="Ryvon\EventLog\Plugin\AttributeSetPlugin"
                 sortOrder="1"/>
-    </type>
-    <type name="Magento\Catalog\Model\ResourceModel\Attribute">
-        <plugin name="event_log_attribute_plugin" type="Ryvon\EventLog\Plugin\AttributePlugin" sortOrder="1"/>
     </type>
 
     <!-- Add a plugin to disable the url key check if we were provided a valid digest key for a whitelisted page -->
