@@ -6,6 +6,14 @@ if (!$entry) {
 }
 
 $duplicates = $block->getData('duplicates');
+$storeView = null;
+$colspan = 1;
+if (!$block->getData('single-store-mode')) {
+    $storeView = $entry->getEntryContext()->getData('store-view');
+    if (!$storeView) {
+        $colspan = 2;
+    }
+}
 ?>
 <tr class="data-row <?php echo $block->getRowClass($entry); ?>">
     <td class="log-time">
@@ -13,7 +21,7 @@ $duplicates = $block->getData('duplicates');
             <?php echo $block->formatLogTime($entry->getCreatedAt()); ?>
         </div>
     </td>
-    <td class="log-message">
+    <td class="log-message" colspan="<?php echo $colspan; ?>">
         <div class="data-grid-cell-content">
             <?php echo $block->replacePlaceholders($entry->getEntryMessage(), $entry->getEntryContext()); ?>
             <?php if ($duplicates > 1) {
@@ -29,6 +37,14 @@ $duplicates = $block->getData('duplicates');
         </div>
     </td>
     <?php
+    if ($storeView) {
+        ?>
+        <td class="log-store-view">
+            <div class="data-grid-cell-content"><?php echo $storeView; ?></div>
+        </td>
+        <?php
+    }
+
     if ($block->getData('user-column')) {
         ?>
         <td class="log-user-name">

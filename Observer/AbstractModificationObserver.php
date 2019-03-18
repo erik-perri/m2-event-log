@@ -6,6 +6,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Ryvon\EventLog\Helper\StoreViewFinder;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractModificationObserver implements ObserverInterface
@@ -26,19 +27,27 @@ abstract class AbstractModificationObserver implements ObserverInterface
     private $authSession;
 
     /**
+     * @var StoreViewFinder
+     */
+    private $storeViewFinder;
+
+    /**
      * @param LoggerInterface $logger
      * @param ManagerInterface $eventManager
      * @param Session $authSession
+     * @param StoreViewFinder $storeViewFinder
      */
     public function __construct(
         LoggerInterface $logger,
         ManagerInterface $eventManager,
-        Session $authSession
+        Session $authSession,
+        StoreViewFinder $storeViewFinder
     )
     {
         $this->logger = $logger;
         $this->eventManager = $eventManager;
         $this->authSession = $authSession;
+        $this->storeViewFinder = $storeViewFinder;
     }
 
     /**
@@ -55,6 +64,14 @@ abstract class AbstractModificationObserver implements ObserverInterface
     protected function getEventManager()
     {
         return $this->eventManager;
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function getActiveStoreView()
+    {
+        return $this->storeViewFinder->getActiveStoreView();
     }
 
     /**

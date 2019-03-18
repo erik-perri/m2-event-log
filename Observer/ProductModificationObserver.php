@@ -27,6 +27,7 @@ class ProductModificationObserver extends AbstractModificationObserver
             'group' => AdminGroup::GROUP_ID,
             'message' => 'Product {product} {action}.',
             'context' => [
+                'store-view' => $this->getActiveStoreView(),
                 'product' => $entity->getData('sku'),
                 'action' => $action,
             ],

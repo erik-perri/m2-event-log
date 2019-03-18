@@ -27,6 +27,7 @@ class CmsBlockModificationObserver extends AbstractModificationObserver
             'group' => AdminGroup::GROUP_ID,
             'message' => 'Content block {cms-block} {action}.',
             'context' => [
+                'store-view' => $this->getActiveStoreView(),
                 'cms-block' => $entity->getData('title'),
                 'cms-block-id' => $entity->getId(),
                 'action' => $action,

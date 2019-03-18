@@ -4,6 +4,7 @@ namespace Ryvon\EventLog\Helper\Group;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Helper\DigestSummarizer;
 use Ryvon\EventLog\Helper\DuplicateCheckerFactory;
 use Ryvon\EventLog\Model\Config;
@@ -26,6 +27,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
      * @param DigestSummarizer $summarizer
      * @param DuplicateCheckerFactory $duplicateCheckerFactory
      * @param LayoutInterface $layout
+     * @param StoreManagerInterface $storeManager
      * @param UrlInterface $urlBuilder
      */
     public function __construct(
@@ -33,12 +35,13 @@ abstract class AbstractLinksGroup extends AbstractGroup
         DigestSummarizer $summarizer,
         DuplicateCheckerFactory $duplicateCheckerFactory,
         LayoutInterface $layout,
+        StoreManagerInterface $storeManager,
         UrlInterface $urlBuilder
     )
     {
         $this->urlBuilder = $urlBuilder;
 
-        parent::__construct($config, $summarizer, $duplicateCheckerFactory, $layout);
+        parent::__construct($config, $summarizer, $duplicateCheckerFactory, $layout, $storeManager);
     }
 
     /**

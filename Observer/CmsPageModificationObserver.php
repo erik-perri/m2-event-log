@@ -27,6 +27,7 @@ class CmsPageModificationObserver extends AbstractModificationObserver
             'group' => AdminGroup::GROUP_ID,
             'message' => 'Page {cms-page} {action}.',
             'context' => [
+                'store-view' => $this->getActiveStoreView(),
                 'cms-page' => $entity->getData('title'),
                 'cms-page-id' => $entity->getId(),
                 'action' => $action,

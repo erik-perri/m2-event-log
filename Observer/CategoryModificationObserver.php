@@ -27,6 +27,7 @@ class CategoryModificationObserver extends AbstractModificationObserver
             'group' => AdminGroup::GROUP_ID,
             'message' => 'Category {category} {action}.',
             'context' => [
+                'store-view' => $this->getActiveStoreView(),
                 'category' => $entity->getData('name'),
                 'category-id' => $entity->getId(),
                 'action' => $action,

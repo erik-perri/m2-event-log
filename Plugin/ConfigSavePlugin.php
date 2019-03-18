@@ -6,6 +6,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\Config\Model\Config;
 use Magento\Framework\Event\ManagerInterface;
 use Ryvon\EventLog\Helper\Group\AdminGroup;
+use Ryvon\EventLog\Helper\StoreViewFinder;
 
 class ConfigSavePlugin
 {
@@ -20,13 +21,24 @@ class ConfigSavePlugin
     private $authSession;
 
     /**
+     * @var StoreViewFinder
+     */
+    private $storeViewFinder;
+
+    /**
      * @param ManagerInterface $eventManager
      * @param Session $authSession
+     * @param StoreViewFinder $storeViewFinder
      */
-    public function __construct(ManagerInterface $eventManager, Session $authSession)
+    public function __construct(
+        ManagerInterface $eventManager,
+        Session $authSession,
+        StoreViewFinder $storeViewFinder
+    )
     {
         $this->eventManager = $eventManager;
         $this->authSession = $authSession;
+        $this->storeViewFinder = $storeViewFinder;
     }
 
     /**
@@ -45,6 +57,7 @@ class ConfigSavePlugin
                 'group' => AdminGroup::GROUP_ID,
                 'message' => 'Configuration section {config-section} modified.',
                 'context' => [
+                    'store-view' => $this->storeViewFinder->getActiveStoreView(),
                     'config-section' => $subject->getData('section'),
                 ],
             ]);

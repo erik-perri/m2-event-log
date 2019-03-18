@@ -1,8 +1,18 @@
 <?php
 /** @var \Magento\Backend\Block\Template $block */
+
+$colspan = 2;
+if ($block->getData('user-column')) {
+    $colspan += 2;
+}
+
+// If we are not in single store mode we may have a store view column visible
+if (!$block->getData('single-store-mode')) {
+    $colspan++;
+}
 ?>
 <tr>
-    <th class="data-grid-th" colspan="<?php echo $block->getData('user-column') ? '4' : '2'; ?>">
+    <th class="data-grid-th" colspan="<?php echo $colspan; ?>">
         <span class="data-grid-cell-content">
             <span class="group-title"><?php echo $block->getData('title'); ?></span>
             <?php echo $block->getData('links') ?: ''; ?>

@@ -27,6 +27,7 @@ class CustomerModificationObserver extends AbstractModificationObserver
             'group' => AdminGroup::GROUP_ID,
             'message' => 'Customer {customer} {action}.',
             'context' => [
+                'store-view' => $this->getActiveStoreView(),
                 'customer' => trim(sprintf('%s %s', $entity->getData('firstname'), $entity->getData('lastname'))),
                 'customer-id' => (string)$entity->getId(),
                 'action' => $action,

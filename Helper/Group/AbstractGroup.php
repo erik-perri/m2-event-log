@@ -4,6 +4,7 @@ namespace Ryvon\EventLog\Helper\Group;
 
 use Magento\Framework\App\Area;
 use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Helper\DigestSummarizer;
 use Ryvon\EventLog\Helper\DuplicateChecker;
 use Ryvon\EventLog\Helper\DuplicateCheckerFactory;
@@ -78,16 +79,23 @@ abstract class AbstractGroup implements GroupInterface
     private $layout;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @param Config $config
      * @param DigestSummarizer $summarizer
      * @param DuplicateCheckerFactory $duplicateCheckerFactory
      * @param LayoutInterface $layout
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Config $config,
         DigestSummarizer $summarizer,
         DuplicateCheckerFactory $duplicateCheckerFactory,
-        LayoutInterface $layout
+        LayoutInterface $layout,
+        StoreManagerInterface $storeManager
     )
     {
         $this->summarizer = $summarizer;
@@ -96,6 +104,8 @@ abstract class AbstractGroup implements GroupInterface
         if ($config->getHideDuplicateEntries()) {
             $this->duplicateChecker = $duplicateCheckerFactory->create();
         }
+
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -215,6 +225,7 @@ abstract class AbstractGroup implements GroupInterface
                     'entry' => $entry,
                     'odd' => $this->isOdd(),
                     'user-column' => $hasUserColumn,
+                    'single-store-mode' => $this->storeManager->isSingleStoreMode(),
                     'duplicates' => $this->duplicateChecker ? $this->duplicateChecker->getCount($entry) : 0,
                 ])
                 ->toHtml();
@@ -240,6 +251,7 @@ abstract class AbstractGroup implements GroupInterface
                 'title' => $this->getTitle(),
                 'summary' => $this->getSummarizer()->buildSummaryMessage($entries),
                 'user-column' => $hasUserColumn,
+                'single-store-mode' => $this->storeManager->isSingleStoreMode(),
             ])
             ->toHtml();
     }
