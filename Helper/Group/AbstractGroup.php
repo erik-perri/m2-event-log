@@ -215,7 +215,7 @@ abstract class AbstractGroup implements GroupInterface
                     'entry' => $entry,
                     'odd' => $this->isOdd(),
                     'user-column' => $hasUserColumn,
-                    'duplicates' => $this->duplicateChecker->getCount($entry),
+                    'duplicates' => $this->duplicateChecker ? $this->duplicateChecker->getCount($entry) : 0,
                 ])
                 ->toHtml();
 
