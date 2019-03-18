@@ -44,7 +44,7 @@ class SvgHelper
         );
 
         if (!file_exists($path)) {
-            return sprintf('Missing icon "%s/%s"', $type, $id);
+            return sprintf('<!-- Missing icon "%s/%s" -->', $type, $id);
         }
 
         return str_replace(["\r", "\n"], '', file_get_contents($path));
