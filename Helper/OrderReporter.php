@@ -161,7 +161,7 @@ class OrderReporter
      */
     protected function findOrderByIncrementId($incrementId)
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId, 'eq')->create();
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId)->create();
         $orderList = $this->orderRepository->getList($searchCriteria)->getItems();
         if (count($orderList)) {
             return reset($orderList);

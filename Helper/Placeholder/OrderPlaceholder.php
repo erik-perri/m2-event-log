@@ -83,7 +83,7 @@ class OrderPlaceholder implements PlaceholderInterface
     protected function findOrderById($incrementId)
     {
         try {
-            $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId, 'eq')->create();
+            $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId)->create();
             $orderList = $this->orderRepository->getList($searchCriteria)->getItems();
             if (count($orderList)) {
                 return reset($orderList);
