@@ -80,4 +80,20 @@ class DigestRenderer
         $block->setData('area', Area::AREA_ADMINHTML);
         return $block->setTemplate('Ryvon_EventLog::no-entries.phtml')->toHtml();
     }
+
+    /**
+     * @param string $storeUrl
+     * @param string $digestUrl
+     * @return string
+     */
+    public function renderHeader(string $storeUrl, string $digestUrl): string
+    {
+        /** @var \Magento\Backend\Block\Template $block */
+        $block = $this->layout->createBlock(\Magento\Backend\Block\Template::class);
+        $block->setData('area', Area::AREA_ADMINHTML);
+        return $block->setTemplate('Ryvon_EventLog::email-header.phtml')
+            ->setData('store-url', $storeUrl)
+            ->setData('digest-url', $digestUrl)
+            ->toHtml();
+    }
 }

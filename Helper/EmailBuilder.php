@@ -58,6 +58,11 @@ class EmailBuilder
     private $dateRangeBuilder;
 
     /**
+     * @var EmailEmogrifier
+     */
+    private $emailEmogrifier;
+
+    /**
      * @param TransportBuilder $transportBuilder
      * @param EntryRepository $entryRepository
      * @param DigestSummarizer $digestSummarizer
@@ -67,6 +72,7 @@ class EmailBuilder
      * @param StoreManagerInterface $storeManager
      * @param DeploymentConfig $deploymentConfig
      * @param DateRangeBuilder $dateRangeBuilder
+     * @param EmailEmogrifier $emailEmogrifier
      */
     public function __construct(
         TransportBuilder $transportBuilder,
@@ -77,7 +83,8 @@ class EmailBuilder
         Config $config,
         StoreManagerInterface $storeManager,
         DeploymentConfig $deploymentConfig,
-        DateRangeBuilder $dateRangeBuilder
+        DateRangeBuilder $dateRangeBuilder,
+        EmailEmogrifier $emailEmogrifier
     )
     {
         $this->transportBuilder = $transportBuilder;
@@ -89,6 +96,7 @@ class EmailBuilder
         $this->storeManager = $storeManager;
         $this->deploymentConfig = $deploymentConfig;
         $this->dateRangeBuilder = $dateRangeBuilder;
+        $this->emailEmogrifier = $emailEmogrifier;
     }
 
     /**
@@ -114,6 +122,19 @@ class EmailBuilder
             $emailData = $this->digestRenderer->renderNoEntries();
         }
 
+        if ($this->config->getIncludeLinksInEmail()) {
+            $emailData = $this->digestRenderer->renderHeader(
+                $this->getStoreUrl(),
+                $this->digestRequestHelper->getDigestUrl(
+                    $digest,
+                    $this->config->getBypassUrlKey() ? [
+                        '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
+                    ] : [])
+            ) . $emailData;
+        }
+
+        $emailData = $this->emailEmogrifier->emogrify($emailData);
+
         $builder = $this->transportBuilder
             ->setTemplateIdentifier('event_log_digest_email_template')
             ->setTemplateOptions([
@@ -122,13 +143,6 @@ class EmailBuilder
             ])
             ->setTemplateVars([
                 'subject' => $subject,
-                'storeUrl' => $this->getStoreUrl(),
-                'includeLinks' => $this->config->getIncludeLinksInEmail(),
-                'digestUrl' => $this->digestRequestHelper->getDigestUrl(
-                    $digest,
-                    $this->config->getBypassUrlKey() ? [
-                        '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
-                    ] : []),
                 'data' => $emailData,
             ])
             ->setFrom($this->config->getEmailIdentity());

@@ -6,7 +6,8 @@
   "require": {
     "php": "~7.0.13|~7.1.0",
     "ext-libxml": "*",
-    "ext-dom": "*"
+    "ext-dom": "*",
+    "pelago/emogrifier": "^2.0.0"
   },
   "type": "magento2-module",
   "autoload": {

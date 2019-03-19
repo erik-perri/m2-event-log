@@ -88,8 +88,12 @@ table {
     padding: 1rem 1rem;
 }
 
-.data-grid tr:not(.data-grid-editable-row):last-child td {
+.data-grid tr:last-child td {
     border-bottom: 0.1rem solid #d6d6d6;
+}
+
+.data-grid tr.data-grid-editable-row:last-child td {
+    border-bottom: 0;
 }
 
 .data-grid td:first-child {
@@ -132,24 +136,10 @@ table {
     display: none;
 }
 
-#only-errors-visible:checked ~ .content .show-all-messages {
-    display: block;
-}
-
-#only-errors-visible:checked ~ .content .data-row.info,
-#only-errors-visible:checked ~ .content .data-row.warning,
-#only-errors-visible:checked ~ .content .hide-non-errors {
-    display: none;
-}
-
 .header {
     background: #eee;
     color: #333333;
     font-size: 1.4rem;
     padding: 1.8rem 4rem 1.8rem 4rem;
-    margin: 0 0 20px 0;
-}
-
-.content {
-    padding: 20px;
+    margin: 20px 0;
 }
