@@ -86,15 +86,17 @@ class ProductPlaceholder implements PlaceholderInterface
             'target' => '_blank',
         ]);
 
-        $frontendUrl = $this->getStoreUrl() . $product->getUrlKey();
-        if ($frontendUrl) {
-            $return .= $this->buildLinkTag([
-                'html' => $this->svgHelper->getStoreSvg(),
-                'title' => 'View this product on the frontend',
-                'href' => $frontendUrl,
-                'target' => '_blank',
-                'class' => 'icon',
-            ]);
+        if ((int)$product->getStatus() === Product\Attribute\Source\Status::STATUS_ENABLED) {
+            $frontendUrl = $this->getStoreUrl() . $product->getUrlKey();
+            if ($frontendUrl) {
+                $return .= $this->buildLinkTag([
+                    'html' => $this->svgHelper->getStoreSvg(),
+                    'title' => 'View this product on the frontend',
+                    'href' => $frontendUrl,
+                    'target' => '_blank',
+                    'class' => 'icon',
+                ]);
+            }
         }
 
         return $return;

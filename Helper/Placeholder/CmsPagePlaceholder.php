@@ -3,8 +3,10 @@
 namespace Ryvon\EventLog\Helper\Placeholder;
 
 use Magento\Backend\Model\UrlInterface;
-use Magento\Cms\Helper\Page;
+use Magento\Cms\Helper\Page as PageHelper;
+use Magento\Cms\Model\PageRepository;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Ryvon\EventLog\Helper\SvgHelper;
 
 class CmsPagePlaceholder implements PlaceholderInterface
@@ -17,9 +19,14 @@ class CmsPagePlaceholder implements PlaceholderInterface
     private $urlBuilder;
 
     /**
-     * @var Page
+     * @var PageHelper
      */
     private $pageHelper;
+
+    /**
+     * @var PageRepository
+     */
+    private $pageRepository;
 
     /**
      * @var SvgHelper
@@ -28,17 +35,20 @@ class CmsPagePlaceholder implements PlaceholderInterface
 
     /**
      * @param UrlInterface $urlBuilder
-     * @param Page $pageHelper
+     * @param PageHelper $pageHelper
+     * @param PageRepository $pageRepository
      * @param SvgHelper $svgHelper
      */
     public function __construct(
         UrlInterface $urlBuilder,
-        Page $pageHelper,
+        PageHelper $pageHelper,
+        PageRepository $pageRepository,
         SvgHelper $svgHelper
     )
     {
         $this->urlBuilder = $urlBuilder;
         $this->pageHelper = $pageHelper;
+        $this->pageRepository = $pageRepository;
         $this->svgHelper = $svgHelper;
     }
 
@@ -66,8 +76,9 @@ class CmsPagePlaceholder implements PlaceholderInterface
             return $pageName;
         }
 
-        $frontendUrl = $this->pageHelper->getPageUrl($pageId);
-        if (!$frontendUrl) {
+        try {
+            $page = $this->pageRepository->getById($pageId);
+        } catch (NoSuchEntityException $e) {
             return $pageName;
         }
 
@@ -80,13 +91,16 @@ class CmsPagePlaceholder implements PlaceholderInterface
             'target' => '_blank',
         ]);
 
-        $return .= $this->buildLinkTag([
-            'html' => $this->svgHelper->getStoreSvg(),
-            'title' => 'View this page on the frontend',
-            'href' => $frontendUrl,
-            'target' => '_blank',
-            'class' => 'icon',
-        ]);
+        $frontendUrl = $this->pageHelper->getPageUrl($pageId);
+        if ($frontendUrl && $page->isActive()) {
+            $return .= $this->buildLinkTag([
+                'html' => $this->svgHelper->getStoreSvg(),
+                'title' => 'View this page on the frontend',
+                'href' => $frontendUrl,
+                'target' => '_blank',
+                'class' => 'icon',
+            ]);
+        }
 
         return $return;
     }

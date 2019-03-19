@@ -82,15 +82,17 @@ class CategoryPlaceholder implements PlaceholderInterface
             'target' => '_blank',
         ]);
 
-        $frontendUrl = $category->getUrl();
-        if ($frontendUrl) {
-            $return .= $this->buildLinkTag([
-                'html' => $this->svgHelper->getStoreSvg(),
-                'title' => 'View this category on the frontend',
-                'href' => $frontendUrl,
-                'target' => '_blank',
-                'class' => 'icon',
-            ]);
+        if ($category->getIsActive()) {
+            $frontendUrl = $category->getUrl();
+            if ($frontendUrl) {
+                $return .= $this->buildLinkTag([
+                    'html' => $this->svgHelper->getStoreSvg(),
+                    'title' => 'View this category on the frontend',
+                    'href' => $frontendUrl,
+                    'target' => '_blank',
+                    'class' => 'icon',
+                ]);
+            }
         }
 
         return $return;
