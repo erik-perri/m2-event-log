@@ -77,6 +77,15 @@
                   instance="Ryvon\EventLog\Observer\Customers\CustomerModificationObserver"/>
     </event>
 
+    <event name="customer_group_save_after">
+        <observer name="event_log_customer_group_save_after_observer"
+                  instance="Ryvon\EventLog\Observer\Customers\CustomerGroupModificationObserver"/>
+    </event>
+    <event name="customer_group_delete_after">
+        <observer name="event_log_customer_group_delete_observer"
+                  instance="Ryvon\EventLog\Observer\Customers\CustomerGroupModificationObserver"/>
+    </event>
+
     <event name="adminhtml_cache_flush_all">
         <observer name="event_log_cache_flush_all"
                   instance="Ryvon\EventLog\Observer\System\CacheFlushObserver"/>
