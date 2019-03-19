@@ -108,50 +108,6 @@ class DigestHelper
     }
 
     /**
-     * @param string $group
-     * @param string $message
-     * @param array $context
-     * @return DigestHelper
-     */
-    public function addError($group, $message, $context): DigestHelper
-    {
-        return $this->addEntry(null, static::LEVEL_ERROR, $group, $message, $context);
-    }
-
-    /**
-     * @param string $group
-     * @param string $message
-     * @param array $context
-     * @return DigestHelper
-     */
-    public function addInfo($group, $message, $context): DigestHelper
-    {
-        return $this->addEntry(null, static::LEVEL_INFO, $group, $message, $context);
-    }
-
-    /**
-     * @param string $group
-     * @param string $message
-     * @param array $context
-     * @return DigestHelper
-     */
-    public function addWarning($group, $message, $context): DigestHelper
-    {
-        return $this->addEntry(null, static::LEVEL_WARNING, $group, $message, $context);
-    }
-
-    /**
-     * @param string $group
-     * @param string $message
-     * @param array $context
-     * @return DigestHelper
-     */
-    public function addSecurity($group, $message, $context): DigestHelper
-    {
-        return $this->addEntry(null, static::LEVEL_SECURITY, $group, $message, $context);
-    }
-
-    /**
      * @param Digest|null $digest
      * @param string $level
      * @param string $group
