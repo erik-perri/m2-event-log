@@ -4,6 +4,7 @@ namespace Ryvon\EventLog\Helper;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
@@ -28,27 +29,27 @@ class OrderReporter
     private $sortBuilder;
 
     /**
-     * @var DigestHelper
+     * @var ManagerInterface
      */
-    private $digestHelper;
+    private $eventManager;
 
     /**
      * @param OrderRepositoryInterface $orderRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param SortOrderBuilder $sortBuilder
-     * @param DigestHelper $digestHelper
+     * @param ManagerInterface $eventManager
      */
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortBuilder,
-        DigestHelper $digestHelper
+        ManagerInterface $eventManager
     )
     {
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sortBuilder = $sortBuilder;
-        $this->digestHelper = $digestHelper;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -91,7 +92,6 @@ class OrderReporter
     public function reportOrder(Digest $digest, Order $order)
     {
         $ips = array_merge([$order->getRemoteIp()], explode(',', $order->getXForwardedFor()));
-
         $level = 'info';
 
         switch ($order->getStatus()) {
@@ -103,10 +103,12 @@ class OrderReporter
                 break;
         }
 
-        $this->digestHelper->addEntry(
-            $digest, $level, OrdersGroup::GROUP_ID,
-            'Order {order} placed by {bill-to-name} for {price} is {status}.',
-            [
+        $this->eventManager->dispatch('event_log_' . $level, [
+            'digest' => $digest,
+            'group' => OrdersGroup::GROUP_ID,
+            'message' => 'Order {order} placed by {bill-to-name} for {price} is {status}.',
+            'date' => $order->getCreatedAt(),
+            'context' => [
                 'order' => $order->getIncrementId(),
                 'order-id' => $order->getId(),
                 'created-at' => $order->getCreatedAt(),
@@ -120,8 +122,7 @@ class OrderReporter
                     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
                 }))
             ],
-            $order->getCreatedAt()
-        );
+        ]);
     }
 
     /**

@@ -2,10 +2,8 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Magento\Framework\DataObjectFactory;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\DigestRepository;
-use Ryvon\EventLog\Model\EntryRepository;
 
 class DigestHelper
 {
@@ -20,29 +18,11 @@ class DigestHelper
     private $digestRepository;
 
     /**
-     * @var EntryRepository
-     */
-    private $entryRepository;
-
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
-
-    /**
      * @param DigestRepository $digestRepository
-     * @param EntryRepository $entryRepository
-     * @param DataObjectFactory $dataObjectFactory
      */
-    public function __construct(
-        DigestRepository $digestRepository,
-        EntryRepository $entryRepository,
-        DataObjectFactory $dataObjectFactory
-    )
+    public function __construct(DigestRepository $digestRepository)
     {
         $this->digestRepository = $digestRepository;
-        $this->entryRepository = $entryRepository;
-        $this->dataObjectFactory = $dataObjectFactory;
     }
 
     /**
@@ -105,42 +85,5 @@ class DigestHelper
         }
 
         return true;
-    }
-
-    /**
-     * @param Digest|null $digest
-     * @param string $level
-     * @param string $group
-     * @param string $message
-     * @param array $context
-     * @param string $date
-     * @return DigestHelper
-     */
-    public function addEntry($digest, $level, $group, $message, $context, $date = null): DigestHelper
-    {
-        if ($digest && !($digest instanceof Digest)) {
-            throw new \InvalidArgumentException('$digest must be instance of Digest');
-        }
-
-        if (!$digest) {
-            $digest = $this->findUnfinishedDigest();
-            if (!$digest) {
-                $digest = $this->createNewDigest();
-            }
-            if (!$digest) {
-                return $this;
-            }
-        }
-
-        $entry = $this->entryRepository->create();
-        $entry->setDigestId($digest->getId())
-            ->setEntryGroup($group)
-            ->setEntryLevel($level)
-            ->setEntryMessage($message)
-            ->setEntryContext($this->dataObjectFactory->create(['data' => $context]))
-            ->setCreatedAt($date);
-        $this->entryRepository->save($entry);
-
-        return $this;
     }
 }
