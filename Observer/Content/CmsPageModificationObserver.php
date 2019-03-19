@@ -4,7 +4,6 @@ namespace Ryvon\EventLog\Observer\Content;
 
 use Ryvon\EventLog\Observer\AbstractModificationObserver;
 use Magento\Framework\Model\AbstractModel;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 
 class CmsPageModificationObserver extends AbstractModificationObserver
 {
@@ -26,7 +25,7 @@ class CmsPageModificationObserver extends AbstractModificationObserver
     protected function dispatch($entity, $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'Page {cms-page} {action}.',
             'context' => [
                 'store-view' => $this->getActiveStoreView(),

@@ -4,7 +4,6 @@ namespace Ryvon\EventLog\Observer\Catalog;
 
 use Ryvon\EventLog\Observer\AbstractModificationObserver;
 use Magento\Framework\Model\AbstractModel;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 
 class CategoryModificationObserver extends AbstractModificationObserver
 {
@@ -26,7 +25,7 @@ class CategoryModificationObserver extends AbstractModificationObserver
     protected function dispatch($entity, $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'Category {category} {action}.',
             'context' => [
                 'store-view' => $this->getActiveStoreView(),

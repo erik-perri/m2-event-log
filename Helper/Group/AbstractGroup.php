@@ -17,11 +17,6 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const GROUP_ID = null;
-
-    /**
-     * @var string
-     */
     const GROUP_TEMPLATE = 'Ryvon_EventLog::group.phtml';
 
     /**
@@ -136,13 +131,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return string
      */
-    public function getId(): string
-    {
-        if (static::GROUP_ID === null) {
-            throw new \InvalidArgumentException('Subclass does not implement GROUP_ID');
-        }
-        return static::GROUP_ID;
-    }
+    abstract public function getId(): string;
 
     /**
      * @return int

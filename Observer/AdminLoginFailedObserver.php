@@ -5,7 +5,6 @@ namespace Ryvon\EventLog\Observer;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 use Ryvon\EventLog\Helper\UserContextHelper;
 
 class AdminLoginFailedObserver implements ObserverInterface
@@ -42,7 +41,7 @@ class AdminLoginFailedObserver implements ObserverInterface
         $message = $this->getUserError($observer->getData('exception'));
 
         $this->eventManager->dispatch('event_log_security', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'User login failed, {error}.',
             'context' => [
                 'user-name' => $userName,

@@ -13,7 +13,6 @@ use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\EntryRepository;
 use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Helper\DigestHelper;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 use Ryvon\EventLog\Helper\UserContextHelper;
 
 class RecordEntryObserver implements ObserverInterface
@@ -103,7 +102,7 @@ class RecordEntryObserver implements ObserverInterface
             }
             else {
                 $user = $observer->getData('user');
-                if ($group === AdminGroup::GROUP_ID || $user) {
+                if ($group === 'admin' || $user) {
                     // This class relies on Session which will not work unless an area code is set (we are not running a CLI command)
                     // We initialize after so CLI commands can trigger logs
                     $helper = $this->objectManager->get(UserContextHelper::class);

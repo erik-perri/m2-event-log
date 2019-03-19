@@ -5,7 +5,6 @@ namespace Ryvon\EventLog\Observer;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 
 class AdminLoginSuccessObserver implements ObserverInterface
 {
@@ -28,7 +27,7 @@ class AdminLoginSuccessObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         $this->eventManager->dispatch('event_log_info', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'User logged in.',
         ]);
     }

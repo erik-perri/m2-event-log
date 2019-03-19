@@ -105,7 +105,7 @@ class OrderReporter
 
         $this->eventManager->dispatch('event_log_' . $level, [
             'digest' => $digest,
-            'group' => OrdersGroup::GROUP_ID,
+            'group' => 'orders',
             'message' => 'Order {order} placed by {bill-to-name} for {price} is {status}.',
             'date' => $order->getCreatedAt(),
             'context' => [

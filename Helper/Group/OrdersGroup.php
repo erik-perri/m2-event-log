@@ -7,15 +7,6 @@ use Ryvon\EventLog\Block\Adminhtml\Digest\OrderBlock;
 class OrdersGroup extends AbstractLinksGroup
 {
     /**
-     * You should not use this in any plugins interacting with the event log.
-     * They should use the string so they do not fail when the event log in not
-     * installed.
-     *
-     * @var string
-     */
-    const GROUP_ID = 'orders';
-
-    /**
      * @var string
      */
     const HEADER_TEMPLATE = 'Ryvon_EventLog::heading/orders.phtml';
@@ -34,6 +25,14 @@ class OrdersGroup extends AbstractLinksGroup
      * @var int
      */
     const SORT_ORDER = 30;
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return 'orders';
+    }
 
     /**
      * @return string

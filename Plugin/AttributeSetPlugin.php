@@ -4,7 +4,6 @@ namespace Ryvon\EventLog\Plugin;
 
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ManagerInterface;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 
 class AttributeSetPlugin
 {
@@ -43,7 +42,7 @@ class AttributeSetPlugin
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [
-                'group' => AdminGroup::GROUP_ID,
+                'group' => 'admin',
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
                     'attribute-set' => $object->getData('attribute_set_name'),
@@ -69,7 +68,7 @@ class AttributeSetPlugin
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [
-                'group' => AdminGroup::GROUP_ID,
+                'group' => 'admin',
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
                     'attribute-set' => $object->getData('attribute_set_name'),

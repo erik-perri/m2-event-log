@@ -26,7 +26,7 @@ class CustomerModificationObserver extends AbstractModificationObserver
     protected function dispatch($entity, $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'Customer {customer} {action}.',
             'context' => [
                 'store-view' => $this->getActiveStoreView(),

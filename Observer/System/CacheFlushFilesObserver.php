@@ -23,7 +23,7 @@ class CacheFlushFilesObserver extends AbstractEventObserver
         }
 
         $this->getEventManager()->dispatch('event_log_info', [
-            'group' => AdminGroup::GROUP_ID,
+            'group' => 'admin',
             'message' => 'Flushed {cache}.',
             'context' => [
                 'cache' => $cache,

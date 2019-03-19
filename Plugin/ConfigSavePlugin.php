@@ -5,7 +5,6 @@ namespace Ryvon\EventLog\Plugin;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Config\Model\Config;
 use Magento\Framework\Event\ManagerInterface;
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 use Ryvon\EventLog\Helper\StoreViewFinder;
 
 class ConfigSavePlugin
@@ -54,7 +53,7 @@ class ConfigSavePlugin
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [
-                'group' => AdminGroup::GROUP_ID,
+                'group' => 'admin',
                 'message' => 'Configuration section {config-section} modified.',
                 'context' => [
                     'store-view' => $this->storeViewFinder->getActiveStoreView(),
