@@ -2,11 +2,10 @@
 
 namespace Ryvon\EventLog\Observer\System;
 
-use Ryvon\EventLog\Helper\Group\AdminGroup;
 use Ryvon\EventLog\Observer\AbstractEventObserver;
 use Magento\Framework\Event;
 
-class CacheFlushFilesObserver extends AbstractEventObserver
+class CacheFlushFilesEventObserver extends AbstractEventObserver
 {
     /**
      * @param Event $event

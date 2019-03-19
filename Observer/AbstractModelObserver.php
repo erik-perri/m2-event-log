@@ -10,7 +10,7 @@ use Magento\Framework\Model\AbstractModel;
 use Ryvon\EventLog\Helper\StoreViewFinder;
 use Psr\Log\LoggerInterface;
 
-abstract class AbstractModificationObserver implements ObserverInterface
+abstract class AbstractModelObserver implements ObserverInterface
 {
     /**
      * @var LoggerInterface
@@ -79,7 +79,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
      * @param \Magento\Framework\Event $event
      * @return AbstractModel
      */
-    abstract protected function getEntity(\Magento\Framework\Event $event): AbstractModel;
+    abstract protected function getModel(\Magento\Framework\Event $event): AbstractModel;
 
     /**
      * @param AbstractModel $entity
@@ -104,7 +104,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
                 return;
             }
 
-            $entity = $this->getEntity($event);
+            $entity = $this->getModel($event);
             if (!$entity || !($entity instanceof AbstractModel)) {
                 return;
             }

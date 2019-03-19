@@ -1,21 +1,21 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\Content;
+namespace Ryvon\EventLog\Observer\Catalog;
 
-use Ryvon\EventLog\Observer\AbstractModificationObserver;
+use Ryvon\EventLog\Observer\AbstractModelObserver;
 use Magento\Framework\Model\AbstractModel;
 
-class CmsPageModificationObserver extends AbstractModificationObserver
+class ProductModelObserver extends AbstractModelObserver
 {
     /**
      * @param \Magento\Framework\Event $event
      * @return AbstractModel
      */
-    public function getEntity(\Magento\Framework\Event $event): AbstractModel
+    public function getModel(\Magento\Framework\Event $event): AbstractModel
     {
-        $entity = $event->getData('object');
+        $entity = $event->getData('product');
 
-        return $entity && $entity instanceof \Magento\Cms\Model\Page ? $entity : null;
+        return $entity && $entity instanceof \Magento\Catalog\Model\Product ? $entity : null;
     }
 
     /**
@@ -26,11 +26,10 @@ class CmsPageModificationObserver extends AbstractModificationObserver
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Page {cms-page} {action}.',
+            'message' => 'Product {product} {action}.',
             'context' => [
                 'store-view' => $this->getActiveStoreView(),
-                'cms-page' => $entity->getData('title'),
-                'cms-page-id' => $entity->getId(),
+                'product' => $entity->getData('sku'),
                 'action' => $action,
             ],
         ]);

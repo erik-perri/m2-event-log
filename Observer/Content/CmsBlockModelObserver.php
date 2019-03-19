@@ -2,16 +2,16 @@
 
 namespace Ryvon\EventLog\Observer\Content;
 
-use Ryvon\EventLog\Observer\AbstractModificationObserver;
+use Ryvon\EventLog\Observer\AbstractModelObserver;
 use Magento\Framework\Model\AbstractModel;
 
-class CmsBlockModificationObserver extends AbstractModificationObserver
+class CmsBlockModelObserver extends AbstractModelObserver
 {
     /**
      * @param \Magento\Framework\Event $event
      * @return AbstractModel
      */
-    public function getEntity(\Magento\Framework\Event $event): AbstractModel
+    public function getModel(\Magento\Framework\Event $event): AbstractModel
     {
         $entity = $event->getData('object');
 
