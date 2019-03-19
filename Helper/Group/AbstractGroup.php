@@ -125,6 +125,14 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * @return StoreManagerInterface
+     */
+    protected function getStoreManager()
+    {
+        return $this->storeManager;
+    }
+
+    /**
      * @return string
      */
     public function getId()

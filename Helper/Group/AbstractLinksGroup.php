@@ -92,6 +92,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
                 'summary' => $this->getSummarizer()->buildSummaryMessage($entries),
                 'links' => $this->renderLinks(),
                 'user-column' => $hasUserColumn,
+                'single-store-mode' => $this->getStoreManager()->isSingleStoreMode(),
             ])
             ->toHtml();
     }

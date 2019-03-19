@@ -40,6 +40,11 @@ if (!$incrementId) {
     <td>
         <div class="data-grid-cell-content"><?php echo $context->getData('payment-method'); ?></div>
     </td>
+    <?php if (!$block->getData('single-store-mode')) { ?>
+        <td>
+            <div class="data-grid-cell-content"><?php echo $context->getData('store-view'); ?></div>
+        </td>
+    <?php } ?>
     <td class="ip">
         <?php
         $ips = $context->getData('ips') ?: [];
