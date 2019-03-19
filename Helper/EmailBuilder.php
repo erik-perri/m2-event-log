@@ -207,22 +207,6 @@ class EmailBuilder
     }
 
     /**
-     * @param Digest $digest
-     */
-    public function debugEmailContents(Digest $digest)
-    {
-        $builder = $this->createDigestEmail($digest);
-        $message = $builder->getTransport()->getMessage();
-
-        echo '<pre>'
-            . 'To: ' . implode(', ', $this->config->getRecipients()) . '<br/>'
-            . 'Subject: ' . $message->getSubject() . '<br/>'
-            . 'Body:' . '<br/>'
-            . '</pre>';
-        exit($message->getBody()->getRawContent());
-    }
-
-    /**
      * @return string
      */
     protected function getStoreUrl()
