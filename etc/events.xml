@@ -1,27 +1,35 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="event_log_info">
-        <observer name="event_log_record_info" instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_info"
+                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
     </event>
     <event name="event_log_error">
-        <observer name="event_log_record_error" instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_error"
+                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
     </event>
     <event name="event_log_warning">
-        <observer name="event_log_record_warning" instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_warning"
+                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
     </event>
     <event name="event_log_security">
-        <observer name="event_log_record_security" instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_security"
+                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
     </event>
 
     <event name="event_log_post_finish_digest">
-        <observer name="event_log_report_orders" instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
+        <observer name="event_log_report_orders"
+                  instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
     </event>
 
     <event name="backend_auth_user_login_success">
-        <observer name="event_log_login_success_observer" instance="Ryvon\EventLog\Observer\AdminLoginSuccessObserver"/>
+        <observer name="event_log_login_success_observer"
+                  instance="Ryvon\EventLog\Observer\AdminLoginSuccessObserver"/>
     </event>
     <event name="backend_auth_user_login_failed">
-        <observer name="event_log_login_failed_observer" instance="Ryvon\EventLog\Observer\AdminLoginFailedObserver"/>
+        <observer name="event_log_login_failed_observer"
+                  instance="Ryvon\EventLog\Observer\AdminLoginFailedObserver"/>
     </event>
 
     <event name="catalog_product_save_after">
@@ -67,5 +75,27 @@
     <event name="customer_delete_after">
         <observer name="event_log_customer_delete_observer"
                   instance="Ryvon\EventLog\Observer\Customers\CustomerModificationObserver"/>
+    </event>
+
+    <event name="adminhtml_cache_flush_all">
+        <observer name="event_log_cache_flush_all"
+                  instance="Ryvon\EventLog\Observer\System\CacheFlushObserver"/>
+    </event>
+    <event name="adminhtml_cache_flush_system">
+        <observer name="event_log_cache_flush_system"
+                  instance="Ryvon\EventLog\Observer\System\CacheFlushObserver"/>
+    </event>
+
+    <event name="clean_catalog_images_cache_after">
+        <observer name="event_log_catalog_images_cache"
+                  instance="Ryvon\EventLog\Observer\System\CacheFlushFilesObserver"/>
+    </event>
+    <event name="clean_static_files_cache_after">
+        <observer name="event_log_static_files_cache"
+                  instance="Ryvon\EventLog\Observer\System\CacheFlushFilesObserver"/>
+    </event>
+    <event name="clean_media_cache_after">
+        <observer name="event_log_media_cache"
+                  instance="Ryvon\EventLog\Observer\System\CacheFlushFilesObserver"/>
     </event>
 </config>
