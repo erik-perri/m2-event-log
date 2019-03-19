@@ -124,9 +124,11 @@ class EmailBuilder
                 'subject' => $subject,
                 'storeUrl' => $this->getStoreUrl(),
                 'includeLinks' => $this->config->getIncludeLinksInEmail(),
-                'digestUrl' => $this->digestRequestHelper->getDigestUrl($digest, [
-                    '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
-                ]),
+                'digestUrl' => $this->digestRequestHelper->getDigestUrl(
+                    $digest,
+                    $this->config->getBypassUrlKey() ? [
+                        '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
+                    ] : []),
                 'data' => $emailData,
             ])
             ->setFrom($this->config->getEmailIdentity());
@@ -156,6 +158,7 @@ class EmailBuilder
         }
 
         $includeLinks = $this->config->getIncludeLinksInEmail();
+        $bypassUrlKey = $this->config->getBypassUrlKey();
 
         $adminPath = sprintf('/%s/', $this->deploymentConfig->get('backend/frontName') ?: 'admin');
 
@@ -178,6 +181,10 @@ class EmailBuilder
                     new \DOMText($link->textContent),
                     $link
                 );
+                continue;
+            }
+
+            if (!$bypassUrlKey) {
                 continue;
             }
 

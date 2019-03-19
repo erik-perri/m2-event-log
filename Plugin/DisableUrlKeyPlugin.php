@@ -2,6 +2,7 @@
 
 namespace Ryvon\EventLog\Plugin;
 
+use Ryvon\EventLog\Model\Config;
 use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Model\DigestRepository;
 
@@ -16,6 +17,11 @@ class DisableUrlKeyPlugin
      * @var DigestRepository
      */
     private $digestRepository;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * @var \Magento\Backend\Model\Auth
@@ -35,6 +41,7 @@ class DisableUrlKeyPlugin
     /**
      * @param LoggerInterface $logger
      * @param DigestRepository $digestRepository
+     * @param Config $config
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param array $whitelist
@@ -42,6 +49,7 @@ class DisableUrlKeyPlugin
     public function __construct(
         LoggerInterface $logger,
         DigestRepository $digestRepository,
+        Config $config,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         $whitelist = []
@@ -49,6 +57,7 @@ class DisableUrlKeyPlugin
     {
         $this->logger = $logger;
         $this->digestRepository = $digestRepository;
+        $this->config = $config;
         $this->auth = $auth;
         $this->backendUrl = $backendUrl;
         $this->whitelist = array_merge($this->whitelist, $whitelist, [
@@ -100,6 +109,10 @@ class DisableUrlKeyPlugin
      */
     protected function shouldDisableSecretKey(\Magento\Framework\App\RequestInterface $request): bool
     {
+        if (!$this->config->getBypassUrlKey()) {
+            return false;
+        }
+
         if (!($request instanceof \Magento\Framework\App\Request\Http)) {
             return false;
         }

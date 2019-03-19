@@ -46,6 +46,18 @@
                         <field id="system/event_log/enable_digest_email">1</field>
                     </depends>
                 </field>
+                <field id="bypass_url_key" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Bypass Secret Key For URLs In Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        If this is disabled the links included in the email will not work as long as "Add Secret Key to
+                        URLs" is enabled.
+                    </comment>
+                    <depends>
+                        <field id="system/event_log/enable_digest_email">1</field>
+                        <field id="system/event_log/links_in_email">1</field>
+                    </depends>
+                </field>
             </group>
         </section>
     </system>

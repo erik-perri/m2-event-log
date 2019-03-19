@@ -11,6 +11,7 @@
                     <![CDATA[user@example.com]]>
                 </recipient_email>
                 <links_in_email>1</links_in_email>
+                <bypass_url_key>1</bypass_url_key>
             </event_log>
         </system>
     </default>

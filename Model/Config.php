@@ -77,4 +77,12 @@ class Config
     {
         return $this->scopeConfig->getValue('system/event_log/links_in_email', ScopeInterface::SCOPE_WEBSITE) > 0;
     }
+
+    /**
+     * @return bool
+     */
+    public function getBypassUrlKey(): bool
+    {
+        return $this->scopeConfig->getValue('system/event_log/bypass_url_key', ScopeInterface::SCOPE_WEBSITE) > 0;
+    }
 }
