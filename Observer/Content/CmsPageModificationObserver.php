@@ -1,7 +1,8 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Content;
 
+use Ryvon\EventLog\Observer\AbstractModificationObserver;
 use Magento\Framework\Model\AbstractModel;
 use Ryvon\EventLog\Helper\Group\AdminGroup;
 

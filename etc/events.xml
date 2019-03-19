@@ -26,46 +26,46 @@
 
     <event name="catalog_product_save_after">
         <observer name="event_log_product_save_observer"
-                  instance="Ryvon\EventLog\Observer\ProductModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Catalog\ProductModificationObserver"/>
     </event>
     <event name="catalog_product_delete_after">
         <observer name="event_log_product_delete_observer"
-                  instance="Ryvon\EventLog\Observer\ProductModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Catalog\ProductModificationObserver"/>
     </event>
 
     <event name="catalog_category_save_after">
         <observer name="event_log_category_save_observer"
-                  instance="Ryvon\EventLog\Observer\CategoryModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Catalog\CategoryModificationObserver"/>
     </event>
     <event name="catalog_category_delete_after">
         <observer name="event_log_category_delete_observer"
-                  instance="Ryvon\EventLog\Observer\CategoryModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Catalog\CategoryModificationObserver"/>
     </event>
 
     <event name="cms_page_save_after">
         <observer name="event_log_page_save_observer"
-                  instance="Ryvon\EventLog\Observer\CmsPageModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Content\CmsPageModificationObserver"/>
     </event>
     <event name="cms_page_delete_after">
         <observer name="event_log_page_delete_observer"
-                  instance="Ryvon\EventLog\Observer\CmsPageModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Content\CmsPageModificationObserver"/>
     </event>
 
     <event name="cms_block_save_after">
         <observer name="event_log_block_save_observer"
-                  instance="Ryvon\EventLog\Observer\CmsBlockModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Content\CmsBlockModificationObserver"/>
     </event>
     <event name="cms_block_delete_after">
         <observer name="event_log_block_delete_observer"
-                  instance="Ryvon\EventLog\Observer\CmsBlockModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Content\CmsBlockModificationObserver"/>
     </event>
 
     <event name="customer_save_after">
         <observer name="event_log_customer_save_after_observer"
-                  instance="Ryvon\EventLog\Observer\CustomerModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Customers\CustomerModificationObserver"/>
     </event>
     <event name="customer_delete_after">
         <observer name="event_log_customer_delete_observer"
-                  instance="Ryvon\EventLog\Observer\CustomerModificationObserver"/>
+                  instance="Ryvon\EventLog\Observer\Customers\CustomerModificationObserver"/>
     </event>
 </config>

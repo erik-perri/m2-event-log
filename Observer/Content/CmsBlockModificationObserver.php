@@ -1,11 +1,12 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Content;
 
+use Ryvon\EventLog\Observer\AbstractModificationObserver;
 use Magento\Framework\Model\AbstractModel;
 use Ryvon\EventLog\Helper\Group\AdminGroup;
 
-class ProductModificationObserver extends AbstractModificationObserver
+class CmsBlockModificationObserver extends AbstractModificationObserver
 {
     /**
      * @param \Magento\Framework\Event $event
@@ -13,9 +14,9 @@ class ProductModificationObserver extends AbstractModificationObserver
      */
     public function getEntity(\Magento\Framework\Event $event): AbstractModel
     {
-        $entity = $event->getData('product');
+        $entity = $event->getData('object');
 
-        return $entity && $entity instanceof \Magento\Catalog\Model\Product ? $entity : null;
+        return $entity && $entity instanceof \Magento\Cms\Model\Block ? $entity : null;
     }
 
     /**
@@ -26,10 +27,11 @@ class ProductModificationObserver extends AbstractModificationObserver
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => AdminGroup::GROUP_ID,
-            'message' => 'Product {product} {action}.',
+            'message' => 'Content block {cms-block} {action}.',
             'context' => [
                 'store-view' => $this->getActiveStoreView(),
-                'product' => $entity->getData('sku'),
+                'cms-block' => $entity->getData('title'),
+                'cms-block-id' => $entity->getId(),
                 'action' => $action,
             ],
         ]);
