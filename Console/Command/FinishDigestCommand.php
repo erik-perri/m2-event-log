@@ -101,16 +101,6 @@ class FinishDigestCommand extends Command
         } catch (LocalizedException $e) {
         }
 
-        if (!$this->config->getEnableDigestEmail()) {
-            $output->writeln('Digest email is not enabled.');
-            return;
-        }
-
-        if (!$this->config->getRecipients()) {
-            $output->writeln('No email recipients configured.');
-            return;
-        }
-
         if ($input->getOption('digest-id')) {
             $digest = $this->digestRepository->getById($input->getOption('digest-id'));
         } else {
@@ -122,8 +112,21 @@ class FinishDigestCommand extends Command
             return;
         }
 
-        if (!$this->digestSender->finishDigest($digest) || !$this->digestSender->sendDigest($digest)) {
-            $output->writeln('Failed to send digest.');
+        if (!$this->digestSender->finishDigest($digest)) {
+            $output->writeln('Failed to finish digest.');
+            return;
+        }
+
+        if ($this->config->getEnableDigestEmail()) {
+            if (!$this->config->getRecipients()) {
+                $output->writeln('No email recipients configured.');
+                return;
+            }
+
+            if (!$this->digestSender->sendDigest($digest)) {
+                $output->writeln('Failed to send digest.');
+                return;
+            }
         }
     }
 }
