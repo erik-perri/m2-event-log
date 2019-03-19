@@ -6,7 +6,7 @@ use Ryvon\EventLog\Model\Config;
 use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Model\DigestRepository;
 
-class DisableUrlKeyPlugin
+class DisableActionValidatorPlugin
 {
     /**
      * @var LoggerInterface
