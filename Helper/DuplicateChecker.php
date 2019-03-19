@@ -51,9 +51,7 @@ class DuplicateChecker
      */
     public function getCount(Entry $entry): int
     {
-        $hash = $this->getHash($entry);
-
-        return isset($this->shown[$hash]) ? $this->shown[$hash] : 0;
+        return $this->shown[$this->getHash($entry)] ?? 0;
     }
 
     /**

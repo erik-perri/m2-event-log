@@ -53,8 +53,7 @@ class PlaceholderReplacer
                 return $unknownText;
             }
 
-            $replace = $this->placeholders[$matches[1]]->getReplaceString($context);
-            return $replace === null ? $unknownText : $replace;
+            return $this->placeholders[$matches[1]]->getReplaceString($context) ?? $unknownText;
         }, $message);
     }
 

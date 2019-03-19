@@ -61,7 +61,7 @@ class GroupFinder
      */
     public function findGroup($groupId)
     {
-        return isset($this->groups[$groupId]) ? $this->groups[$groupId] : null;
+        return $this->groups[$groupId] ?? null;
     }
 
     /**
