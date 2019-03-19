@@ -44,7 +44,7 @@ class PlaceholderReplacer
         $unknownText = '[Unknown]';
 
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $unknownText) {
-            // If a placeholder does not exist for this match we wil
+            // If a placeholder does not exist for this match we will use the string value of the placeholder
             if (!isset($this->placeholders[$matches[1]])) {
                 $value = $context->getData($matches[1]);
                 if ($value !== false && $value !== null && $this->canBeString($value)) {
