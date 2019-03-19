@@ -87,4 +87,9 @@
     <type name="Magento\Backend\App\AbstractAction">
         <plugin name="event_log_disable_action_validator_plugin" type="Ryvon\EventLog\Plugin\DisableActionValidatorPlugin" sortOrder="1"/>
     </type>
+
+    <!-- Add a plugin to disable the url key check on Magento 2.3 -->
+    <type name="Magento\Backend\App\Request\BackendValidator">
+        <plugin name="event_log_disable_backend_validator_plugin" type="Ryvon\EventLog\Plugin\DisableBackendValidatorPlugin" sortOrder="1"/>
+    </type>
 </config>
