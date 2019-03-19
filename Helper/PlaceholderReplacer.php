@@ -54,7 +54,7 @@ class PlaceholderReplacer
             }
 
             $replace = $this->placeholders[$matches[1]]->getReplaceString($context);
-            return $replace === false ? $unknownText : $replace;
+            return $replace === null ? $unknownText : $replace;
         }, $message);
     }
 

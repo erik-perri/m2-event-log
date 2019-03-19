@@ -41,7 +41,7 @@ class Ip extends Action
     }
 
     /**
-     * @return bool|string
+     * @return string|null
      */
     protected function getIpAddress()
     {
@@ -50,6 +50,6 @@ class Ip extends Action
             return $ip;
         }
 
-        return false;
+        return null;
     }
 }

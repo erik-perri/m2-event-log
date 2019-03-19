@@ -45,13 +45,13 @@ class CustomerPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $customerName = $context->getData('customer');
         if (!$customerName) {
-            return false;
+            return null;
         }
 
         $customerId = $context->getData('customer-id');
@@ -78,14 +78,14 @@ class CustomerPlaceholder implements PlaceholderInterface
 
     /**
      * @param $id
-     * @return CustomerInterface|false
+     * @return CustomerInterface|null
      */
     protected function findCustomerById($id)
     {
         try {
             return $this->customerRepository->getById($id);
         } catch (LocalizedException $e) {
-            return false;
+            return null;
         }
     }
 }

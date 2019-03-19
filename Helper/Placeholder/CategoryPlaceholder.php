@@ -54,13 +54,13 @@ class CategoryPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $categoryName = $context->getData('category');
         if (!$categoryName) {
-            return false;
+            return null;
         }
 
         $categoryId = $context->getData('category-id');
@@ -98,14 +98,14 @@ class CategoryPlaceholder implements PlaceholderInterface
 
     /**
      * @param $id
-     * @return Category|false
+     * @return Category|null
      */
     protected function findCategoryById($id)
     {
         try {
             return $this->categoryRepository->get($id);
         } catch (NoSuchEntityException $e) {
-            return false;
+            return null;
         }
     }
 }

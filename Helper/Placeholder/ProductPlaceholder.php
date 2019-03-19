@@ -63,13 +63,13 @@ class ProductPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $productSku = $context->getData('product');
         if (!$productSku) {
-            return false;
+            return null;
         }
 
         $product = $this->findProductBySku($productSku);
@@ -114,7 +114,7 @@ class ProductPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string|false
+     * @return string|null
      */
     protected function getStoreUrl()
     {
@@ -123,7 +123,7 @@ class ProductPlaceholder implements PlaceholderInterface
             $store = $this->storeManager->getStore();
             return $store->getBaseUrl();
         } catch (NoSuchEntityException $e) {
-            return false;
+            return null;
         }
     }
 }

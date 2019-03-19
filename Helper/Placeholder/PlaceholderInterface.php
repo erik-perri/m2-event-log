@@ -11,7 +11,7 @@ interface PlaceholderInterface
 
     /**
      * @param \Magento\Framework\DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context);
 }

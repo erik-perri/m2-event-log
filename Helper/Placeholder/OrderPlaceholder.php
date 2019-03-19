@@ -52,13 +52,13 @@ class OrderPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $orderId = $context->getData('order');
         if (!$orderId) {
-            return false;
+            return null;
         }
 
         $order = $this->findOrderById($orderId);

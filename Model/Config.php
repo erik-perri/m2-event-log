@@ -45,13 +45,13 @@ class Config
     }
 
     /**
-     * @return array|false
+     * @return array|null
      */
     public function getRecipients()
     {
         $recipientsValue = $this->scopeConfig->getValue('system/event_log/recipient_email', ScopeInterface::SCOPE_WEBSITE);
         if (!$recipientsValue || strpos($recipientsValue, '@example.com') !== false) {
-            return false;
+            return null;
         }
         if (strpos($recipientsValue, ',') !== false) {
             $recipients = array_values(array_filter(array_map('trim', explode(',', $recipientsValue))));

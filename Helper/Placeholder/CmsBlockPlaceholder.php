@@ -32,13 +32,13 @@ class CmsBlockPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $blockName = $context->getData('cms-block');
         if (!$blockName) {
-            return false;
+            return null;
         }
 
         $blockId = $context->getData('cms-block-id');

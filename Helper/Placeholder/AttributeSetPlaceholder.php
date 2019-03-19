@@ -32,13 +32,13 @@ class AttributeSetPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $attributeSet = $context->getData('attribute-set');
         if (!$attributeSet) {
-            return false;
+            return null;
         }
 
         $attributeSetId = $context->getData('attribute-set-id');

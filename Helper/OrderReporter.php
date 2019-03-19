@@ -126,13 +126,13 @@ class OrderReporter
 
     /**
      * @param Order $order
-     * @return string
+     * @return string|null
      */
     protected function getOrderBillToName(Order $order)
     {
         $billTo = $order->getBillingAddress();
         if (!$billTo) {
-            return false;
+            return null;
         }
 
         return $billTo->getFirstname() . ' ' . $billTo->getLastname();
@@ -140,7 +140,7 @@ class OrderReporter
 
     /**
      * @param Order $order
-     * @return string
+     * @return string|null
      */
     protected function getOrderPaymentMethodTitle(Order $order)
     {
@@ -150,7 +150,7 @@ class OrderReporter
             $method = $payment->getMethodInstance();
             return $method->getTitle();
         } catch (LocalizedException $e) {
-            return false;
+            return null;
         }
     }
 

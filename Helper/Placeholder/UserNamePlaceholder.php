@@ -52,7 +52,7 @@ class UserNamePlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
@@ -60,7 +60,7 @@ class UserNamePlaceholder implements PlaceholderInterface
         $userName = $context->getData('user-name');
 
         if (!$userId && !$userName) {
-            return '';
+            return null;
         }
         if (!$userId) {
             return $userName;

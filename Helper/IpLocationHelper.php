@@ -50,13 +50,13 @@ class IpLocationHelper
 
     /**
      * @param string $ip
-     * @return string|false
+     * @return string|null
      */
     public function getLocateUrl($ip)
     {
         $valid = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
         if (!$valid) {
-            return false;
+            return null;
         }
 
         return $this->urlBuilder->getUrl('event_log/lookup/ip', ['v' => $valid]);
@@ -67,13 +67,13 @@ class IpLocationHelper
      * @param array $attributes
      * @param string $child
      * @param string $tag
-     * @return bool|string
+     * @return string|null
      */
     public function generateLocateLinkTag($ip, $attributes, $child = '{icon}', $tag = 'a')
     {
         $url = $this->getLocateUrl($ip);
         if (!$url) {
-            return false;
+            return null;
         }
 
         // I don't know if email clients will attempt to visit links from the digest, can't hurt...

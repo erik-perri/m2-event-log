@@ -52,13 +52,13 @@ class CmsPagePlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $pageName = $context->getData('cms-page');
         if (!$pageName) {
-            return false;
+            return null;
         }
 
         $pageId = $context->getData('cms-page-id');

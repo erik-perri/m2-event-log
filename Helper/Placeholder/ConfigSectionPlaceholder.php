@@ -32,13 +32,13 @@ class ConfigSectionPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $section = $context->getData('config-section');
         if (!$section) {
-            return false;
+            return null;
         }
 
         return $this->buildLinkTag([

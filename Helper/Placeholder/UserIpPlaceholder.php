@@ -32,13 +32,13 @@ class UserIpPlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $userIp = $context->getData('user-ip');
         if (!$userIp) {
-            return '';
+            return null;
         }
 
         return $this->locationHelper->generateLocateLinkTag($userIp, [

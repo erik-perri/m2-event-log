@@ -32,13 +32,13 @@ class AttributePlaceholder implements PlaceholderInterface
 
     /**
      * @param DataObject $context
-     * @return string
+     * @return string|null
      */
     public function getReplaceString($context)
     {
         $attributeCode = $context->getData('attribute');
         if (!$attributeCode) {
-            return false;
+            return null;
         }
 
         $attributeId = $context->getData('attribute-id');

@@ -78,17 +78,17 @@ class RecordEntryObserver implements ObserverInterface
 
     /**
      * @param \Magento\Framework\Event $event
-     * @return string|false
+     * @return string|null
      */
     protected function getEntryLevelFromEventName($event)
     {
         if (!$event || !$event->getName()) {
-            return false;
+            return null;
         }
 
         $match = '#^event_log_([a-z]+)$#i';
         if (!preg_match($match, $event->getName())) {
-            return false;
+            return null;
         }
 
         return preg_replace('#^event_log_([a-z]+)$#i', '$1', $event->getName());

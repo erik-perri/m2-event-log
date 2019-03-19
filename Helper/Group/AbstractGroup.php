@@ -16,7 +16,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const GROUP_ID = false;
+    const GROUP_ID = null;
 
     /**
      * @var string
@@ -137,7 +137,7 @@ abstract class AbstractGroup implements GroupInterface
      */
     public function getId()
     {
-        if (static::GROUP_ID === false) {
+        if (static::GROUP_ID === null) {
             throw new \InvalidArgumentException('Subclass does not implement GROUP_ID');
         }
         return static::GROUP_ID;

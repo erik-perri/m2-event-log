@@ -7,7 +7,7 @@ trait LinkPlaceholderTrait
     /**
      * @param array $attributes
      * @param string $tag
-     * @return bool|string
+     * @return string
      */
     public function buildLinkTag($attributes, $tag = 'a')
     {

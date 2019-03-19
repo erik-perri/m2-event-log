@@ -32,11 +32,11 @@ class DigestRequestHelper
 
     /**
      * @param RequestInterface $request
-     * @return mixed
+     * @return Digest|null
      */
     public function getCurrentDigest($request)
     {
-        $digestId = $request ? $request->getParam('digest_id') : false;
+        $digestId = $request ? $request->getParam('digest_id') : null;
         return $digestId ?
             $this->digestRepository->getById($request->getParam('digest_id')) :
             $this->digestRepository->findNewestUnfinishedDigest();
