@@ -46,20 +46,22 @@ if (!$incrementId) {
         </td>
     <?php } ?>
     <td class="ip">
-        <?php
-        $ips = $context->getData('ips') ?: [];
-        if ($ips && is_array($ips)) {
-            foreach ($ips as $ip) {
-                $link = $block->getLocationHelper()->generateLocateLinkTag($ip, [
-                    'title' => 'View information for IP: ' . $ip,
-                    'target' => '_blank',
-                    'class' => 'icon',
-                ], $ip);
-                if ($link) {
-                    echo $link . '<br/>';
+        <div class="data-grid-cell-content">
+            <?php
+            $ips = $context->getData('ips') ?: [];
+            if ($ips && is_array($ips)) {
+                foreach ($ips as $ip) {
+                    $link = $block->getLocationHelper()->generateLocateLinkTag($ip, [
+                        'title' => 'View information for IP: ' . $ip,
+                        'target' => '_blank',
+                        'class' => 'icon',
+                    ], $ip);
+                    if ($link) {
+                        echo $link . '<br/>';
+                    }
                 }
             }
-        }
-        ?>
+            ?>
+        </div>
     </td>
 </tr>
