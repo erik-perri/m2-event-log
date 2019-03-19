@@ -24,7 +24,7 @@ class DateRangeBuilder
      * @param Digest $digest
      * @return string
      */
-    public function buildDateRange(Digest $digest)
+    public function buildDateRange(Digest $digest): string
     {
         $startedAt = $this->timezone->date($digest->getStartedAt());
 
@@ -77,7 +77,7 @@ class DateRangeBuilder
      * @param Digest $digest
      * @return string
      */
-    public function buildTimeRange(Digest $digest)
+    public function buildTimeRange(Digest $digest): string
     {
         $startedAt = $this->timezone->date($digest->getStartedAt());
 

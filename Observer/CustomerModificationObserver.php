@@ -2,15 +2,16 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Magento\Framework\Model\AbstractModel;
 use Ryvon\EventLog\Helper\Group\AdminGroup;
 
 class CustomerModificationObserver extends AbstractModificationObserver
 {
     /**
      * @param \Magento\Framework\Event $event
-     * @return \Magento\Framework\Model\AbstractModel
+     * @return AbstractModel
      */
-    public function getEntity(\Magento\Framework\Event $event)
+    public function getEntity(\Magento\Framework\Event $event): AbstractModel
     {
         $entity = $event->getData('customer');
 

@@ -37,7 +37,7 @@ class AttributePlugin
         /** @noinspection PhpUnusedParameterInspection */
         \Magento\Catalog\Model\ResourceModel\Attribute $subject,
         \Magento\Framework\Model\AbstractModel $object
-    )
+    ): array
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [
@@ -63,7 +63,7 @@ class AttributePlugin
         /** @noinspection PhpUnusedParameterInspection */
         \Magento\Catalog\Model\ResourceModel\Attribute $subject,
         \Magento\Framework\Model\AbstractModel $object
-    )
+    ): array
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [

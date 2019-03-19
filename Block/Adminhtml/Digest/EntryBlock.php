@@ -57,7 +57,7 @@ class EntryBlock extends Template
     /**
      * @return Timezone
      */
-    public function getTimezone()
+    public function getTimezone(): Timezone
     {
         return $this->timezone;
     }
@@ -86,7 +86,7 @@ class EntryBlock extends Template
      * @param bool $includeOdd
      * @return string
      */
-    public function getRowClass($entry = null, $includeOdd = true)
+    public function getRowClass($entry = null, $includeOdd = true): string
     {
         if (!$entry) {
             $entry = $this->getEntry();
@@ -109,7 +109,7 @@ class EntryBlock extends Template
      * @param $mysqlTime
      * @return string
      */
-    public function formatLogTime($mysqlTime)
+    public function formatLogTime($mysqlTime): string
     {
         if (!$mysqlTime) {
             return '';
@@ -127,7 +127,7 @@ class EntryBlock extends Template
      * @param $mysqlTime
      * @return string
      */
-    public function formatTitleTime($mysqlTime)
+    public function formatTitleTime($mysqlTime): string
     {
         if (!$mysqlTime) {
             return '';
@@ -140,7 +140,7 @@ class EntryBlock extends Template
     /**
      * @return bool
      */
-    protected function digestSpansMultipleDays()
+    protected function digestSpansMultipleDays(): bool
     {
         $digest = $this->getDigest();
         if (!$digest) {
@@ -165,7 +165,7 @@ class EntryBlock extends Template
      * @param DataObject $context
      * @return string
      */
-    public function replacePlaceholders($message, $context)
+    public function replacePlaceholders($message, $context): string
     {
         return $this->placeholderReplacer->replace($message, $context);
     }

@@ -54,7 +54,7 @@ class DigestResourceModel extends AbstractDb
      * @param AbstractModel $object
      * @return AbstractDb
      */
-    protected function _beforeSave(AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object): AbstractDb
     {
         if ($object instanceof Digest) {
             if ($object->isObjectNew()) {

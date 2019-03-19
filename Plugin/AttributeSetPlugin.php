@@ -65,7 +65,7 @@ class AttributeSetPlugin
         /** @noinspection PhpUnusedParameterInspection */
         \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set $subject,
         \Magento\Framework\Model\AbstractModel $object
-    )
+    ): array
     {
         if ($this->authSession->getUser()) {
             $this->eventManager->dispatch('event_log_info', [

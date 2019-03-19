@@ -6,6 +6,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Model\AbstractModel;
 use Ryvon\EventLog\Helper\StoreViewFinder;
 use Psr\Log\LoggerInterface;
 
@@ -53,7 +54,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
     /**
      * @return LoggerInterface
      */
-    protected function getLogger()
+    protected function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
@@ -61,7 +62,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
     /**
      * @return ManagerInterface
      */
-    protected function getEventManager()
+    protected function getEventManager(): ManagerInterface
     {
         return $this->eventManager;
     }
@@ -76,12 +77,12 @@ abstract class AbstractModificationObserver implements ObserverInterface
 
     /**
      * @param \Magento\Framework\Event $event
-     * @return \Magento\Framework\Model\AbstractModel
+     * @return AbstractModel
      */
-    abstract protected function getEntity(\Magento\Framework\Event $event);
+    abstract protected function getEntity(\Magento\Framework\Event $event): AbstractModel;
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $entity
+     * @param AbstractModel $entity
      * @param $action
      */
     abstract protected function dispatch($entity, $action);
@@ -104,7 +105,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
             }
 
             $entity = $this->getEntity($event);
-            if (!$entity || !($entity instanceof \Magento\Framework\Model\AbstractModel)) {
+            if (!$entity || !($entity instanceof AbstractModel)) {
                 return;
             }
 
@@ -124,7 +125,7 @@ abstract class AbstractModificationObserver implements ObserverInterface
      * @param \Magento\Framework\Event $event
      * @return bool
      */
-    protected function isDeleteEvent($event)
+    protected function isDeleteEvent($event): bool
     {
         if (!$event || !$event->getName()) {
             return false;

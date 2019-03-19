@@ -37,7 +37,7 @@ class IpLocationHelper
      * @param bool $addIfNot
      * @return bool
      */
-    public function hasShownInContext($ip, $context, $addIfNot = true)
+    public function hasShownInContext($ip, $context, $addIfNot = true): bool
     {
         if (isset($this->shown[$context][$ip])) {
             return true;

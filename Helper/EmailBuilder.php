@@ -95,7 +95,7 @@ class EmailBuilder
      * @param Digest $digest
      * @return TransportBuilder
      */
-    public function createDigestEmail(Digest $digest)
+    public function createDigestEmail(Digest $digest): TransportBuilder
     {
         $entries = $this->entryRepository->findInDigest($digest);
         $summary = $this->digestSummarizer->summarize($entries);
@@ -148,7 +148,7 @@ class EmailBuilder
      * @param string $content
      * @return string
      */
-    protected function updateEmailUrls(Digest $digest, $content)
+    protected function updateEmailUrls(Digest $digest, $content): string
     {
         if (!$content) {
             return $content;

@@ -37,7 +37,7 @@ class GroupFinder
      * @param GroupInterface $group
      * @return GroupFinder
      */
-    public function addGroup(GroupInterface $group)
+    public function addGroup(GroupInterface $group): GroupFinder
     {
         $this->groups[$group->getId()] = $group;
         return $this;
@@ -47,7 +47,7 @@ class GroupFinder
      * @param GroupInterface $group
      * @return GroupFinder
      */
-    public function removeGroup(GroupInterface $group)
+    public function removeGroup(GroupInterface $group): GroupFinder
     {
         if (isset($this->groups[$group->getId()])) {
             unset($this->groups[$group->getId()]);
@@ -68,7 +68,7 @@ class GroupFinder
      * @param $groupId
      * @return GroupInterface
      */
-    public function addMissingGroup($groupId)
+    public function addMissingGroup($groupId): GroupInterface
     {
         if ($this->findGroup($groupId)) {
             return $this->findGroup($groupId);

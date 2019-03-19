@@ -23,7 +23,7 @@ class Config
     /**
      * @return bool
      */
-    public function getHideDuplicateEntries()
+    public function getHideDuplicateEntries(): bool
     {
         return $this->scopeConfig->getValue('system/event_log/hide_duplicates', ScopeInterface::SCOPE_WEBSITE) > 0;
     }
@@ -31,7 +31,7 @@ class Config
     /**
      * @return bool
      */
-    public function getEnableDigestEmail()
+    public function getEnableDigestEmail(): bool
     {
         return $this->scopeConfig->getValue('system/event_log/enable_digest_email', ScopeInterface::SCOPE_WEBSITE) > 0;
     }
@@ -39,7 +39,7 @@ class Config
     /**
      * @return bool
      */
-    public function getInternalDigestCron()
+    public function getInternalDigestCron(): bool
     {
         return $this->scopeConfig->getValue('system/event_log/internal_digest_cron', ScopeInterface::SCOPE_WEBSITE) > 0;
     }
@@ -63,7 +63,7 @@ class Config
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getEmailIdentity()
     {

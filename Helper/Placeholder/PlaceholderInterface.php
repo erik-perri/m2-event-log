@@ -7,7 +7,7 @@ interface PlaceholderInterface
     /**
      * @return string
      */
-    public function getSearchString();
+    public function getSearchString(): string;
 
     /**
      * @param \Magento\Framework\DataObject $context

@@ -52,7 +52,7 @@ class DigestSender
      * @param Digest $digest
      * @return bool
      */
-    public function finishDigest(Digest $digest)
+    public function finishDigest(Digest $digest): bool
     {
         if (!$digest->getFinishedAt()) {
             if (!$this->digestHelper->finishDigest($digest)) {
@@ -78,7 +78,7 @@ class DigestSender
      * @param Digest $digest
      * @return bool
      */
-    public function sendDigest(Digest $digest)
+    public function sendDigest(Digest $digest): bool
     {
         $builder = $this->emailHelper->createDigestEmail($digest);
 

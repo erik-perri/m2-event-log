@@ -14,7 +14,7 @@ class Ip extends Action
      * @return ResultInterface
      * @throws NotFoundException
      */
-    public function execute()
+    public function execute(): ResultInterface
     {
         $ip = $this->getIpAddress();
         if (!$ip) {
@@ -28,7 +28,7 @@ class Ip extends Action
      * @param string $url
      * @return ResultInterface
      */
-    protected function createRedirect($url)
+    protected function createRedirect($url): ResultInterface
     {
         /**
          * @var Redirect $resultRedirect

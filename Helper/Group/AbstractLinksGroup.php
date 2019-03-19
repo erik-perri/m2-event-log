@@ -47,7 +47,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
     /**
      * @return UrlInterface
      */
-    protected function getUrlBuilder()
+    protected function getUrlBuilder(): UrlInterface
     {
         return $this->urlBuilder;
     }
@@ -64,7 +64,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
      * @param string $href
      * @return AbstractGroup
      */
-    public function addHeadingLink($text, $href)
+    public function addHeadingLink($text, $href): AbstractGroup
     {
         $this->headingLinks[$text] = $href;
         return $this;
@@ -73,7 +73,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
     /**
      * @return array
      */
-    protected function getHeadingLinks()
+    protected function getHeadingLinks(): array
     {
         return $this->headingLinks;
     }
@@ -83,7 +83,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
      * @param bool $hasUserColumn
      * @return string
      */
-    protected function renderHeading($entries, $hasUserColumn)
+    protected function renderHeading($entries, $hasUserColumn): string
     {
         return $this->createBlock(static::HEADER_BLOCK_CLASS)
             ->setTemplate(static::HEADER_TEMPLATE)
@@ -100,7 +100,7 @@ abstract class AbstractLinksGroup extends AbstractGroup
     /**
      * @return string
      */
-    protected function renderLinks()
+    protected function renderLinks(): string
     {
         if (!count($this->getHeadingLinks())) {
             return '';

@@ -70,7 +70,7 @@ class DisableUrlKeyPlugin
      * @param \Magento\Backend\App\AbstractAction $subject
      * @param callable $proceed
      * @param \Magento\Framework\App\RequestInterface $request
-     * @return array
+     * @return mixed
      */
     public function aroundDispatch(
         /** @noinspection PhpUnusedParameterInspection */
@@ -98,7 +98,7 @@ class DisableUrlKeyPlugin
      * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
-    protected function shouldDisableSecretKey(\Magento\Framework\App\RequestInterface $request)
+    protected function shouldDisableSecretKey(\Magento\Framework\App\RequestInterface $request): bool
     {
         if (!($request instanceof \Magento\Framework\App\Request\Http)) {
             return false;

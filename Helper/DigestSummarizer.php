@@ -36,7 +36,7 @@ class DigestSummarizer
      * @param Entry[] $entries
      * @return array
      */
-    public function summarize($entries)
+    public function summarize($entries): array
     {
         $counts = [
             DigestHelper::LEVEL_ERROR => 0,
@@ -73,7 +73,7 @@ class DigestSummarizer
      * @param bool $includeEmpty
      * @return string
      */
-    public function buildSummaryMessage($entries, $includeEmpty = false)
+    public function buildSummaryMessage($entries, $includeEmpty = false): string
     {
         $summary = $this->summarize($entries);
         return $this->getSummaryMessage($summary, $includeEmpty);
@@ -84,7 +84,7 @@ class DigestSummarizer
      * @param bool $includeEmpty
      * @return string
      */
-    public function getSummaryMessage($summary, $includeEmpty)
+    public function getSummaryMessage($summary, $includeEmpty): string
     {
         $map = [
             DigestHelper::LEVEL_ERROR => ['issue', 'issues'],

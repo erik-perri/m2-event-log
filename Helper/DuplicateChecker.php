@@ -15,7 +15,7 @@ class DuplicateChecker
      * @param Entry $entry
      * @return bool
      */
-    public function isExcluded(Entry $entry)
+    public function isExcluded(Entry $entry): bool
     {
         return $entry->getEntryLevel() === DigestHelper::LEVEL_SECURITY;
     }
@@ -25,7 +25,7 @@ class DuplicateChecker
      * @param bool $addToList
      * @return bool
      */
-    public function isDuplicate(Entry $entry, $addToList = true)
+    public function isDuplicate(Entry $entry, $addToList = true): bool
     {
         if ($this->isExcluded($entry)) {
             return false;
@@ -49,7 +49,7 @@ class DuplicateChecker
      * @param Entry $entry
      * @return int
      */
-    public function getCount(Entry $entry)
+    public function getCount(Entry $entry): int
     {
         $hash = $this->getHash($entry);
 
@@ -60,7 +60,7 @@ class DuplicateChecker
      * @param Entry $entry
      * @return string
      */
-    protected function getHash(Entry $entry)
+    protected function getHash(Entry $entry): string
     {
         return md5(
             $entry->getEntryGroup() .

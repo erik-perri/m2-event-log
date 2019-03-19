@@ -45,7 +45,7 @@ class UserNamePlaceholder implements PlaceholderInterface
     /**
      * @return string
      */
-    public function getSearchString()
+    public function getSearchString(): string
     {
         return 'user-name';
     }

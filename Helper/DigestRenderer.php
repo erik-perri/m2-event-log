@@ -43,7 +43,7 @@ class DigestRenderer
      * @param Entry[] $entries
      * @return string
      */
-    public function renderEntries($entries)
+    public function renderEntries($entries): string
     {
         $groups = $this->groupSorter->groupEntries($entries);
         $return = [];
@@ -73,7 +73,7 @@ class DigestRenderer
     /**
      * @return string
      */
-    public function renderNoEntries()
+    public function renderNoEntries(): string
     {
         /** @var \Magento\Backend\Block\Template $block */
         $block = $this->layout->createBlock(\Magento\Backend\Block\Template::class);

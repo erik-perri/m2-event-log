@@ -21,7 +21,7 @@ class AdminGroup extends AbstractGroup
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Admin Log';
     }

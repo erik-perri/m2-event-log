@@ -2,6 +2,7 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
+use Magento\Backend\Block\Template;
 use Magento\Framework\App\Area;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Store\Model\StoreManagerInterface;
@@ -26,7 +27,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const GROUP_BLOCK_CLASS = \Magento\Backend\Block\Template::class;
+    const GROUP_BLOCK_CLASS = Template::class;
 
     /**
      * @var string
@@ -36,7 +37,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const HEADER_BLOCK_CLASS = \Magento\Backend\Block\Template::class;
+    const HEADER_BLOCK_CLASS = Template::class;
 
     /**
      * @var string
@@ -111,7 +112,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return DigestSummarizer
      */
-    protected function getSummarizer()
+    protected function getSummarizer(): DigestSummarizer
     {
         return $this->summarizer;
     }
@@ -119,7 +120,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return LayoutInterface
      */
-    protected function getLayout()
+    protected function getLayout(): LayoutInterface
     {
         return $this->layout;
     }
@@ -127,7 +128,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return StoreManagerInterface
      */
-    protected function getStoreManager()
+    protected function getStoreManager(): StoreManagerInterface
     {
         return $this->storeManager;
     }
@@ -135,7 +136,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         if (static::GROUP_ID === null) {
             throw new \InvalidArgumentException('Subclass does not implement GROUP_ID');
@@ -146,7 +147,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return int
      */
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return static::SORT_ORDER;
     }
@@ -155,7 +156,7 @@ abstract class AbstractGroup implements GroupInterface
      * @param Entry[] $entries
      * @return $this
      */
-    public function setEntries($entries)
+    public function setEntries($entries): GroupInterface
     {
         $this->entries = $entries;
         return $this;
@@ -164,7 +165,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return Entry[]
      */
-    public function getEntries()
+    public function getEntries(): array
     {
         return $this->entries;
     }
@@ -173,7 +174,7 @@ abstract class AbstractGroup implements GroupInterface
      * @param bool $change
      * @return bool
      */
-    protected function isOdd($change = true)
+    protected function isOdd($change = true): bool
     {
         $current = $this->odd;
         if ($change) {
@@ -185,7 +186,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         $entries = $this->getEntries();
         $hasUserContext = $this->hasUserContext($entries);
@@ -212,7 +213,7 @@ abstract class AbstractGroup implements GroupInterface
      * @param bool $hasUserColumn
      * @return string
      */
-    protected function renderEntries($entries, $hasUserColumn)
+    protected function renderEntries($entries, $hasUserColumn): string
     {
         $entitiesHtml = [];
         $entriesToRender = [];
@@ -251,7 +252,7 @@ abstract class AbstractGroup implements GroupInterface
      * @param bool $hasUserColumn
      * @return string
      */
-    protected function renderHeading($entries, $hasUserColumn)
+    protected function renderHeading($entries, $hasUserColumn): string
     {
         return $this->createBlock(static::HEADER_BLOCK_CLASS)
             ->setTemplate(static::HEADER_TEMPLATE)
@@ -268,11 +269,11 @@ abstract class AbstractGroup implements GroupInterface
      * @param string $type
      * @param string $name
      * @param array $arguments
-     * @return \Magento\Backend\Block\Template
+     * @return Template
      */
-    protected function createBlock($type, $name = '', $arguments = [])
+    protected function createBlock($type, $name = '', $arguments = []): Template
     {
-        /** @var \Magento\Backend\Block\Template $block */
+        /** @var Template $block */
         $block = $this->getLayout()->createBlock($type, $name, $arguments);
         // We need to set the area on the block or Magento will set it to crontab
         // and fail to find the templates when running this code through the cron.
@@ -284,7 +285,7 @@ abstract class AbstractGroup implements GroupInterface
      * @param Entry[] $entries
      * @return bool
      */
-    protected function hasUserContext($entries)
+    protected function hasUserContext($entries): bool
     {
         foreach ($entries as $entry) {
             $context = $entry->getEntryContext();

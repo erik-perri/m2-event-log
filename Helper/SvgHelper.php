@@ -23,7 +23,7 @@ class SvgHelper
     /**
      * @return string
      */
-    protected function getFontAwesomeSvgPath()
+    protected function getFontAwesomeSvgPath(): string
     {
         $componentPath = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, 'Ryvon_EventLog');
         return sprintf('%s/view/assets/node_modules/@fortawesome/fontawesome-free/svgs', $componentPath);
@@ -34,7 +34,7 @@ class SvgHelper
      * @param string $id
      * @return string
      */
-    protected function getSvg($type, $id)
+    protected function getSvg($type, $id): string
     {
         $path = sprintf(
             '%s/%s/%s.svg',
@@ -54,7 +54,7 @@ class SvgHelper
      * @param string $id
      * @return string
      */
-    public function getBrandSvg($id)
+    public function getBrandSvg($id): string
     {
         return $this->getSvg('brands', $id);
     }
@@ -63,7 +63,7 @@ class SvgHelper
      * @param string $id
      * @return string
      */
-    public function getRegularSvg($id)
+    public function getRegularSvg($id): string
     {
         return $this->getSvg('regular', $id);
     }
@@ -72,7 +72,7 @@ class SvgHelper
      * @param string $id
      * @return string
      */
-    public function getSolidSvg($id)
+    public function getSolidSvg($id): string
     {
         return $this->getSvg('solid', $id);
     }
@@ -80,7 +80,7 @@ class SvgHelper
     /**
      * @return string
      */
-    public function getStoreSvg()
+    public function getStoreSvg(): string
     {
         return $this->getSolidSvg('store');
     }
@@ -88,7 +88,7 @@ class SvgHelper
     /**
      * @return string
      */
-    public function getSearchLocationSvg()
+    public function getSearchLocationSvg(): string
     {
         return $this->getSolidSvg('search-location');
     }

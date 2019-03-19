@@ -47,7 +47,7 @@ class DigestRequestHelper
      * @param array $params
      * @return string
      */
-    public function getDigestUrl(Digest $digest, $params = [])
+    public function getDigestUrl(Digest $digest, $params = []): string
     {
         return $this->urlInterface->getUrl('event_log/digest/index', array_merge($params, [
             'digest_id' => $digest->getId(),

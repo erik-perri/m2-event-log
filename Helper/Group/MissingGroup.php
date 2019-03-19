@@ -22,7 +22,7 @@ class MissingGroup extends AbstractGroup
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -31,7 +31,7 @@ class MissingGroup extends AbstractGroup
      * @param string $id
      * @return MissingGroup
      */
-    public function setId($id)
+    public function setId($id): MissingGroup
     {
         $this->id = $id;
         return $this;
@@ -40,7 +40,7 @@ class MissingGroup extends AbstractGroup
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -49,7 +49,7 @@ class MissingGroup extends AbstractGroup
      * @param string $title
      * @return MissingGroup
      */
-    public function setTitle($title)
+    public function setTitle($title): MissingGroup
     {
         $this->title = $title;
         return $this;

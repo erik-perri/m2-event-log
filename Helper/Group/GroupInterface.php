@@ -9,26 +9,26 @@ interface GroupInterface
     /**
      * @return string
      */
-    public function getId();
+    public function getId(): string;
 
     /**
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): string;
 
     /**
      * @return int
      */
-    public function getSortOrder();
+    public function getSortOrder(): int;
 
     /**
      * @param Entry[] $entries
      * @return $this
      */
-    public function setEntries($entries);
+    public function setEntries($entries): GroupInterface;
 
     /**
      * @return string
      */
-    public function render();
+    public function render(): string;
 }

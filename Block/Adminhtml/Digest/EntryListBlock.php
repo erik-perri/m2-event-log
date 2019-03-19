@@ -51,7 +51,7 @@ class EntryListBlock extends Template
     /**
      * @return Digest
      */
-    public function getCurrentDigest()
+    public function getCurrentDigest(): Digest
     {
         return $this->digestRequestHelper->getCurrentDigest($this->getRequest());
     }
@@ -60,7 +60,7 @@ class EntryListBlock extends Template
      * @param Digest $digest
      * @return Entry[]
      */
-    public function getEntries($digest)
+    public function getEntries($digest): array
     {
         if (!$digest) {
             return [];
@@ -72,7 +72,7 @@ class EntryListBlock extends Template
     /**
      * @return DigestRenderer
      */
-    public function getDigestRenderer()
+    public function getDigestRenderer(): DigestRenderer
     {
         return $this->digestRenderer;
     }

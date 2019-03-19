@@ -28,7 +28,7 @@ class PlaceholderReplacer
      * @param PlaceholderInterface $placeholder
      * @return PlaceholderReplacer
      */
-    public function addPlaceholder(PlaceholderInterface $placeholder)
+    public function addPlaceholder(PlaceholderInterface $placeholder): PlaceholderReplacer
     {
         $this->placeholders[$placeholder->getSearchString()] = $placeholder;
         return $this;
@@ -39,7 +39,7 @@ class PlaceholderReplacer
      * @param DataObject $context
      * @return string
      */
-    public function replace($message, $context)
+    public function replace($message, $context): string
     {
         $unknownText = '[Unknown]';
 
@@ -62,7 +62,7 @@ class PlaceholderReplacer
      * @param $value
      * @return bool
      */
-    protected function canBeString($value)
+    protected function canBeString($value): bool
     {
         // https://stackoverflow.com/a/5496674
         return !is_array($value) && (

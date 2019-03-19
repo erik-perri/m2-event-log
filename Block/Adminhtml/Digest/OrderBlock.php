@@ -59,7 +59,7 @@ class OrderBlock extends EntryBlock
      * @param string|int $orderId
      * @return string
      */
-    public function getOrderUrl($orderId)
+    public function getOrderUrl($orderId): string
     {
         return $this->urlBuilder->getUrl('sales/order/view', [
             'order_id' => $orderId,
@@ -70,7 +70,7 @@ class OrderBlock extends EntryBlock
      * @param float $price
      * @return string
      */
-    public function formatPrice($price)
+    public function formatPrice($price): string
     {
         if (!$price) {
             return '';
@@ -83,7 +83,7 @@ class OrderBlock extends EntryBlock
      * @param $mysqlTime
      * @return string
      */
-    public function formatOrderTime($mysqlTime)
+    public function formatOrderTime($mysqlTime): string
     {
         if (!$mysqlTime) {
             return '';
@@ -96,7 +96,7 @@ class OrderBlock extends EntryBlock
     /**
      * @return IpLocationHelper
      */
-    public function getLocationHelper()
+    public function getLocationHelper(): IpLocationHelper
     {
         return $this->locationHelper;
     }

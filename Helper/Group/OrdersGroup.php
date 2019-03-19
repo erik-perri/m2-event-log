@@ -38,7 +38,7 @@ class OrdersGroup extends AbstractLinksGroup
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return 'Orders';
     }

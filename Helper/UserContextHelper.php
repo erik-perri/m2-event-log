@@ -36,7 +36,7 @@ class UserContextHelper
      * @param array $context
      * @return array
      */
-    public function getContextFromUser($user, $context = [])
+    public function getContextFromUser($user, $context = []): array
     {
         if (!$user) {
             return $context;
@@ -53,7 +53,7 @@ class UserContextHelper
      * @param array $context
      * @return array
      */
-    public function getContextFromCurrentUser($context = [])
+    public function getContextFromCurrentUser($context = []): array
     {
         $user = $this->authSession->getUser();
         if (!$user) {
@@ -66,7 +66,7 @@ class UserContextHelper
     /**
      * @return string
      */
-    public function getClientIp()
+    public function getClientIp(): string
     {
         $ip = $this->remoteAddress->getRemoteAddress();
         if ($this->isValidIp($ip)) {
@@ -93,7 +93,7 @@ class UserContextHelper
      * @param string $ip
      * @return bool
      */
-    protected function isValidIp($ip)
+    protected function isValidIp($ip): bool
     {
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ? true : false;
     }

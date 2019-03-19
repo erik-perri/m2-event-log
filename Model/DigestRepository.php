@@ -76,7 +76,7 @@ class DigestRepository
     /**
      * @return Digest
      */
-    public function create()
+    public function create(): Digest
     {
         return $this->digestFactory->create();
     }
@@ -85,7 +85,7 @@ class DigestRepository
      * @param Digest $digest
      * @return bool
      */
-    public function save(Digest $digest)
+    public function save(Digest $digest): bool
     {
         try {
             $this->digestResourceModel->save($digest);

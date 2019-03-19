@@ -88,7 +88,7 @@ class DigestHelper
      * @param Digest $digest
      * @return bool
      */
-    public function finishDigest(Digest $digest)
+    public function finishDigest(Digest $digest): bool
     {
         if ($digest->getFinishedAt()) {
             return false;
@@ -113,7 +113,7 @@ class DigestHelper
      * @param array $context
      * @return DigestHelper
      */
-    public function addError($group, $message, $context)
+    public function addError($group, $message, $context): DigestHelper
     {
         return $this->addEntry(null, static::LEVEL_ERROR, $group, $message, $context);
     }
@@ -124,7 +124,7 @@ class DigestHelper
      * @param array $context
      * @return DigestHelper
      */
-    public function addInfo($group, $message, $context)
+    public function addInfo($group, $message, $context): DigestHelper
     {
         return $this->addEntry(null, static::LEVEL_INFO, $group, $message, $context);
     }
@@ -135,7 +135,7 @@ class DigestHelper
      * @param array $context
      * @return DigestHelper
      */
-    public function addWarning($group, $message, $context)
+    public function addWarning($group, $message, $context): DigestHelper
     {
         return $this->addEntry(null, static::LEVEL_WARNING, $group, $message, $context);
     }
@@ -146,7 +146,7 @@ class DigestHelper
      * @param array $context
      * @return DigestHelper
      */
-    public function addSecurity($group, $message, $context)
+    public function addSecurity($group, $message, $context): DigestHelper
     {
         return $this->addEntry(null, static::LEVEL_SECURITY, $group, $message, $context);
     }
@@ -160,7 +160,7 @@ class DigestHelper
      * @param string $date
      * @return DigestHelper
      */
-    public function addEntry($digest, $level, $group, $message, $context, $date = null)
+    public function addEntry($digest, $level, $group, $message, $context, $date = null): DigestHelper
     {
         if ($digest && !($digest instanceof Digest)) {
             throw new \InvalidArgumentException('$digest must be instance of Digest');

@@ -25,7 +25,7 @@ class ConfigSectionPlaceholder implements PlaceholderInterface
     /**
      * @return string
      */
-    public function getSearchString()
+    public function getSearchString(): string
     {
         return 'config-section';
     }

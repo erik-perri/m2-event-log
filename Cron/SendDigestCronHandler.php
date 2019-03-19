@@ -42,7 +42,7 @@ class SendDigestCronHandler
     /**
      * @return SendDigestCronHandler
      */
-    public function execute()
+    public function execute(): SendDigestCronHandler
     {
         if (!$this->config->getEnableDigestEmail() ||
             !$this->config->getInternalDigestCron()) {

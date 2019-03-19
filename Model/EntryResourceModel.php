@@ -64,7 +64,7 @@ class EntryResourceModel extends AbstractDb
      * @param AbstractModel $object
      * @return AbstractDb
      */
-    protected function _beforeSave(AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object): AbstractDb
     {
         try {
             if ($object instanceof Entry) {
@@ -88,7 +88,7 @@ class EntryResourceModel extends AbstractDb
      * @param AbstractModel $object
      * @return AbstractDb
      */
-    protected function _afterLoad(AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object): AbstractDb
     {
         try {
             if ($object instanceof Entry) {

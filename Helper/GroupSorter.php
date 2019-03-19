@@ -25,7 +25,7 @@ class GroupSorter
      * @param Entry[] $entries
      * @return Entry[][]
      */
-    public function groupEntries($entries)
+    public function groupEntries($entries): array
     {
         $groups = [];
 

@@ -62,7 +62,7 @@ class EntryRepository
     /**
      * @return Entry
      */
-    public function create()
+    public function create(): Entry
     {
         return $this->entryFactory->create();
     }
@@ -71,7 +71,7 @@ class EntryRepository
      * @param Entry $entry
      * @return bool
      */
-    public function save(Entry $entry)
+    public function save(Entry $entry): bool
     {
         try {
             $this->entryResourceModel->save($entry);
@@ -87,7 +87,7 @@ class EntryRepository
      * @param Digest $digest
      * @return Entry[]
      */
-    public function findInDigest(Digest $digest)
+    public function findInDigest(Digest $digest): array
     {
         $collection = $this->entryCollectionFactory->create();
 

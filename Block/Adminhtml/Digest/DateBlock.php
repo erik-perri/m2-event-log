@@ -50,7 +50,7 @@ class DateBlock extends Template
     /**
      * @return Digest
      */
-    public function getCurrentDigest()
+    public function getCurrentDigest(): Digest
     {
         return $this->digestRequestHelper->getCurrentDigest($this->getRequest());
     }
@@ -77,7 +77,7 @@ class DateBlock extends Template
      * @param Digest $digest
      * @return string
      */
-    public function getDigestUrl(Digest $digest)
+    public function getDigestUrl(Digest $digest): string
     {
         return $this->digestRequestHelper->getDigestUrl($digest);
     }
@@ -85,7 +85,7 @@ class DateBlock extends Template
     /**
      * @return DateRangeBuilder
      */
-    public function getDateRangeBuilder()
+    public function getDateRangeBuilder(): DateRangeBuilder
     {
         return $this->dateRangeBuilder;
     }
