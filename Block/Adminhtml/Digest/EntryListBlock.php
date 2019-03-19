@@ -49,9 +49,9 @@ class EntryListBlock extends Template
     }
 
     /**
-     * @return Digest
+     * @return Digest|null
      */
-    public function getCurrentDigest(): Digest
+    public function getCurrentDigest()
     {
         return $this->digestRequestHelper->getCurrentDigest($this->getRequest());
     }
