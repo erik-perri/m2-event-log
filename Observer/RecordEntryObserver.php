@@ -6,6 +6,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\User\Model\User;
 use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
@@ -28,11 +29,6 @@ class RecordEntryObserver implements ObserverInterface
     private $logger;
 
     /**
-     * @var UserContextHelper
-     */
-    private $userContextHelper;
-
-    /**
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
@@ -48,28 +44,34 @@ class RecordEntryObserver implements ObserverInterface
     private $placeholderReplacer;
 
     /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
+
+
+    /**
      * @param DigestHelper $helper
      * @param LoggerInterface $logger
-     * @param UserContextHelper $userContextHelper
      * @param DataObjectFactory $dataObjectFactory
      * @param EntryRepository $entryRepository
      * @param PlaceholderReplacer $placeholderReplacer
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         DigestHelper $helper,
         LoggerInterface $logger,
-        UserContextHelper $userContextHelper,
         DataObjectFactory $dataObjectFactory,
         EntryRepository $entryRepository,
-        PlaceholderReplacer $placeholderReplacer
+        PlaceholderReplacer $placeholderReplacer,
+        ObjectManagerInterface $objectManager
     )
     {
         $this->digestHelper = $helper;
         $this->logger = $logger;
-        $this->userContextHelper = $userContextHelper;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entryRepository = $entryRepository;
         $this->placeholderReplacer = $placeholderReplacer;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -91,15 +93,31 @@ class RecordEntryObserver implements ObserverInterface
 
             $group = $observer->getData('group') ?: '';
             $context = $observer->getData('context') ?: [];
+            $userContext = [];
 
-            $user = $observer->getData('user');
-            if ($group === AdminGroup::GROUP_ID || $observer->getData('user')) {
-                if ($user instanceof User) {
-                    $context = $this->userContextHelper->getContextFromUser($user, $context);
-                } else {
-                    $context = $this->userContextHelper->getContextFromCurrentUser($context);
+            if (PHP_SAPI === 'cli') {
+                $userContext = [
+                    'user-name' => sprintf('%s (CLI)', get_current_user()),
+                    'user-ip' => '127.0.0.1',
+                ];
+            }
+            else {
+                $user = $observer->getData('user');
+                if ($group === AdminGroup::GROUP_ID || $user) {
+                    // This class relies on Session which will not work unless an area code is set (we are not running a CLI command)
+                    // We initialize after so CLI commands can trigger logs
+                    $helper = $this->objectManager->get(UserContextHelper::class);
+                    if ($helper) {
+                        if ($user instanceof User) {
+                            $userContext = $helper->getContextFromUser($user);
+                        } else {
+                            $userContext = $helper->getContextFromCurrentUser();
+                        }
+                    }
                 }
             }
+
+            $context = array_merge($context, $userContext);
 
             $context = $this->dataObjectFactory->create(['data' => $context]);
             if (!$this->checkMessageSanity($message, $context)) {
