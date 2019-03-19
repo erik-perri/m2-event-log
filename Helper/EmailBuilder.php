@@ -123,6 +123,7 @@ class EmailBuilder
             ->setTemplateVars([
                 'subject' => $subject,
                 'storeUrl' => $this->getStoreUrl(),
+                'includeLinks' => $this->config->getIncludeLinksInEmail(),
                 'digestUrl' => $this->digestRequestHelper->getDigestUrl($digest, [
                     '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
                 ]),
@@ -154,6 +155,8 @@ class EmailBuilder
             return $content;
         }
 
+        $includeLinks = $this->config->getIncludeLinksInEmail();
+
         $adminPath = sprintf('/%s/', $this->deploymentConfig->get('backend/frontName') ?: 'admin');
 
         $previousUseInternalErrors = libxml_use_internal_errors(true);
@@ -161,8 +164,7 @@ class EmailBuilder
         $dom = new \DOMDocument();
         if (defined('LIBXML_HTML_NOIMPLIED') && defined('LIBXML_HTML_NODEFDTD')) {
             $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        }
-        else {
+        } else {
             $dom->loadHTML($content);
         }
 
@@ -170,6 +172,14 @@ class EmailBuilder
         $links = $path->query('//a');
         foreach ($links as $link) {
             /** @var \DOMElement $link */
+
+            if (!$includeLinks) {
+                $link->parentNode->replaceChild(
+                    new \DOMText($link->textContent),
+                    $link
+                );
+                continue;
+            }
 
             $href = $link->getAttribute('href');
 

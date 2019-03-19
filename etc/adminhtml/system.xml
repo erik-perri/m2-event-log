@@ -39,6 +39,13 @@
                         <field id="system/event_log/enable_digest_email">1</field>
                     </depends>
                 </field>
+                <field id="links_in_email" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Include Links In Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="system/event_log/enable_digest_email">1</field>
+                    </depends>
+                </field>
             </group>
         </section>
     </system>

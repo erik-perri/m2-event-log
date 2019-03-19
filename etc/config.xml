@@ -10,6 +10,7 @@
                 <recipient_email>
                     <![CDATA[user@example.com]]>
                 </recipient_email>
+                <links_in_email>1</links_in_email>
             </event_log>
         </system>
     </default>

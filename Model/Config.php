@@ -69,4 +69,12 @@ class Config
     {
         return $this->scopeConfig->getValue('system/event_log/sender_email_identity', ScopeInterface::SCOPE_WEBSITE);
     }
+
+    /**
+     * @return bool
+     */
+    public function getIncludeLinksInEmail(): bool
+    {
+        return $this->scopeConfig->getValue('system/event_log/links_in_email', ScopeInterface::SCOPE_WEBSITE) > 0;
+    }
 }

@@ -13,10 +13,12 @@
 </style>
 
 <div class="content">
+    {{if includeLinks}}
     <div class="header">
         <a style="float: right;" href="{{var storeUrl}}" target="_blank">View frontend</a>
         <a href="{{var digestUrl}}" rel="nofollow noindex noopener noreferrer" target="_blank">View digest in the admin</a>
     </div>
+    {{/if}}
 
     {{var data|raw}}
 </div>
