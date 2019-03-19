@@ -7,6 +7,7 @@ use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\User\Model\User;
+use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\EntryRepository;
 use Psr\Log\LoggerInterface;
@@ -42,18 +43,25 @@ class RecordEntryObserver implements ObserverInterface
     private $entryRepository;
 
     /**
+     * @var PlaceholderReplacer
+     */
+    private $placeholderReplacer;
+
+    /**
      * @param DigestHelper $helper
      * @param LoggerInterface $logger
      * @param UserContextHelper $userContextHelper
      * @param DataObjectFactory $dataObjectFactory
      * @param EntryRepository $entryRepository
+     * @param PlaceholderReplacer $placeholderReplacer
      */
     public function __construct(
         DigestHelper $helper,
         LoggerInterface $logger,
         UserContextHelper $userContextHelper,
         DataObjectFactory $dataObjectFactory,
-        EntryRepository $entryRepository
+        EntryRepository $entryRepository,
+        PlaceholderReplacer $placeholderReplacer
     )
     {
         $this->digestHelper = $helper;
@@ -61,6 +69,7 @@ class RecordEntryObserver implements ObserverInterface
         $this->userContextHelper = $userContextHelper;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entryRepository = $entryRepository;
+        $this->placeholderReplacer = $placeholderReplacer;
     }
 
     /**
@@ -93,6 +102,12 @@ class RecordEntryObserver implements ObserverInterface
             }
 
             $context = $this->dataObjectFactory->create(['data' => $context]);
+            if (!$this->checkMessageSanity($message, $context)) {
+                $this->logger->error('Entry does not contain the proper context to render without placeholder processors.', [
+                    'message' => $message,
+                ]);
+                return;
+            }
 
             $digest = $observer->getData('digest');
             if ($digest && !($digest instanceof Digest)) {
@@ -139,6 +154,25 @@ class RecordEntryObserver implements ObserverInterface
         }
 
         return $digest;
+    }
+
+    /**
+     * @param string $message
+     * @param DataObject $context
+     * @return bool
+     */
+    private function checkMessageSanity(string $message, DataObject $context): bool
+    {
+        try {
+            $replaced = $this->placeholderReplacer->replace($message, $context, true);
+            if (strpos($replaced, $this->placeholderReplacer->getUnknownText()) !== false) {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

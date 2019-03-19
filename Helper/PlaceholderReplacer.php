@@ -8,6 +8,11 @@ use Ryvon\EventLog\Helper\Placeholder\PlaceholderInterface;
 class PlaceholderReplacer
 {
     /**
+     * @var string
+     */
+    private $unknownText = '[Unknown]';
+
+    /**
      * @var PlaceholderInterface[]
      */
     private $placeholders = [];
@@ -25,6 +30,24 @@ class PlaceholderReplacer
     }
 
     /**
+     * @return string
+     */
+    public function getUnknownText(): string
+    {
+        return $this->unknownText;
+    }
+
+    /**
+     * @param string $unknownText
+     * @return PlaceholderReplacer
+     */
+    public function setUnknownText(string $unknownText): PlaceholderReplacer
+    {
+        $this->unknownText = $unknownText;
+        return $this;
+    }
+
+    /**
      * @param PlaceholderInterface $placeholder
      * @return PlaceholderReplacer
      */
@@ -37,23 +60,22 @@ class PlaceholderReplacer
     /**
      * @param string $message
      * @param DataObject $context
+     * @param bool $onlyContext
      * @return string
      */
-    public function replace($message, $context): string
+    public function replace($message, $context, bool $onlyContext = false): string
     {
-        $unknownText = '[Unknown]';
-
-        return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $unknownText) {
+        return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $onlyContext) {
             // If a placeholder does not exist for this match we will use the string value of the placeholder
-            if (!isset($this->placeholders[$matches[1]])) {
+            if ($onlyContext || !isset($this->placeholders[$matches[1]])) {
                 $value = $context->getData($matches[1]);
                 if ($value !== false && $value !== null && $this->canBeString($value)) {
-                    return $value;
+                    return (string)$value;
                 }
-                return $unknownText;
+                return $this->getUnknownText();
             }
 
-            return $this->placeholders[$matches[1]]->getReplaceString($context) ?? $unknownText;
+            return $this->placeholders[$matches[1]]->getReplaceString($context) ?? $this->getUnknownText();
         }, $message);
     }
 
