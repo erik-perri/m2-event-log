@@ -3,7 +3,6 @@
 namespace Ryvon\EventLog\Helper;
 
 use Magento\Framework\Stdlib\DateTime\Timezone;
-use Ryvon\EventLog\Model\Digest;
 
 class DateRangeBuilder
 {
@@ -21,21 +20,22 @@ class DateRangeBuilder
     }
 
     /**
-     * @param Digest $digest
+     * @param \DateTime|string $startedAt
+     * @param \DateTime|string|null $finishedAt
      * @return string
      */
-    public function buildDateRange(Digest $digest): string
+    public function buildDateRange($startedAt, $finishedAt): string
     {
-        $startedAt = $this->timezone->date($digest->getStartedAt());
+        $startedAtLocal = $this->timezone->date($startedAt);
 
-        if ($digest->getFinishedAt() === null) {
+        if ($finishedAt === null) {
             $now = $this->timezone->date();
 
-            if ($now->format('Y-m-d') !== $startedAt->format('Y-m-d')) {
+            if ($now->format('Y-m-d') !== $startedAtLocal->format('Y-m-d')) {
                 return sprintf(
                     '<span class="date">%s %s</span> - <span class="date">%s, %s</span>',
-                    $startedAt->format('F'),
-                    $startedAt->format('jS'),
+                    $startedAtLocal->format('F'),
+                    $startedAtLocal->format('jS'),
                     $now->format('jS'),
                     $now->format('Y')
                 );
@@ -43,57 +43,58 @@ class DateRangeBuilder
 
             return sprintf(
                 '<span class="date">%s</span>',
-                $startedAt->format('F jS, Y')
+                $startedAtLocal->format('F jS, Y')
             );
         }
 
-        $finishedAt = $this->timezone->date($digest->getFinishedAt());
+        $finishedAtLocal = $this->timezone->date($finishedAt);
 
-        if ($startedAt->format('Y-m-d') === $finishedAt->format('Y-m-d')) {
+        if ($startedAtLocal->format('Y-m-d') === $finishedAtLocal->format('Y-m-d')) {
             return sprintf(
                 '<span class="date">%s</span>',
-                $startedAt->format('F jS, Y')
+                $startedAtLocal->format('F jS, Y')
             );
         }
 
-        if ($startedAt->format('Y-m') === $finishedAt->format('Y-m')) {
+        if ($startedAtLocal->format('Y-m') === $finishedAtLocal->format('Y-m')) {
             return sprintf(
                 '<span class="date">%s %s</span> - <span class="date">%s, %s</span>',
-                $startedAt->format('F'),
-                $startedAt->format('jS'),
-                $finishedAt->format('jS'),
-                $finishedAt->format('Y')
+                $startedAtLocal->format('F'),
+                $startedAtLocal->format('jS'),
+                $finishedAtLocal->format('jS'),
+                $finishedAtLocal->format('Y')
             );
         }
 
         return sprintf(
             '<span class="date">%s</span> - <span class="date">%s</span>',
-            $startedAt->format('F jS, Y'),
-            $finishedAt->format('F jS, Y')
+            $startedAtLocal->format('F jS, Y'),
+            $finishedAtLocal->format('F jS, Y')
         );
     }
 
     /**
-     * @param Digest $digest
+     * @param \DateTime|string $startedAt
+     * @param \DateTime|string|null $finishedAt
      * @return string
      */
-    public function buildTimeRange(Digest $digest): string
+    public function buildTimeRange($startedAt, $finishedAt): string
     {
-        $startedAt = $this->timezone->date($digest->getStartedAt());
+        $startedAtLocal = $this->timezone->date($startedAt);
 
-        if ($digest->getFinishedAt() === null) {
+        if ($finishedAt === null) {
             return sprintf(
                 '<span class="time">%s</span> to now',
-                $startedAt->format('ga')
+                $startedAtLocal->format('ga')
             );
         }
 
-        $finishedAt = $this->timezone->date($digest->getFinishedAt());
+        $finishedAtLocal = $this->timezone->date($finishedAt);
 
         return sprintf(
             '<span class="time">%s</span> - <span class="time">%s</span>',
-            $startedAt->format('ga'),
-            $finishedAt->format('ga')
+            $startedAtLocal->format('ga'),
+            $finishedAtLocal->format('ga')
         );
     }
 }

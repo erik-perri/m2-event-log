@@ -111,8 +111,8 @@ class EmailBuilder
         $subject = sprintf(
             'Event digest (%s) for %s, %s',
             $this->digestSummarizer->getSummaryMessage($summary, true),
-            strip_tags($this->dateRangeBuilder->buildDateRange($digest)),
-            strip_tags($this->dateRangeBuilder->buildTimeRange($digest))
+            strip_tags($this->dateRangeBuilder->buildDateRange($digest->getStartedAt(), $digest->getFinishedAt())),
+            strip_tags($this->dateRangeBuilder->buildTimeRange($digest->getStartedAt(), $digest->getFinishedAt()))
         );
 
         $emailData = $this->digestRenderer->renderEntries($entries);

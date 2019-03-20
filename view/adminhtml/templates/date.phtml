@@ -22,8 +22,8 @@ $next = $this->getNextDigest($current);
         <?php } ?>
         <span class="admin__control-support-text" style="margin-right: 10px;">
             <?php if ($current) {
-                echo 'Showing ' . $this->getDateRangeBuilder()->buildDateRange($current)
-                    . ', ' . $this->getDateRangeBuilder()->buildTimeRange($current);
+                echo 'Showing ' . $this->getDateRangeBuilder()->buildDateRange($current->getStartedAt(), $current->getFinishedAt())
+                    . ', ' . $this->getDateRangeBuilder()->buildTimeRange($current->getStartedAt(), $current->getFinishedAt());
             } else {
                 echo 'Unknown date specified';
             } ?>
