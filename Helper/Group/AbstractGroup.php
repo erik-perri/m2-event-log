@@ -27,7 +27,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const HEADER_TEMPLATE = 'Ryvon_EventLog::heading/log.phtml';
+    const HEADER_TEMPLATE = 'Ryvon_EventLog::heading/default.phtml';
 
     /**
      * @var string
@@ -37,7 +37,7 @@ abstract class AbstractGroup implements GroupInterface
     /**
      * @var string
      */
-    const ENTRY_TEMPLATE = 'Ryvon_EventLog::entry/log.phtml';
+    const ENTRY_TEMPLATE = 'Ryvon_EventLog::entry/default.phtml';
 
     /**
      * @var string
