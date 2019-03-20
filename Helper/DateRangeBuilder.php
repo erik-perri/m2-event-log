@@ -12,11 +12,57 @@ class DateRangeBuilder
     private $timezone;
 
     /**
+     * @var string
+     */
+    private $dateWrapper = '<span class="date">%s</span>';
+
+    /**
+     * @var string
+     */
+    private $timeWrapper = '<span class="time">%s</span>';
+
+    /**
      * @param Timezone $timezone
      */
     public function __construct(Timezone $timezone)
     {
         $this->timezone = $timezone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateWrapper(): string
+    {
+        return $this->dateWrapper;
+    }
+
+    /**
+     * @param string $dateWrapper
+     * @return DateRangeBuilder
+     */
+    public function setDateWrapper(string $dateWrapper): DateRangeBuilder
+    {
+        $this->dateWrapper = $dateWrapper;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeWrapper(): string
+    {
+        return $this->timeWrapper;
+    }
+
+    /**
+     * @param string $timeWrapper
+     * @return DateRangeBuilder
+     */
+    public function setTimeWrapper(string $timeWrapper): DateRangeBuilder
+    {
+        $this->timeWrapper = $timeWrapper;
+        return $this;
     }
 
     /**
@@ -33,17 +79,15 @@ class DateRangeBuilder
 
             if ($now->format('Y-m-d') !== $startedAtLocal->format('Y-m-d')) {
                 return sprintf(
-                    '<span class="date">%s %s</span> - <span class="date">%s, %s</span>',
-                    $startedAtLocal->format('F'),
-                    $startedAtLocal->format('jS'),
-                    $now->format('jS'),
-                    $now->format('Y')
+                    '%s - %s',
+                    $this->wrapDate(sprintf('%s %s', $startedAtLocal->format('F'), $startedAtLocal->format('jS'))),
+                    $this->wrapDate(sprintf('%s, %s', $now->format('jS'), $now->format('Y')))
                 );
             }
 
             return sprintf(
-                '<span class="date">%s</span>',
-                $startedAtLocal->format('F jS, Y')
+                '%s',
+                $this->wrapDate($startedAtLocal->format('F jS, Y'))
             );
         }
 
@@ -51,25 +95,23 @@ class DateRangeBuilder
 
         if ($startedAtLocal->format('Y-m-d') === $finishedAtLocal->format('Y-m-d')) {
             return sprintf(
-                '<span class="date">%s</span>',
-                $startedAtLocal->format('F jS, Y')
+                '%s',
+                $this->wrapDate($startedAtLocal->format('F jS, Y'))
             );
         }
 
         if ($startedAtLocal->format('Y-m') === $finishedAtLocal->format('Y-m')) {
             return sprintf(
-                '<span class="date">%s %s</span> - <span class="date">%s, %s</span>',
-                $startedAtLocal->format('F'),
-                $startedAtLocal->format('jS'),
-                $finishedAtLocal->format('jS'),
-                $finishedAtLocal->format('Y')
+                '%s - %s',
+                $this->wrapDate(sprintf('%s %s', $startedAtLocal->format('F'), $startedAtLocal->format('jS'))),
+                $this->wrapDate(sprintf('%s, %s', $finishedAtLocal->format('jS'), $finishedAtLocal->format('Y')))
             );
         }
 
         return sprintf(
-            '<span class="date">%s</span> - <span class="date">%s</span>',
-            $startedAtLocal->format('F jS, Y'),
-            $finishedAtLocal->format('F jS, Y')
+            '%s - %s',
+            $this->wrapDate($startedAtLocal->format('F jS, Y')),
+            $this->wrapDate($finishedAtLocal->format('F jS, Y'))
         );
     }
 
@@ -84,17 +126,35 @@ class DateRangeBuilder
 
         if ($finishedAt === null) {
             return sprintf(
-                '<span class="time">%s</span> to now',
-                $startedAtLocal->format('ga')
+                '%s to now',
+                $this->wrapTime($startedAtLocal->format('ga'))
             );
         }
 
         $finishedAtLocal = $this->timezone->date($finishedAt);
 
         return sprintf(
-            '<span class="time">%s</span> - <span class="time">%s</span>',
-            $startedAtLocal->format('ga'),
-            $finishedAtLocal->format('ga')
+            '%s - %s',
+            $this->wrapTime($startedAtLocal->format('ga')),
+            $this->wrapTime($finishedAtLocal->format('ga'))
         );
+    }
+
+    /**
+     * @param string $time
+     * @return string
+     */
+    private function wrapDate(string $time): string
+    {
+        return sprintf($this->getDateWrapper(), $time);
+    }
+
+    /**
+     * @param string $time
+     * @return string
+     */
+    private function wrapTime(string $time): string
+    {
+        return sprintf($this->getTimeWrapper(), $time);
     }
 }
