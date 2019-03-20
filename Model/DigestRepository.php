@@ -2,14 +2,12 @@
 
 namespace Ryvon\EventLog\Model;
 
-use Psr\Log\LoggerInterface;
-
 class DigestRepository
 {
     /**
-     * @var LoggerInterface
+     * @var DigestCollectionFactory
      */
-    private $logger;
+    private $digestCollectionFactory;
 
     /**
      * @var DigestFactory
@@ -22,24 +20,15 @@ class DigestRepository
     private $digestResourceModel;
 
     /**
-     * @var DigestCollectionFactory
-     */
-    private $digestCollectionFactory;
-
-    /**
-     * @param LoggerInterface $logger
      * @param DigestFactory $digestFactory
      * @param DigestResourceModel $digestResourceModel
-     * @param DigestCollectionFactory $digestCollectionFactory
      */
     public function __construct(
-        LoggerInterface $logger,
+        DigestCollectionFactory $digestCollectionFactory,
         DigestFactory $digestFactory,
-        DigestResourceModel $digestResourceModel,
-        DigestCollectionFactory $digestCollectionFactory
+        DigestResourceModel $digestResourceModel
     )
     {
-        $this->logger = $logger;
         $this->digestFactory = $digestFactory;
         $this->digestResourceModel = $digestResourceModel;
         $this->digestCollectionFactory = $digestCollectionFactory;
@@ -74,27 +63,51 @@ class DigestRepository
     }
 
     /**
-     * @return Digest
+     * @return Digest|null
      */
-    public function create(): Digest
+    public function createNewDigest()
     {
-        return $this->digestFactory->create();
+        $now = $this->getNow();
+        if (!$now) {
+            return null;
+        }
+
+        $digest = $this->digestFactory->create();
+        $digest->setStartedAt($now);
+
+        try {
+            $this->digestResourceModel->save($digest);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $digest;
     }
 
     /**
      * @param Digest $digest
      * @return bool
      */
-    public function save(Digest $digest): bool
+    public function finishDigest(Digest $digest): bool
     {
-        try {
-            $this->digestResourceModel->save($digest);
-            return true;
-        } catch (\Exception $e) {
-            $this->logger->critical($e);
+        if ($digest->getFinishedAt()) {
+            return false;
         }
 
-        return false;
+        $now = $this->getNow();
+        if (!$now) {
+            return false;
+        }
+
+        $digest->setFinishedAt($now);
+
+        try {
+            $this->digestResourceModel->save($digest);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return true;
     }
 
     /**
@@ -137,7 +150,7 @@ class DigestRepository
      * @param callable $setupCollection
      * @return Digest|null
      */
-    protected function findFirst(callable $setupCollection)
+    private function findFirst(callable $setupCollection)
     {
         $collection = $this->digestCollectionFactory->create();
 
@@ -150,6 +163,18 @@ class DigestRepository
             return reset($items);
         }
 
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getNow()
+    {
+        try {
+            return (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s');
+        } catch (\Exception $e) {
+        }
         return null;
     }
 }

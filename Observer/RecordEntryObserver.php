@@ -12,15 +12,15 @@ use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\EntryRepository;
 use Psr\Log\LoggerInterface;
-use Ryvon\EventLog\Helper\DigestHelper;
+use Ryvon\EventLog\Model\DigestRepository;
 use Ryvon\EventLog\Helper\UserContextHelper;
 
 class RecordEntryObserver implements ObserverInterface
 {
     /**
-     * @var DigestHelper
+     * @var DigestRepository
      */
-    private $digestHelper;
+    private $digestRepository;
 
     /**
      * @var LoggerInterface
@@ -49,7 +49,7 @@ class RecordEntryObserver implements ObserverInterface
 
 
     /**
-     * @param DigestHelper $helper
+     * @param DigestRepository $digestRepository
      * @param LoggerInterface $logger
      * @param DataObjectFactory $dataObjectFactory
      * @param EntryRepository $entryRepository
@@ -57,7 +57,7 @@ class RecordEntryObserver implements ObserverInterface
      * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
-        DigestHelper $helper,
+        DigestRepository $digestRepository,
         LoggerInterface $logger,
         DataObjectFactory $dataObjectFactory,
         EntryRepository $entryRepository,
@@ -65,7 +65,7 @@ class RecordEntryObserver implements ObserverInterface
         ObjectManagerInterface $objectManager
     )
     {
-        $this->digestHelper = $helper;
+        $this->digestRepository = $digestRepository;
         $this->logger = $logger;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entryRepository = $entryRepository;
@@ -165,9 +165,9 @@ class RecordEntryObserver implements ObserverInterface
      */
     private function findOrCreateDigest()
     {
-        $digest = $this->digestHelper->findUnfinishedDigest();
+        $digest = $this->digestRepository->findNewestUnfinishedDigest();
         if (!$digest) {
-            $digest = $this->digestHelper->createNewDigest();
+            $digest = $this->digestRepository->createNewDigest();
         }
 
         return $digest;

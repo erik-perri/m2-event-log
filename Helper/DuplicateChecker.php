@@ -17,7 +17,7 @@ class DuplicateChecker
      */
     public function isExcluded(Entry $entry): bool
     {
-        return $entry->getEntryLevel() === DigestHelper::LEVEL_SECURITY;
+        return $entry->getEntryLevel() === 'security';
     }
 
     /**

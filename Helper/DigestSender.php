@@ -6,6 +6,7 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\MailException;
 use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Model\Digest;
+use Ryvon\EventLog\Model\DigestRepository;
 
 class DigestSender
 {
@@ -25,25 +26,25 @@ class DigestSender
     private $emailHelper;
 
     /**
-     * @var DigestHelper
+     * @var DigestRepository
      */
-    private $digestHelper;
+    private $digestRepository;
 
     /**
      * @param LoggerInterface $logger
      * @param ManagerInterface $eventManager
-     * @param DigestHelper $digestHelper
+     * @param DigestRepository $digestRepository
      * @param EmailBuilder $emailHelper
      */
     public function __construct(
         LoggerInterface $logger,
         ManagerInterface $eventManager,
-        DigestHelper $digestHelper,
+        DigestRepository $digestRepository,
         EmailBuilder $emailHelper
     )
     {
         $this->eventManager = $eventManager;
-        $this->digestHelper = $digestHelper;
+        $this->digestRepository = $digestRepository;
         $this->emailHelper = $emailHelper;
         $this->logger = $logger;
     }
@@ -55,7 +56,7 @@ class DigestSender
     public function finishDigest(Digest $digest): bool
     {
         if (!$digest->getFinishedAt()) {
-            if (!$this->digestHelper->finishDigest($digest)) {
+            if (!$this->digestRepository->finishDigest($digest)) {
                 $this->logger->critical('Failed to finish digest');
                 return false;
             }
@@ -64,7 +65,7 @@ class DigestSender
                 'digest' => $digest,
             ]);
 
-            if (!$this->digestHelper->createNewDigest()) {
+            if (!$this->digestRepository->createNewDigest()) {
                 $this->logger->critical('Failed to create next digest');
                 // Don't return false, whatever is asking us to finish the digest
                 // doesn't care whether the next was created or not.

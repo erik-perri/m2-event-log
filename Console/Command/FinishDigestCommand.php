@@ -6,7 +6,6 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
-use Ryvon\EventLog\Helper\DigestHelper;
 use Ryvon\EventLog\Helper\DigestSender;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\DigestRepository;
@@ -28,11 +27,6 @@ class FinishDigestCommand extends Command
     private $config;
 
     /**
-     * @var DigestHelper
-     */
-    private $digestHelper;
-
-    /**
      * @var DigestSender
      */
     private $digestSender;
@@ -50,14 +44,12 @@ class FinishDigestCommand extends Command
     /**
      * @param State $state
      * @param Config $config
-     * @param DigestHelper $digestHelper
      * @param DigestRepository $digestRepository
      * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         State $state,
         Config $config,
-        DigestHelper $digestHelper,
         DigestRepository $digestRepository,
         ObjectManagerInterface $objectManager
     )
@@ -66,7 +58,6 @@ class FinishDigestCommand extends Command
 
         $this->state = $state;
         $this->config = $config;
-        $this->digestHelper = $digestHelper;
         $this->digestRepository = $digestRepository;
         $this->objectManager = $objectManager;
     }
@@ -104,7 +95,7 @@ class FinishDigestCommand extends Command
         if ($input->getOption('digest-id')) {
             $digest = $this->digestRepository->getById($input->getOption('digest-id'));
         } else {
-            $digest = $this->digestHelper->findUnfinishedDigest();
+            $digest = $this->digestRepository->findNewestUnfinishedDigest();
         }
 
         if (!$digest) {

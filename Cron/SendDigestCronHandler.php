@@ -2,9 +2,9 @@
 
 namespace Ryvon\EventLog\Cron;
 
-use Ryvon\EventLog\Helper\DigestHelper;
 use Ryvon\EventLog\Helper\DigestSender;
 use Ryvon\EventLog\Model\Config;
+use Ryvon\EventLog\Model\DigestRepository;
 
 class SendDigestCronHandler
 {
@@ -14,9 +14,9 @@ class SendDigestCronHandler
     private $config;
 
     /**
-     * @var DigestHelper
+     * @var DigestRepository
      */
-    private $digestHelper;
+    private $digestRepository;
 
     /**
      * @var DigestSender
@@ -25,17 +25,17 @@ class SendDigestCronHandler
 
     /**
      * @param Config $config
-     * @param DigestHelper $digestHelper
+     * @param DigestRepository $digestRepository
      * @param DigestSender $digestSender
      */
     public function __construct(
         Config $config,
-        DigestHelper $digestHelper,
+        DigestRepository $digestRepository,
         DigestSender $digestSender
     )
     {
         $this->config = $config;
-        $this->digestHelper = $digestHelper;
+        $this->digestRepository = $digestRepository;
         $this->digestSender = $digestSender;
     }
 
@@ -49,7 +49,7 @@ class SendDigestCronHandler
             return $this;
         }
 
-        $digest = $this->digestHelper->findUnfinishedDigest();
+        $digest = $this->digestRepository->findNewestUnfinishedDigest();
         if (!$digest) {
             return $this;
         }

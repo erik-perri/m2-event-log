@@ -39,9 +39,9 @@ class DigestSummarizer
     public function summarize($entries): array
     {
         $counts = [
-            DigestHelper::LEVEL_ERROR => 0,
-            DigestHelper::LEVEL_WARNING => 0,
-            DigestHelper::LEVEL_INFO => 0,
+            'error' => 0,
+            'warning' => 0,
+            'info' => 0,
             static::HIDDEN_DUPLICATES_KEY => 0,
         ];
 
@@ -53,8 +53,8 @@ class DigestSummarizer
         foreach ($entries as $entry) {
             $level = $entry->getEntryLevel();
 
-            if ($level === DigestHelper::LEVEL_SECURITY) {
-                $level = DigestHelper::LEVEL_WARNING;
+            if ($level === 'security') {
+                $level = 'warning';
             }
 
             if ($hideDuplicates && $duplicateChecker->isDuplicate($entry)) {
@@ -87,8 +87,8 @@ class DigestSummarizer
     public function getSummaryMessage($summary, $includeEmpty): string
     {
         $map = [
-            DigestHelper::LEVEL_ERROR => ['issue', 'issues'],
-            DigestHelper::LEVEL_WARNING => ['notice', 'notices'],
+            'error' => ['issue', 'issues'],
+            'warning' => ['notice', 'notices'],
         ];
         $message = [];
         foreach ($summary as $key => $count) {
