@@ -8,6 +8,7 @@ use Ryvon\EventLog\Helper\DuplicateCheckerFactory;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Entry;
 use Magento\Backend\Block\Template;
+use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\App\Area;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Store\Model\StoreManagerInterface;
@@ -70,6 +71,11 @@ abstract class AbstractGroup implements GroupInterface
     private $entries = [];
 
     /**
+     * @var string[]
+     */
+    private $headingLinks = [];
+
+    /**
      * @var LayoutInterface
      */
     private $layout;
@@ -80,18 +86,25 @@ abstract class AbstractGroup implements GroupInterface
     private $storeManager;
 
     /**
+     * @var UrlInterface
+     */
+    private $urlBuilder;
+
+    /**
      * @param Config $config
      * @param DigestSummarizer $summarizer
      * @param DuplicateCheckerFactory $duplicateCheckerFactory
      * @param LayoutInterface $layout
      * @param StoreManagerInterface $storeManager
+     * @param UrlInterface $urlBuilder
      */
     public function __construct(
         Config $config,
         DigestSummarizer $summarizer,
         DuplicateCheckerFactory $duplicateCheckerFactory,
         LayoutInterface $layout,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        UrlInterface $urlBuilder
     )
     {
         $this->summarizer = $summarizer;
@@ -102,6 +115,14 @@ abstract class AbstractGroup implements GroupInterface
         }
 
         $this->storeManager = $storeManager;
+        $this->urlBuilder = $urlBuilder;
+    }
+
+    /**
+     * @return void
+     */
+    public function initialize()
+    {
     }
 
     /**
@@ -126,6 +147,14 @@ abstract class AbstractGroup implements GroupInterface
     protected function getStoreManager(): StoreManagerInterface
     {
         return $this->storeManager;
+    }
+
+    /**
+     * @return UrlInterface
+     */
+    protected function getUrlBuilder(): UrlInterface
+    {
+        return $this->urlBuilder;
     }
 
     /**
@@ -157,6 +186,25 @@ abstract class AbstractGroup implements GroupInterface
     public function getEntries(): array
     {
         return $this->entries;
+    }
+
+    /**
+     * @param string $text
+     * @param string $href
+     * @return AbstractGroup
+     */
+    public function addHeadingLink($text, $href): AbstractGroup
+    {
+        $this->headingLinks[$text] = $href;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getHeadingLinks(): array
+    {
+        return $this->headingLinks;
     }
 
     /**
@@ -248,8 +296,26 @@ abstract class AbstractGroup implements GroupInterface
             ->addData([
                 'title' => $this->getTitle(),
                 'summary' => $this->getSummarizer()->buildSummaryMessage($entries),
+                'links' => $this->renderLinks(),
                 'user-column' => $hasUserColumn,
                 'single-store-mode' => $this->storeManager->isSingleStoreMode(),
+            ])
+            ->toHtml();
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderLinks(): string
+    {
+        if (!count($this->getHeadingLinks())) {
+            return '';
+        }
+
+        return $this->createBlock(Template::class)
+            ->setTemplate('Ryvon_EventLog::heading/links.phtml')
+            ->addData([
+                'links' => $this->getHeadingLinks(),
             ])
             ->toHtml();
     }

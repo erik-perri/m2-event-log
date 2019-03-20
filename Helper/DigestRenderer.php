@@ -57,7 +57,7 @@ class DigestRenderer
                 $group = $this->groupFinder->addMissingGroup($groupId);
             }
 
-            if ($group instanceof Group\AbstractLinksGroup) {
+            if ($group instanceof Group\AbstractGroup) {
                 $group->initialize();
             }
 

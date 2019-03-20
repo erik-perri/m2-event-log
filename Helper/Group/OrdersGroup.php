@@ -4,7 +4,7 @@ namespace Ryvon\EventLog\Helper\Group;
 
 use Ryvon\EventLog\Block\Adminhtml\Digest\OrderBlock;
 
-class OrdersGroup extends AbstractLinksGroup
+class OrdersGroup extends AbstractGroup
 {
     /**
      * @var string
