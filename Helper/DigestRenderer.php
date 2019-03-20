@@ -2,9 +2,9 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Ryvon\EventLog\Model\Entry;
 use Magento\Framework\App\Area;
 use Magento\Framework\View\LayoutInterface;
-use Ryvon\EventLog\Model\Entry;
 
 class DigestRenderer
 {

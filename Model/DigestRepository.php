@@ -20,6 +20,7 @@ class DigestRepository
     private $digestResourceModel;
 
     /**
+     * @param DigestCollectionFactory $digestCollectionFactory
      * @param DigestFactory $digestFactory
      * @param DigestResourceModel $digestResourceModel
      */

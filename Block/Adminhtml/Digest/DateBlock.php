@@ -2,11 +2,11 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
-use Magento\Backend\Block\Template;
 use Ryvon\EventLog\Helper\DateRangeBuilder;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\DigestRepository;
+use Magento\Backend\Block\Template;
 
 class DateBlock extends Template
 {

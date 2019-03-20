@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Ryvon\EventLog\Helper\StoreViewFinder;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Model\AbstractModel;
-use Ryvon\EventLog\Helper\StoreViewFinder;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractModelObserver implements ObserverInterface

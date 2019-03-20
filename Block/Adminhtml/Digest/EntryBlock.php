@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
-use Magento\Backend\Block\Template;
-use Magento\Framework\DataObject;
-use Magento\Framework\Stdlib\DateTime\Timezone;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
+use Magento\Backend\Block\Template;
+use Magento\Framework\DataObject;
+use Magento\Framework\Stdlib\DateTime\Timezone;
 
 class EntryBlock extends Template
 {
@@ -151,8 +151,7 @@ class EntryBlock extends Template
 
         if ($digest->getFinishedAt()) {
             $compareTo = $this->timezone->date($digest->getFinishedAt());
-        }
-        else {
+        } else {
             // If the digest isn't finished we can compare to now
             $compareTo = $this->timezone->date();
         }

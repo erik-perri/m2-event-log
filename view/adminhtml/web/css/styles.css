@@ -7,48 +7,57 @@
 }
 
 .data-grid svg {
-    width: 13px;
     height: auto;
     vertical-align: middle;
+    width: 13px;
 }
 
-.data-row.error td, .data-row.error:hover td {
+.data-row.error td,
+.data-row.error:hover td {
     background: rgba(220, 53, 69, .3);
 }
 
-.data-row._odd-row.error td, .data-row._odd-row.error:hover td {
+.data-row._odd-row.error td,
+.data-row._odd-row.error:hover td {
     background: rgba(220, 53, 69, .5);
 }
 
-.data-row.warning td, .data-row.warning:hover td {
+.data-row.warning td,
+.data-row.warning:hover td {
     background: rgba(255, 251, 187, .3);
 }
 
-.data-row._odd-row.warning td, .data-row._odd-row.warning:hover td {
+.data-row._odd-row.warning td,
+.data-row._odd-row.warning:hover td {
     background: rgba(255, 251, 187, .5);
 }
 
-.data-row.security td, .data-row.security:hover td {
+.data-row.security td,
+.data-row.security:hover td {
     background: rgba(255, 251, 187, .3);
 }
 
-.data-row._odd-row.security td, .data-row._odd-row.security:hover td {
+.data-row._odd-row.security td,
+.data-row._odd-row.security:hover td {
     background: rgba(255, 251, 187, .5);
 }
 
-.data-row.info td, .data-row.info:hover td {
+.data-row.info td,
+.data-row.info:hover td {
     background: #fff;
 }
 
-.data-row._odd-row.info td, .data-row._odd-row.info:hover td {
+.data-row._odd-row.info td,
+.data-row._odd-row.info:hover td {
     background: #f5f5f5;
 }
 
 .log-time {
-    width: 1%;
     white-space: nowrap;
+    width: 1%;
 }
 
+/*noinspection CssUnusedSymbol*/
 a.icon {
     margin-left: 5px;
 }
@@ -71,20 +80,17 @@ a.icon {
 }
 
 .duplicate-count {
-    float: right;
-    margin-top: 2px;
-
+    background-color: rgba(108, 134, 125, .5);
+    border-radius: 10rem;
+    color: #fff;
     display: inline-block;
+    float: right;
     font-size: 75%;
     font-weight: 700;
     line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-
+    margin-top: 2px;
     padding: .25em .6em;
-    border-radius: 10rem;
-
-    color: #fff;
-    background-color: rgba(108, 134, 125, .5);
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
 }

@@ -2,8 +2,8 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Magento\Framework\DataObject;
 use Ryvon\EventLog\Helper\Placeholder\PlaceholderInterface;
+use Magento\Framework\DataObject;
 
 class PlaceholderReplacer
 {

@@ -47,7 +47,6 @@ class RecordEntryObserver implements ObserverInterface
      */
     private $objectManager;
 
-
     /**
      * @param DigestRepository $digestRepository
      * @param LoggerInterface $logger
@@ -99,12 +98,11 @@ class RecordEntryObserver implements ObserverInterface
                     'user-name' => sprintf('%s (CLI)', get_current_user()),
                     'user-ip' => '127.0.0.1',
                 ];
-            }
-            else {
+            } else {
                 $user = $observer->getData('user');
                 if ($group === 'admin' || $user) {
-                    // This class relies on Session which will not work unless an area code is set (we are not running a CLI command)
-                    // We initialize after so CLI commands can trigger logs
+                    // This class relies on Session which will not work unless an area code is set (we are not running a
+                    // CLI command).   We initialize after so CLI commands can trigger logs.
                     $helper = $this->objectManager->get(UserContextHelper::class);
                     if ($helper) {
                         if ($user instanceof User) {
@@ -120,9 +118,12 @@ class RecordEntryObserver implements ObserverInterface
 
             $context = $this->dataObjectFactory->create(['data' => $context]);
             if (!$this->checkMessageSanity($message, $context)) {
-                $this->logger->error('Entry does not contain the proper context to render without placeholder processors.', [
-                    'message' => $message,
-                ]);
+                $this->logger->error(
+                    'Entry does not contain the proper context to render without placeholder processors.',
+                    [
+                        'message' => $message,
+                    ]
+                );
                 return;
             }
 

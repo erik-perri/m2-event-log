@@ -2,10 +2,10 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Ryvon\EventLog\Helper\UserContextHelper;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Ryvon\EventLog\Helper\UserContextHelper;
 
 class AdminLoginFailedObserver implements ObserverInterface
 {

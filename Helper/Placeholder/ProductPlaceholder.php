@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
+use Ryvon\EventLog\Helper\SvgHelper;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
-use Ryvon\EventLog\Helper\SvgHelper;
 
 class ProductPlaceholder implements PlaceholderInterface
 {

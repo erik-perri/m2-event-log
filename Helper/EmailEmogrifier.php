@@ -25,7 +25,6 @@ class EmailEmogrifier
 
     /**
      * @param string $html
-     * @param string $css
      * @return string
      */
     public function emogrify(string $html): string

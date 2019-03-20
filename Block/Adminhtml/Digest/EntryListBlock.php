@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
-use Magento\Backend\Block\Template;
 use Ryvon\EventLog\Helper\DigestRenderer;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
 use Ryvon\EventLog\Model\EntryRepository;
+use Magento\Backend\Block\Template;
 
 class EntryListBlock extends Template
 {

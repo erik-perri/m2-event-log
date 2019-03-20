@@ -2,14 +2,13 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Ryvon\EventLog\Model\Digest;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
-use Ryvon\EventLog\Helper\Group\OrdersGroup;
-use Ryvon\EventLog\Model\Digest;
 
 class OrderReporter
 {

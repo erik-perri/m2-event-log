@@ -2,10 +2,10 @@
 
 namespace Ryvon\EventLog\Plugin;
 
+use Ryvon\EventLog\Helper\StoreViewFinder;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Config\Model\Config;
 use Magento\Framework\Event\ManagerInterface;
-use Ryvon\EventLog\Helper\StoreViewFinder;
 
 class ConfigSavePlugin
 {

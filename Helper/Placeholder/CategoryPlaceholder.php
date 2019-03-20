@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
+use Ryvon\EventLog\Helper\SvgHelper;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Ryvon\EventLog\Helper\SvgHelper;
 
 class CategoryPlaceholder implements PlaceholderInterface
 {

@@ -2,11 +2,11 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Ryvon\EventLog\Model\Digest;
+use Ryvon\EventLog\Model\DigestRepository;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\MailException;
 use Psr\Log\LoggerInterface;
-use Ryvon\EventLog\Model\Digest;
-use Ryvon\EventLog\Model\DigestRepository;
 
 class DigestSender
 {

@@ -3,8 +3,8 @@
 namespace Ryvon\EventLog\Helper;
 
 use Ryvon\EventLog\Model\Config;
-use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Model\DigestRepository;
+use Psr\Log\LoggerInterface;
 
 class UrlKeyDisableChecker
 {
@@ -115,8 +115,7 @@ class UrlKeyDisableChecker
             }
 
             return true;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->critical('Failed to check key disabling');
             $this->logger->critical($e);
             return false;

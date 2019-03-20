@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
+use Ryvon\EventLog\Helper\DigestRequestHelper;
+use Ryvon\EventLog\Helper\IpLocationHelper;
+use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
 use Magento\Framework\Stdlib\DateTime\Timezone;
-use Ryvon\EventLog\Helper\DigestRequestHelper;
-use Ryvon\EventLog\Helper\IpLocationHelper;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
 
 class OrderBlock extends EntryBlock
 {

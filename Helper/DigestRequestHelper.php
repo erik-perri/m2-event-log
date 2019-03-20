@@ -2,10 +2,10 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\App\RequestInterface;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\DigestRepository;
+use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\App\RequestInterface;
 
 class DigestRequestHelper
 {
@@ -20,7 +20,6 @@ class DigestRequestHelper
     private $urlInterface;
 
     /**
-     * DigestRequestHelper constructor.
      * @param DigestRepository $digestRepository
      * @param UrlInterface $urlInterface
      */
@@ -31,7 +30,7 @@ class DigestRequestHelper
     }
 
     /**
-     * @param RequestInterface $request
+     * @param RequestInterface|null $request
      * @return Digest|null
      */
     public function getCurrentDigest($request)

@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
-use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Helper\DigestSummarizer;
 use Ryvon\EventLog\Helper\DuplicateCheckerFactory;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Entry;
+use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 abstract class AbstractLinksGroup extends AbstractGroup
 {

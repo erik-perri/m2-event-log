@@ -2,8 +2,8 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Magento\Framework\DataObject;
 use Ryvon\EventLog\Helper\IpLocationHelper;
+use Magento\Framework\DataObject;
 
 class UserIpPlaceholder implements PlaceholderInterface
 {

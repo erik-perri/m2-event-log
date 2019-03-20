@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Ryvon\EventLog\Model\Config;
+use Ryvon\EventLog\Model\Digest;
+use Ryvon\EventLog\Model\EntryRepository;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
-use Ryvon\EventLog\Model\Config;
-use Ryvon\EventLog\Model\Digest;
-use Ryvon\EventLog\Model\EntryRepository;
 
 class EmailBuilder
 {
@@ -124,13 +124,13 @@ class EmailBuilder
 
         if ($this->config->getIncludeLinksInEmail()) {
             $emailData = $this->digestRenderer->renderHeader(
-                $this->getStoreUrl(),
-                $this->digestRequestHelper->getDigestUrl(
-                    $digest,
-                    $this->config->getBypassUrlKey() ? [
-                        '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
-                    ] : [])
-            ) . $emailData;
+                    $this->getStoreUrl(),
+                    $this->digestRequestHelper->getDigestUrl(
+                        $digest,
+                        $this->config->getBypassUrlKey() ? [
+                            '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
+                        ] : [])
+                ) . $emailData;
         }
 
         $emailData = $this->emailEmogrifier->emogrify($emailData);

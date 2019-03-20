@@ -32,7 +32,7 @@ class EntryResourceModel extends AbstractDb
      * @param JsonSerializer $jsonSerializer
      * @param DataObjectFactory $dataObjectFactory
      * @param Context $context
-     * @param null $connectionName
+     * @param string|null $connectionName
      */
     public function __construct(
         DateTime $date,

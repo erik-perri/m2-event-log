@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
+use Ryvon\EventLog\Helper\SvgHelper;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Cms\Helper\Page as PageHelper;
 use Magento\Cms\Model\PageRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Ryvon\EventLog\Helper\SvgHelper;
 
 class CmsPagePlaceholder implements PlaceholderInterface
 {

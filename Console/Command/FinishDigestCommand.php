@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Console\Command;
 
+use Ryvon\EventLog\Helper\DigestSender;
+use Ryvon\EventLog\Model\Config;
+use Ryvon\EventLog\Model\DigestRepository;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
-use Ryvon\EventLog\Helper\DigestSender;
-use Ryvon\EventLog\Model\Config;
-use Ryvon\EventLog\Model\DigestRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
