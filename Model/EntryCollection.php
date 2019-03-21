@@ -34,6 +34,18 @@ class EntryCollection extends AbstractCollection
      */
     private $digestSummarizer;
 
+    /**
+     * EntryCollection constructor.
+     * @param EntryResourceModel $entryResourceModel
+     * @param DuplicateCheckerFactory $duplicateCheckerFactory
+     * @param DigestSummarizer $digestSummarizer
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface|null $connection
+     * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb|null $resource
+     */
     public function __construct(
         EntryResourceModel $entryResourceModel,
         DuplicateCheckerFactory $duplicateCheckerFactory,
@@ -54,14 +66,6 @@ class EntryCollection extends AbstractCollection
     }
 
     /**
-     * @return bool
-     */
-    public function shouldHideDuplicates(): bool
-    {
-        return $this->hideDuplicates;
-    }
-
-    /**
      * @param bool $hideDuplicates
      * @return EntryCollection
      */
@@ -69,6 +73,22 @@ class EntryCollection extends AbstractCollection
     {
         $this->hideDuplicates = $hideDuplicates;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUserContext(): bool
+    {
+        foreach ($this->getItems() as $item) {
+            /** @var Entry $item */
+            $context = $item->getEntryContext();
+            if ($context->getData('user-name') || $context->getData('user-ip')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -102,31 +122,17 @@ class EntryCollection extends AbstractCollection
     }
 
     /**
-     * Retrieve unfiltered (of duplicates) collection items.
-     *
-     * @return Entry[]
+     * @return bool
      */
-    public function getUnfilteredItems(): array
+    public function shouldHideDuplicates(): bool
     {
-        return $this->load()->_items;
+        return $this->hideDuplicates;
     }
 
     /**
-     * @return bool
+     * @param $entry
+     * @return int
      */
-    public function hasUserContext(): bool
-    {
-        foreach ($this->getItems() as $item) {
-            /** @var Entry $item */
-            $context = $item->getEntryContext();
-            if ($context->getData('user-name') || $context->getData('user-ip')) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function getDuplicateCount($entry): int
     {
         if ($this->shouldHideDuplicates()) {
@@ -147,6 +153,16 @@ class EntryCollection extends AbstractCollection
             $this->shouldHideDuplicates()
         );
         return $this->digestSummarizer->getSummaryMessage($summary, $includeEmpty);
+    }
+
+    /**
+     * Retrieve unfiltered (of duplicates) collection items.
+     *
+     * @return Entry[]
+     */
+    public function getUnfilteredItems(): array
+    {
+        return $this->load()->_items;
     }
 
     /**

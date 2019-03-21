@@ -5,6 +5,9 @@ namespace Ryvon\EventLog\Helper\Placeholder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
 
+/**
+ * Placeholder to replace {attribute} with a link to edit the related item.
+ */
 class AttributePlaceholder implements PlaceholderInterface
 {
     use LinkPlaceholderTrait;
@@ -23,6 +26,8 @@ class AttributePlaceholder implements PlaceholderInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @return string
      */
     public function getSearchString(): string
@@ -31,6 +36,8 @@ class AttributePlaceholder implements PlaceholderInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param DataObject $context
      * @return string|null
      */

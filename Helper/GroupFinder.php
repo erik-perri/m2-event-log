@@ -33,8 +33,7 @@ class GroupFinder
         ObjectManagerInterface $objectManager,
         MissingGroupFactory $missingGroupFactory,
         $groups = []
-    )
-    {
+    ) {
         $this->objectManager = $objectManager;
         $this->missingGroupFactory = $missingGroupFactory;
 

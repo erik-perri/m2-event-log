@@ -6,6 +6,9 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
+/**
+ * Monitors for the admin login success event.
+ */
 class AdminLoginSuccessObserver implements ObserverInterface
 {
     /**
@@ -21,7 +24,7 @@ class AdminLoginSuccessObserver implements ObserverInterface
         $this->eventManager = $eventManager;
     }
 
-    /*
+    /**
      * @param Observer $observer
      */
     public function execute(Observer $observer)

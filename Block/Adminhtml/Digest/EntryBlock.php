@@ -11,6 +11,9 @@ use Magento\Backend\Block\Template;
 use Magento\Framework\DataObject;
 use Magento\Framework\Stdlib\DateTime\Timezone;
 
+/**
+ * Block class for the default entry block for both the administrator and email.
+ */
 class EntryBlock extends TemplateBlock
 {
     /**
@@ -46,8 +49,7 @@ class EntryBlock extends TemplateBlock
         Timezone $timezone,
         Template\Context $context,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
 
         $this->digestRequestHelper = $digestRequestHelper;
@@ -56,6 +58,8 @@ class EntryBlock extends TemplateBlock
     }
 
     /**
+     * Helper function to retrieve the timezone helper.
+     *
      * @return Timezone
      */
     public function getTimezone(): Timezone
@@ -64,30 +68,13 @@ class EntryBlock extends TemplateBlock
     }
 
     /**
-     * @return Digest|null
-     */
-    public function getDigest()
-    {
-        if ($this->currentDigest === null) {
-            $this->currentDigest = $this->digestRequestHelper->getCurrentDigest($this->getRequest());
-        }
-        return $this->currentDigest;
-    }
-
-    /**
-     * @return Entry|null
-     */
-    public function getEntry()
-    {
-        return $this->getData('entry') ?: null;
-    }
-
-    /**
+     * Generates a row class for the log row.
+     *
      * @param Entry $entry
      * @param bool $includeOdd
      * @return string
      */
-    public function getRowClass($entry = null, $includeOdd = true): string
+    public function getRowClass(Entry $entry, $includeOdd = true): string
     {
         if (!$entry) {
             $entry = $this->getEntry();
@@ -107,7 +94,19 @@ class EntryBlock extends TemplateBlock
     }
 
     /**
-     * @param $mysqlTime
+     * Retrieves the entry assigned to the block
+     *
+     * @return Entry|null
+     */
+    public function getEntry()
+    {
+        return $this->getData('entry') ?: null;
+    }
+
+    /**
+     * Formats the specified time, including the day if the digest spans multiple days.
+     *
+     * @param string|\DateTime $mysqlTime
      * @return string
      */
     public function formatLogTime($mysqlTime): string
@@ -121,24 +120,12 @@ class EntryBlock extends TemplateBlock
             $format = 'M d, h:i A';
         }
 
-        return $this->timezone->date($mysqlTime)->format($format);
+        return $this->getTimezone()->date($mysqlTime)->format($format);
     }
 
     /**
-     * @param $mysqlTime
-     * @return string
-     */
-    public function formatTitleTime($mysqlTime): string
-    {
-        if (!$mysqlTime) {
-            return '';
-        }
-
-        $format = 'l F jS, h:i:s A';
-        return $this->timezone->date($mysqlTime)->format($format);
-    }
-
-    /**
+     * Checks if the current digest spans multiple days.
+     *
      * @return bool
      */
     protected function digestSpansMultipleDays(): bool
@@ -161,11 +148,43 @@ class EntryBlock extends TemplateBlock
     }
 
     /**
+     * Retrieves the current digest from the current request, using the newest if none is specified.
+     *
+     * @return Digest|null
+     */
+    public function getDigest()
+    {
+        // TODO Change this to being getData and setData
+        if ($this->currentDigest === null) {
+            $this->currentDigest = $this->digestRequestHelper->getCurrentDigest($this->getRequest());
+        }
+        return $this->currentDigest;
+    }
+
+    /**
+     * Formats the specified time for the title attribute.
+     *
+     * @param string|\DateTime $mysqlTime
+     * @return string
+     */
+    public function formatTitleTime($mysqlTime): string
+    {
+        if (!$mysqlTime) {
+            return '';
+        }
+
+        $format = 'l F jS, h:i:s A';
+        return $this->timezone->date($mysqlTime)->format($format);
+    }
+
+    /**
+     * Replaces the placeholders in the specified message using the specified context.
+     *
      * @param string $message
      * @param DataObject $context
      * @return string
      */
-    public function replacePlaceholders($message, $context): string
+    public function replacePlaceholders(string $message, DataObject $context): string
     {
         return $this->placeholderReplacer->replace($message, $context);
     }

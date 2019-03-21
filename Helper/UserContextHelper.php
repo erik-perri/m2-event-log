@@ -25,10 +25,23 @@ class UserContextHelper
     public function __construct(
         Session $authSession,
         RemoteAddress $remoteAddress
-    )
-    {
+    ) {
         $this->authSession = $authSession;
         $this->remoteAddress = $remoteAddress;
+    }
+
+    /**
+     * @param array $context
+     * @return array
+     */
+    public function getContextFromCurrentUser($context = []): array
+    {
+        $user = $this->authSession->getUser();
+        if (!$user) {
+            return $context;
+        }
+
+        return $this->getContextFromUser($user, $context);
     }
 
     /**
@@ -47,20 +60,6 @@ class UserContextHelper
             'user-name' => $user->getUserName(),
             'user-ip' => $this->getClientIp(),
         ]);
-    }
-
-    /**
-     * @param array $context
-     * @return array
-     */
-    public function getContextFromCurrentUser($context = []): array
-    {
-        $user = $this->authSession->getUser();
-        if (!$user) {
-            return $context;
-        }
-
-        return $this->getContextFromUser($user, $context);
     }
 
     /**

@@ -43,8 +43,7 @@ class OrderReporter
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortBuilder,
         ManagerInterface $eventManager
-    )
-    {
+    ) {
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sortBuilder = $sortBuilder;
@@ -73,15 +72,20 @@ class OrderReporter
     }
 
     /**
-     * @param Digest $digest
-     * @param string $incrementId
+     * @param string $startMysqlTime
+     * @param string $endMysqlTime
+     * @return \Magento\Sales\Model\ResourceModel\Order\Collection|\Magento\Sales\Api\Data\OrderSearchResultInterface
      */
-    public function reportOrderByIncrementId(Digest $digest, $incrementId)
+    protected function findOrders($startMysqlTime, $endMysqlTime)
     {
-        $order = $this->findOrderByIncrementId($incrementId);
-        if ($order) {
-            $this->reportOrder($digest, $order);
-        }
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('status', 'canceled', 'neq')
+            ->addFilter('created_at', $startMysqlTime, 'gt')
+            ->addFilter('created_at', $endMysqlTime, 'lt')
+            ->addSortOrder($this->sortBuilder->setField('entity_id')->setDescendingDirection()->create())
+            ->create();
+
+        return $this->orderRepository->getList($searchCriteria);
     }
 
     /**
@@ -155,6 +159,18 @@ class OrderReporter
     }
 
     /**
+     * @param Digest $digest
+     * @param string $incrementId
+     */
+    public function reportOrderByIncrementId(Digest $digest, $incrementId)
+    {
+        $order = $this->findOrderByIncrementId($incrementId);
+        if ($order) {
+            $this->reportOrder($digest, $order);
+        }
+    }
+
+    /**
      * @param string $incrementId
      * @return Order|null
      */
@@ -166,22 +182,5 @@ class OrderReporter
             return reset($orderList);
         }
         return null;
-    }
-
-    /**
-     * @param string $startMysqlTime
-     * @param string $endMysqlTime
-     * @return \Magento\Sales\Model\ResourceModel\Order\Collection|\Magento\Sales\Api\Data\OrderSearchResultInterface
-     */
-    protected function findOrders($startMysqlTime, $endMysqlTime)
-    {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter('status', 'canceled', 'neq')
-            ->addFilter('created_at', $startMysqlTime, 'gt')
-            ->addFilter('created_at', $endMysqlTime, 'lt')
-            ->addSortOrder($this->sortBuilder->setField('entity_id')->setDescendingDirection()->create())
-            ->create();
-
-        return $this->orderRepository->getList($searchCriteria);
     }
 }

@@ -21,12 +21,12 @@ class SvgHelper
     }
 
     /**
+     * @param string $id
      * @return string
      */
-    protected function getFontAwesomeSvgPath(): string
+    public function getBrandSvg($id): string
     {
-        $componentPath = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, 'Ryvon_EventLog');
-        return sprintf('%s/view/assets/node_modules/@fortawesome/fontawesome-free/svgs', $componentPath);
+        return $this->getSvg('brands', $id);
     }
 
     /**
@@ -51,12 +51,12 @@ class SvgHelper
     }
 
     /**
-     * @param string $id
      * @return string
      */
-    public function getBrandSvg($id): string
+    protected function getFontAwesomeSvgPath(): string
     {
-        return $this->getSvg('brands', $id);
+        $componentPath = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, 'Ryvon_EventLog');
+        return sprintf('%s/view/assets/node_modules/@fortawesome/fontawesome-free/svgs', $componentPath);
     }
 
     /**
@@ -69,20 +69,20 @@ class SvgHelper
     }
 
     /**
+     * @return string
+     */
+    public function getStoreSvg(): string
+    {
+        return $this->getSolidSvg('store');
+    }
+
+    /**
      * @param string $id
      * @return string
      */
     public function getSolidSvg($id): string
     {
         return $this->getSvg('solid', $id);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStoreSvg(): string
-    {
-        return $this->getSolidSvg('store');
     }
 
     /**

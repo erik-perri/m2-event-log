@@ -4,6 +4,11 @@
 $links = $block->getData('links') ?: [];
 ?>
 
-<?php foreach ($links as $text => $url) { if (!$text || !$url) { continue; } ?>
-    <small style="margin-left: 15px;"><a class="btn" target="_blank" href="<?php echo $url; ?>"><?php echo $text; ?></a></small>
+<?php foreach ($links as $text => $url) {
+    if (!$text || !$url) {
+        continue;
+    } ?>
+    <small style="margin-left: 15px;">
+        <a class="btn" target="_blank" href="<?php echo $url; ?>"><?php echo $text; ?></a>
+    </small>
 <?php } ?>

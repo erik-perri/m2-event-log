@@ -6,6 +6,9 @@ use Ryvon\EventLog\Model\Entry;
 
 class DigestSummarizer
 {
+    /**
+     * The key used in the summary array for hidden duplicates.
+     */
     const HIDDEN_DUPLICATES_KEY = 'hidden-duplicates';
 
     /**
@@ -27,24 +30,6 @@ class DigestSummarizer
     public function __construct(DuplicateCheckerFactory $duplicateCheckerFactory)
     {
         $this->duplicateCheckerFactory = $duplicateCheckerFactory;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTypeMap(): array
-    {
-        return $this->typeMap;
-    }
-
-    /**
-     * @param array $typeMap
-     * @return DigestSummarizer
-     */
-    public function setTypeMap(array $typeMap): DigestSummarizer
-    {
-        $this->typeMap = $typeMap;
-        return $this;
     }
 
     /**
@@ -113,5 +98,23 @@ class DigestSummarizer
             $message[] = number_format($count) . ' ' . $text;
         }
         return implode(', ', $message);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypeMap(): array
+    {
+        return $this->typeMap;
+    }
+
+    /**
+     * @param array $typeMap
+     * @return DigestSummarizer
+     */
+    public function setTypeMap(array $typeMap): DigestSummarizer
+    {
+        $this->typeMap = $typeMap;
+        return $this;
     }
 }

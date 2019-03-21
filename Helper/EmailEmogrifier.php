@@ -17,6 +17,10 @@ class EmailEmogrifier
      */
     private $emogrifier;
 
+    /**
+     * @param ComponentRegistrarInterface $componentRegistrar
+     * @param \Pelago\Emogrifier $emogrifier
+     */
     public function __construct(ComponentRegistrarInterface $componentRegistrar, \Pelago\Emogrifier $emogrifier)
     {
         $this->componentRegistrar = $componentRegistrar;

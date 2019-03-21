@@ -87,8 +87,7 @@ class EmailBuilder
         DateRangeBuilder $dateRangeBuilder,
         EmailEmogrifier $emailEmogrifier,
         LayoutInterface $layout
-    )
-    {
+    ) {
         $this->transportBuilder = $transportBuilder;
         $this->entryRepository = $entryRepository;
         $this->digestSummarizer = $digestSummarizer;
@@ -137,9 +136,9 @@ class EmailBuilder
             $headerBlock = $this->layout->createBlock(\Magento\Backend\Block\Template::class);
             $headerBlock->setData('area', \Magento\Framework\App\Area::AREA_ADMINHTML);
             $headerHtml = $headerBlock->setTemplate('Ryvon_EventLog::email-header.phtml')
-                    ->setData('store-url', $this->getStoreUrl())
-                    ->setData('digest-url', $this->digestRequestHelper->getDigestUrl($digest))
-                    ->toHtml();
+                ->setData('store-url', $this->getStoreUrl())
+                ->setData('digest-url', $this->digestRequestHelper->getDigestUrl($digest))
+                ->toHtml();
             // We need to wrap both in a container or \DOMDocument will put emailHtml inside headerHtml's div.
             $emailHtml = '<div>' . $headerHtml . $emailHtml . '</div>';
         }
@@ -170,6 +169,20 @@ class EmailBuilder
         }
 
         return $builder;
+    }
+
+    /**
+     * @return string
+     */
+    private function getStoreUrl()
+    {
+        try {
+            /** @var \Magento\Store\Model\Store $store */
+            $store = $this->storeManager->getStore();
+            return $store->getBaseUrl();
+        } catch (NoSuchEntityException $e) {
+            return '/';
+        }
     }
 
     /**
@@ -230,19 +243,5 @@ class EmailBuilder
         libxml_use_internal_errors($previousUseInternalErrors);
 
         return $content;
-    }
-
-    /**
-     * @return string
-     */
-    private function getStoreUrl()
-    {
-        try {
-            /** @var \Magento\Store\Model\Store $store */
-            $store = $this->storeManager->getStore();
-            return $store->getBaseUrl();
-        } catch (NoSuchEntityException $e) {
-            return '/';
-        }
     }
 }

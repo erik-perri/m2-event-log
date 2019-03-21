@@ -78,6 +78,21 @@ class EntryResourceModel extends AbstractDb
     }
 
     /**
+     * @param Entry $entry
+     */
+    public function storeEntryContext(Entry $entry)
+    {
+        try {
+            $context = $entry->getEntryContext();
+            if ($context instanceof DataObject) {
+                $entry->setData('entry_context', $context->convertToJson());
+            }
+        } catch (\Exception $e) {
+            $entry->setData('entry_context', '[]');
+        }
+    }
+
+    /**
      * @param AbstractModel $object
      * @return AbstractDb
      */
@@ -103,21 +118,6 @@ class EntryResourceModel extends AbstractDb
             }
         } catch (\Exception $e) {
             $entry->setData('entry_context', $this->dataObjectFactory->create());
-        }
-    }
-
-    /**
-     * @param Entry $entry
-     */
-    public function storeEntryContext(Entry $entry)
-    {
-        try {
-            $context = $entry->getEntryContext();
-            if ($context instanceof DataObject) {
-                $entry->setData('entry_context', $context->convertToJson());
-            }
-        } catch (\Exception $e) {
-            $entry->setData('entry_context', '[]');
         }
     }
 }

@@ -8,8 +8,16 @@ use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\DigestRepository;
 use Magento\Backend\Block\Template;
 
+/**
+ * Block class for the date pagination for the administrator.
+ */
 class DateBlock extends Template
 {
+    /**
+     * @var DateRangeBuilder
+     */
+    private $dateRangeBuilder;
+
     /**
      * @var DigestRepository
      */
@@ -21,33 +29,29 @@ class DateBlock extends Template
     private $digestRequestHelper;
 
     /**
-     * @var DateRangeBuilder
-     */
-    private $dateRangeBuilder;
-
-    /**
+     * @param DateRangeBuilder $dateRangeBuilder
      * @param DigestRepository $digestRepository
      * @param DigestRequestHelper $digestRequestHelper
-     * @param DateRangeBuilder $dateRangeBuilder
      * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
+        DateRangeBuilder $dateRangeBuilder,
         DigestRepository $digestRepository,
         DigestRequestHelper $digestRequestHelper,
-        DateRangeBuilder $dateRangeBuilder,
         Template\Context $context,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
 
+        $this->dateRangeBuilder = $dateRangeBuilder;
         $this->digestRepository = $digestRepository;
         $this->digestRequestHelper = $digestRequestHelper;
-        $this->dateRangeBuilder = $dateRangeBuilder;
     }
 
     /**
+     * Retrieves the current digest from the current request, using the newest if none is specified.
+     *
      * @return Digest|null
      */
     public function getCurrentDigest()
@@ -56,6 +60,8 @@ class DateBlock extends Template
     }
 
     /**
+     * Retrieves the previous digest based on the specified digest.
+     *
      * @param Digest $digest
      * @return Digest|null
      */
@@ -65,6 +71,8 @@ class DateBlock extends Template
     }
 
     /**
+     * Retrieves the next digest based on the specified digest.
+     *
      * @param Digest $digest
      * @return Digest|null
      */
@@ -74,6 +82,8 @@ class DateBlock extends Template
     }
 
     /**
+     * Generates a digest URL for the specified digest.
+     *
      * @param Digest $digest
      * @return string
      */
@@ -83,6 +93,8 @@ class DateBlock extends Template
     }
 
     /**
+     * Helper function to retrieve the date range builder.
+     *
      * @return DateRangeBuilder
      */
     public function getDateRangeBuilder(): DateRangeBuilder

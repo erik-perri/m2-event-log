@@ -2,18 +2,18 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Ryvon\EventLog\Helper\PlaceholderReplacer;
+use Ryvon\EventLog\Helper\UserContextHelper;
+use Ryvon\EventLog\Model\Digest;
+use Ryvon\EventLog\Model\DigestRepository;
+use Ryvon\EventLog\Model\EntryRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\User\Model\User;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
-use Ryvon\EventLog\Model\Digest;
-use Ryvon\EventLog\Model\EntryRepository;
 use Psr\Log\LoggerInterface;
-use Ryvon\EventLog\Model\DigestRepository;
-use Ryvon\EventLog\Helper\UserContextHelper;
 
 class RecordEntryObserver implements ObserverInterface
 {
@@ -162,16 +162,21 @@ class RecordEntryObserver implements ObserverInterface
     }
 
     /**
-     * @return Digest|null
+     * @param \Magento\Framework\Event $event
+     * @return string|null
      */
-    private function findOrCreateDigest()
+    private function getEntryLevelFromEventName($event)
     {
-        $digest = $this->digestRepository->findNewestUnfinishedDigest();
-        if (!$digest) {
-            $digest = $this->digestRepository->createNewDigest();
+        if (!$event || !$event->getName()) {
+            return null;
         }
 
-        return $digest;
+        $match = '#^event_log_([a-z]+)$#i';
+        if (!preg_match($match, $event->getName())) {
+            return null;
+        }
+
+        return preg_replace('#^event_log_([a-z]+)$#i', '$1', $event->getName());
     }
 
     /**
@@ -194,20 +199,15 @@ class RecordEntryObserver implements ObserverInterface
     }
 
     /**
-     * @param \Magento\Framework\Event $event
-     * @return string|null
+     * @return Digest|null
      */
-    private function getEntryLevelFromEventName($event)
+    private function findOrCreateDigest()
     {
-        if (!$event || !$event->getName()) {
-            return null;
+        $digest = $this->digestRepository->findNewestUnfinishedDigest();
+        if (!$digest) {
+            $digest = $this->digestRepository->createNewDigest();
         }
 
-        $match = '#^event_log_([a-z]+)$#i';
-        if (!preg_match($match, $event->getName())) {
-            return null;
-        }
-
-        return preg_replace('#^event_log_([a-z]+)$#i', '$1', $event->getName());
+        return $digest;
     }
 }

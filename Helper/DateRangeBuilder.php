@@ -30,42 +30,6 @@ class DateRangeBuilder
     }
 
     /**
-     * @return string
-     */
-    public function getDateWrapper(): string
-    {
-        return $this->dateWrapper;
-    }
-
-    /**
-     * @param string $dateWrapper
-     * @return DateRangeBuilder
-     */
-    public function setDateWrapper(string $dateWrapper): DateRangeBuilder
-    {
-        $this->dateWrapper = $dateWrapper;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTimeWrapper(): string
-    {
-        return $this->timeWrapper;
-    }
-
-    /**
-     * @param string $timeWrapper
-     * @return DateRangeBuilder
-     */
-    public function setTimeWrapper(string $timeWrapper): DateRangeBuilder
-    {
-        $this->timeWrapper = $timeWrapper;
-        return $this;
-    }
-
-    /**
      * @param \DateTime|string $startedAt
      * @param \DateTime|string|null $finishedAt
      * @return string
@@ -116,6 +80,33 @@ class DateRangeBuilder
     }
 
     /**
+     * @param string $time
+     * @return string
+     */
+    private function wrapDate(string $time): string
+    {
+        return sprintf($this->getDateWrapper(), $time);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateWrapper(): string
+    {
+        return $this->dateWrapper;
+    }
+
+    /**
+     * @param string $dateWrapper
+     * @return DateRangeBuilder
+     */
+    public function setDateWrapper(string $dateWrapper): DateRangeBuilder
+    {
+        $this->dateWrapper = $dateWrapper;
+        return $this;
+    }
+
+    /**
      * @param \DateTime|string $startedAt
      * @param \DateTime|string|null $finishedAt
      * @return string
@@ -144,17 +135,26 @@ class DateRangeBuilder
      * @param string $time
      * @return string
      */
-    private function wrapDate(string $time): string
-    {
-        return sprintf($this->getDateWrapper(), $time);
-    }
-
-    /**
-     * @param string $time
-     * @return string
-     */
     private function wrapTime(string $time): string
     {
         return sprintf($this->getTimeWrapper(), $time);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeWrapper(): string
+    {
+        return $this->timeWrapper;
+    }
+
+    /**
+     * @param string $timeWrapper
+     * @return DateRangeBuilder
+     */
+    public function setTimeWrapper(string $timeWrapper): DateRangeBuilder
+    {
+        $this->timeWrapper = $timeWrapper;
+        return $this;
     }
 }

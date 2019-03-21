@@ -53,8 +53,7 @@ class UrlKeyDisableChecker
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         $whitelist = []
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->digestRepository = $digestRepository;
         $this->config = $config;

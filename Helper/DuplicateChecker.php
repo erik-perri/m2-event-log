@@ -13,15 +13,6 @@ class DuplicateChecker
 
     /**
      * @param Entry $entry
-     * @return bool
-     */
-    public function isExcluded(Entry $entry): bool
-    {
-        return $entry->getEntryLevel() === 'security';
-    }
-
-    /**
-     * @param Entry $entry
      * @param bool $addToList
      * @return bool
      */
@@ -47,11 +38,11 @@ class DuplicateChecker
 
     /**
      * @param Entry $entry
-     * @return int
+     * @return bool
      */
-    public function getCount(Entry $entry): int
+    public function isExcluded(Entry $entry): bool
     {
-        return $this->shown[$this->getHash($entry)] ?? 0;
+        return $entry->getEntryLevel() === 'security';
     }
 
     /**
@@ -66,6 +57,15 @@ class DuplicateChecker
             $entry->getEntryMessage() .
             $entry->getEntryContext()->convertToJson()
         );
+    }
+
+    /**
+     * @param Entry $entry
+     * @return int
+     */
+    public function getCount(Entry $entry): int
+    {
+        return $this->shown[$this->getHash($entry)] ?? 0;
     }
 
     /**

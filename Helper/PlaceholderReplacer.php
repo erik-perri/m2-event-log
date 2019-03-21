@@ -30,24 +30,6 @@ class PlaceholderReplacer
     }
 
     /**
-     * @return string
-     */
-    public function getUnknownText(): string
-    {
-        return $this->unknownText;
-    }
-
-    /**
-     * @param string $unknownText
-     * @return PlaceholderReplacer
-     */
-    public function setUnknownText(string $unknownText): PlaceholderReplacer
-    {
-        $this->unknownText = $unknownText;
-        return $this;
-    }
-
-    /**
      * @param PlaceholderInterface $placeholder
      * @return PlaceholderReplacer
      */
@@ -90,5 +72,23 @@ class PlaceholderReplacer
                 (!is_object($value) && settype($value, 'string') !== false) ||
                 (is_object($value) && method_exists($value, '__toString'))
             );
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnknownText(): string
+    {
+        return $this->unknownText;
+    }
+
+    /**
+     * @param string $unknownText
+     * @return PlaceholderReplacer
+     */
+    public function setUnknownText(string $unknownText): PlaceholderReplacer
+    {
+        $this->unknownText = $unknownText;
+        return $this;
     }
 }

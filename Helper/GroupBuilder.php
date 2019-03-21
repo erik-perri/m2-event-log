@@ -40,8 +40,7 @@ class GroupBuilder
         EntryRepository $entryRepository,
         GroupSorter $groupSorter,
         GroupFinder $groupFinder
-    )
-    {
+    ) {
         $this->entryRepository = $entryRepository;
         $this->groupSorter = $groupSorter;
         $this->groupFinder = $groupFinder;

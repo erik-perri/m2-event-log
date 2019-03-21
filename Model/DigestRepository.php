@@ -86,6 +86,18 @@ class DigestRepository
     }
 
     /**
+     * @return string|null
+     */
+    private function getNow()
+    {
+        try {
+            return (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s');
+        } catch (\Exception $e) {
+        }
+        return null;
+    }
+
+    /**
      * @param Digest $digest
      * @return bool
      */
@@ -124,6 +136,26 @@ class DigestRepository
     }
 
     /**
+     * @param callable $setupCollection
+     * @return Digest|null
+     */
+    private function findFirst(callable $setupCollection)
+    {
+        $collection = $this->digestCollectionFactory->create();
+
+        $setupCollection($collection);
+
+        $collection->setPageSize(1)->setCurPage(1);
+
+        $items = $collection->getItems();
+        if (count($items)) {
+            return reset($items);
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $startingDate
      * @return Digest|null
      */
@@ -145,37 +177,5 @@ class DigestRepository
             $collection->addFieldToFilter('started_at', ['gt' => $startingDate]);
             $collection->setOrder('started_at', DigestCollection::SORT_ORDER_ASC);
         });
-    }
-
-    /**
-     * @param callable $setupCollection
-     * @return Digest|null
-     */
-    private function findFirst(callable $setupCollection)
-    {
-        $collection = $this->digestCollectionFactory->create();
-
-        $setupCollection($collection);
-
-        $collection->setPageSize(1)->setCurPage(1);
-
-        $items = $collection->getItems();
-        if (count($items)) {
-            return reset($items);
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string|null
-     */
-    private function getNow()
-    {
-        try {
-            return (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s');
-        } catch (\Exception $e) {
-        }
-        return null;
     }
 }

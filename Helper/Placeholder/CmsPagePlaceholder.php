@@ -44,8 +44,7 @@ class CmsPagePlaceholder implements PlaceholderInterface
         PageHelper $pageHelper,
         PageRepository $pageRepository,
         SvgHelper $svgHelper
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->pageHelper = $pageHelper;
         $this->pageRepository = $pageRepository;

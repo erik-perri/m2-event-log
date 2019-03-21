@@ -5,9 +5,14 @@ namespace Ryvon\EventLog\Helper\Group;
 use Ryvon\EventLog\Helper\Group\Template\OrdersTemplate;
 use Ryvon\EventLog\Helper\Group\Template\TemplateInterface;
 
+/**
+ * Log group for orders made during the digest time window.
+ */
 class OrdersGroup extends AbstractGroup
 {
     /**
+     * @inheritdoc
+     *
      * @return void
      */
     public function initialize()
@@ -16,6 +21,8 @@ class OrdersGroup extends AbstractGroup
     }
 
     /**
+     * @inheritdoc
+     *
      * @return string
      */
     public function getTitle(): string
@@ -24,6 +31,8 @@ class OrdersGroup extends AbstractGroup
     }
 
     /**
+     * @inheritdoc
+     *
      * @return TemplateInterface
      */
     public function getTemplate(): TemplateInterface
@@ -32,6 +41,8 @@ class OrdersGroup extends AbstractGroup
     }
 
     /**
+     * @inheritdoc
+     *
      * @return int
      */
     public function getSortOrder(): int

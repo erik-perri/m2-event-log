@@ -90,26 +90,6 @@ class EntryRepository
     }
 
     /**
-     * Find entries in the specified digest
-     *
-     * @param Digest $digest
-     * @return EntryCollection
-     */
-    public function findInDigest(Digest $digest): EntryCollection
-    {
-        $collection = $this->entryCollectionFactory->create();
-
-        $collection->setHideDuplicates(false);
-        $collection->removeAllFieldsFromSelect()->addFieldToSelect(['entry_id', 'entry_group', 'entry_level']);
-        $collection->addFieldToFilter('digest_id', ['eq' => $digest->getId()]);
-        $collection->setOrder('entry_group', DigestCollection::SORT_ORDER_ASC);
-        $collection->addOrder('created_at', DigestCollection::SORT_ORDER_ASC);
-        $collection->addOrder('entry_message', DigestCollection::SORT_ORDER_ASC);
-
-        return $collection;
-    }
-
-    /**
      * Find the entries in the group
      *
      * @param Digest $digest
@@ -144,5 +124,25 @@ class EntryRepository
         }
 
         return $return;
+    }
+
+    /**
+     * Find entries in the specified digest
+     *
+     * @param Digest $digest
+     * @return EntryCollection
+     */
+    public function findInDigest(Digest $digest): EntryCollection
+    {
+        $collection = $this->entryCollectionFactory->create();
+
+        $collection->setHideDuplicates(false);
+        $collection->removeAllFieldsFromSelect()->addFieldToSelect(['entry_id', 'entry_group', 'entry_level']);
+        $collection->addFieldToFilter('digest_id', ['eq' => $digest->getId()]);
+        $collection->setOrder('entry_group', DigestCollection::SORT_ORDER_ASC);
+        $collection->addOrder('created_at', DigestCollection::SORT_ORDER_ASC);
+        $collection->addOrder('entry_message', DigestCollection::SORT_ORDER_ASC);
+
+        return $collection;
     }
 }

@@ -6,6 +6,9 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Event log digest index controller.
+ */
 class Index extends Action
 {
     /**
@@ -25,6 +28,8 @@ class Index extends Action
     }
 
     /**
+     * Executes the action.
+     *
      * @return ResultInterface
      */
     public function execute(): ResultInterface

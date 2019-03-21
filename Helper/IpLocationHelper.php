@@ -49,20 +49,6 @@ class IpLocationHelper
     }
 
     /**
-     * @param string $ip
-     * @return string|null
-     */
-    public function getLocateUrl($ip)
-    {
-        $valid = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-        if (!$valid) {
-            return null;
-        }
-
-        return $this->urlBuilder->getUrl('event_log/lookup/ip', ['v' => $valid]);
-    }
-
-    /**
      * @param $ip
      * @param array $attributes
      * @param string $child
@@ -92,5 +78,19 @@ class IpLocationHelper
         $content = str_replace('{icon}', $this->svgHelper->getSearchLocationSvg(), $child);
 
         return sprintf('<%s %s>%s</%s>', $tag, implode(' ', $parameters), $content, $tag);
+    }
+
+    /**
+     * @param string $ip
+     * @return string|null
+     */
+    public function getLocateUrl($ip)
+    {
+        $valid = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+        if (!$valid) {
+            return null;
+        }
+
+        return $this->urlBuilder->getUrl('event_log/lookup/ip', ['v' => $valid]);
     }
 }

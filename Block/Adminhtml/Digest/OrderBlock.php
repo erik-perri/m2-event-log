@@ -10,6 +10,9 @@ use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
 use Magento\Framework\Stdlib\DateTime\Timezone;
 
+/**
+ * Block class for the order entry block for both the administrator and email.
+ */
 class OrderBlock extends EntryBlock
 {
     /**
@@ -28,12 +31,12 @@ class OrderBlock extends EntryBlock
     private $urlBuilder;
 
     /**
-     * @param UrlInterface $urlBuilder
-     * @param IpLocationHelper $locationHelper
-     * @param PricingHelper $priceHelper
      * @param DigestRequestHelper $digestRequestHelper
+     * @param IpLocationHelper $locationHelper
      * @param PlaceholderReplacer $placeholderReplacer
+     * @param PricingHelper $priceHelper
      * @param Timezone $timezone
+     * @param UrlInterface $urlBuilder
      * @param Template\Context $context
      * @param array $data
      */
@@ -46,8 +49,7 @@ class OrderBlock extends EntryBlock
         UrlInterface $urlBuilder,
         Template\Context $context,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($digestRequestHelper, $placeholderReplacer, $timezone, $context, $data);
 
         $this->locationHelper = $locationHelper;
@@ -56,6 +58,8 @@ class OrderBlock extends EntryBlock
     }
 
     /**
+     * Generates an order edit URL for the specified order.
+     *
      * @param string|int $orderId
      * @return string
      */
@@ -67,6 +71,8 @@ class OrderBlock extends EntryBlock
     }
 
     /**
+     * Formats the specified price using the default Magento price formatter.
+     *
      * @param float $price
      * @return string
      */
@@ -80,7 +86,9 @@ class OrderBlock extends EntryBlock
     }
 
     /**
-     * @param $mysqlTime
+     * Formats the specified time for the order table.
+     *
+     * @param string|\DateTime $mysqlTime
      * @return string
      */
     public function formatOrderTime($mysqlTime): string
@@ -94,6 +102,8 @@ class OrderBlock extends EntryBlock
     }
 
     /**
+     * Helper function to retrieve the IP location helper.
+     *
      * @return IpLocationHelper
      */
     public function getLocationHelper(): IpLocationHelper

@@ -35,8 +35,7 @@ class OrderPlaceholder implements PlaceholderInterface
         UrlInterface $urlBuilder,
         OrderRepository $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;

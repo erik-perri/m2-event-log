@@ -24,8 +24,7 @@ class StoreViewFinder
     public function __construct(
         RequestInterface $request,
         Store $systemStore
-    )
-    {
+    ) {
         $this->request = $request;
         $this->systemStore = $systemStore;
     }

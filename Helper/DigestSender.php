@@ -41,8 +41,7 @@ class DigestSender
         ManagerInterface $eventManager,
         DigestRepository $digestRepository,
         EmailBuilder $emailHelper
-    )
-    {
+    ) {
         $this->eventManager = $eventManager;
         $this->digestRepository = $digestRepository;
         $this->emailHelper = $emailHelper;
@@ -67,8 +66,8 @@ class DigestSender
 
             if (!$this->digestRepository->createNewDigest()) {
                 $this->logger->critical('Failed to create next digest');
-                // Don't return false, whatever is asking us to finish the digest
-                // doesn't care whether the next was created or not.
+                // Don't return false, whatever is asking us to finish the digest doesn't care whether the next was
+                // created or not.
             }
         }
 

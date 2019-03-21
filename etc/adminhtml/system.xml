@@ -1,37 +1,80 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
 
-        <section id="system" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="system"
+                 translate="label"
+                 type="text"
+                 sortOrder="900"
+                 showInDefault="1"
+                 showInWebsite="1"
+                 showInStore="1">
             <class>separator-top</class>
             <label>System</label>
             <tab>advanced</tab>
             <resource>Magento_Config::config_system</resource>
 
-            <group id="event_log" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="event_log"
+                   translate="label"
+                   type="text"
+                   sortOrder="1000"
+                   showInDefault="1"
+                   showInWebsite="1"
+                   showInStore="1">
                 <label>Event Log</label>
-                <field id="hide_duplicates" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="hide_duplicates"
+                       translate="label"
+                       type="select"
+                       sortOrder="10"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Hide Duplicate Entries</label>
                     <comment>This will only hide messages that are not security related.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="internal_digest_cron" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="internal_digest_cron"
+                       translate="label"
+                       type="select"
+                       sortOrder="20"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Run Cron Through Magento</label>
                     <comment>You will need to setup the cron manually if you choose no.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="enable_digest_email" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enable_digest_email"
+                       translate="label"
+                       type="select"
+                       sortOrder="30"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Enable Digest Email</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="sender_email_identity" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="sender_email_identity"
+                       translate="label"
+                       type="select"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Email Sender</label>
                     <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
                     <depends>
                         <field id="system/event_log/enable_digest_email">1</field>
                     </depends>
                 </field>
-                <field id="recipient_email" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="recipient_email"
+                       translate="label"
+                       type="text"
+                       sortOrder="50"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Send Digest Emails To</label>
                     <comment>Comma separate multiple emails.</comment>
                     <validate>validate-emails</validate>
@@ -39,14 +82,26 @@
                         <field id="system/event_log/enable_digest_email">1</field>
                     </depends>
                 </field>
-                <field id="links_in_email" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="links_in_email"
+                       translate="label"
+                       type="select"
+                       sortOrder="60"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Include Links In Email</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="system/event_log/enable_digest_email">1</field>
                     </depends>
                 </field>
-                <field id="bypass_url_key" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="bypass_url_key"
+                       translate="label"
+                       type="select"
+                       sortOrder="60"
+                       showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
                     <label>Bypass Secret Key For URLs In Email</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>

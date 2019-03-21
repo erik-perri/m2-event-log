@@ -36,7 +36,7 @@ class DisableBackendValidatorPlugin
     /**
      * @param BackendValidator $subject
      * @param callable $proceed
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param RequestInterface $request
      * @param ActionInterface $action
      * @return mixed
      */

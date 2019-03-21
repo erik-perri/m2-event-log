@@ -7,6 +7,9 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
+/**
+ * Monitors for the admin login failed event.
+ */
 class AdminLoginFailedObserver implements ObserverInterface
 {
     /**
@@ -32,7 +35,7 @@ class AdminLoginFailedObserver implements ObserverInterface
         $this->userContextHelper = $userContextHelper;
     }
 
-    /*
+    /**
      * @param Observer $observer
      */
     public function execute(Observer $observer)

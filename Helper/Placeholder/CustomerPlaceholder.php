@@ -29,8 +29,7 @@ class CustomerPlaceholder implements PlaceholderInterface
     public function __construct(
         UrlInterface $urlBuilder,
         CustomerRepository $customerRepository
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->customerRepository = $customerRepository;
     }

@@ -37,8 +37,7 @@ class CategoryPlaceholder implements PlaceholderInterface
         UrlInterface $urlBuilder,
         CategoryRepository $categoryRepository,
         SvgHelper $svgHelper
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->categoryRepository = $categoryRepository;
         $this->svgHelper = $svgHelper;

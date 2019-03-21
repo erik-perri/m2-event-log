@@ -2,6 +2,11 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
+/**
+ * Log group for any defined groups that don't have a group class associated with it. Ideally this will only be used on
+ * log entries that had the plugin which created them removed. The title is generated based on the group id by replacing
+ * dashes and underscores with spaces.
+ */
 class MissingGroup extends AbstractGroup
 {
     /**
@@ -10,6 +15,8 @@ class MissingGroup extends AbstractGroup
     private $title;
 
     /**
+     * @inheritdoc
+     *
      * @return string
      */
     public function getTitle(): string
@@ -18,6 +25,8 @@ class MissingGroup extends AbstractGroup
     }
 
     /**
+     * Set the title of the missing group.
+     *
      * @param string $title
      * @return MissingGroup
      */
@@ -28,6 +37,8 @@ class MissingGroup extends AbstractGroup
     }
 
     /**
+     * @inheritdoc
+     *
      * @return int
      */
     public function getSortOrder(): int

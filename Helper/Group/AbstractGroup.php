@@ -7,6 +7,9 @@ use Ryvon\EventLog\Helper\Group\Template\TemplateInterface;
 use Ryvon\EventLog\Model\EntryCollection;
 use Magento\Backend\Model\UrlInterface;
 
+/**
+ * Abstract class for log groups that need customization.
+ */
 abstract class AbstractGroup implements GroupInterface
 {
     /**
@@ -40,6 +43,8 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * Called in constructor to allow plugins or sub-classes to override and call addHeadingLink.
+     *
      * @return void
      */
     public function initialize()
@@ -47,14 +52,8 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
-     * @return UrlInterface
-     */
-    protected function getUrlBuilder(): UrlInterface
-    {
-        return $this->urlBuilder;
-    }
-
-    /**
+     * @inheritdoc
+     *
      * @return int
      */
     public function getSortOrder(): int
@@ -63,6 +62,8 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @return TemplateInterface
      */
     public function getTemplate(): TemplateInterface
@@ -71,6 +72,8 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param EntryCollection $entries
      * @return $this
      */
@@ -81,6 +84,8 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @return EntryCollection
      */
     public function getEntryCollection(): EntryCollection
@@ -89,21 +94,35 @@ abstract class AbstractGroup implements GroupInterface
     }
 
     /**
+     * Adds a link to the heading of the block.
+     *
      * @param string $text
      * @param string $href
      * @return AbstractGroup
      */
-    public function addHeadingLink($text, $href): AbstractGroup
+    public function addHeadingLink(string $text, string $href): AbstractGroup
     {
         $this->headingLinks[$text] = $href;
         return $this;
     }
 
     /**
+     * @inheritdoc
+     *
      * @return array
      */
     public function getHeadingLinks(): array
     {
         return $this->headingLinks;
+    }
+
+    /**
+     * Helper function to retrieve the Url builder.
+     *
+     * @return UrlInterface
+     */
+    protected function getUrlBuilder(): UrlInterface
+    {
+        return $this->urlBuilder;
     }
 }

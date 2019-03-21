@@ -9,6 +9,9 @@ use Ryvon\EventLog\Helper\GroupBuilder;
 use Ryvon\EventLog\Model\Digest;
 use Magento\Backend\Block\Template;
 
+/**
+ * Block class for the digest index for both the administrator and email.
+ */
 class IndexBlock extends TemplateBlock
 {
     /**
@@ -37,8 +40,7 @@ class IndexBlock extends TemplateBlock
         GroupBuilder $groupBuilder,
         Template\Context $context,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $data);
 
         $this->digestRequestHelper = $digestRequestHelper;
@@ -46,16 +48,8 @@ class IndexBlock extends TemplateBlock
     }
 
     /**
-     * @param Digest $digest
-     * @return IndexBlock
-     */
-    public function setCurrentDigest(Digest $digest): IndexBlock
-    {
-        $this->currentDigest = $digest;
-        return $this;
-    }
-
-    /**
+     * Retrieves the current digest from the current request, using the newest if none is specified.
+     *
      * @return Digest|null
      */
     public function getCurrentDigest()
@@ -68,6 +62,20 @@ class IndexBlock extends TemplateBlock
     }
 
     /**
+     * Set the current digest. This is used in the cron/CLI email sending since no request is available.
+     *
+     * @param Digest $digest
+     * @return IndexBlock
+     */
+    public function setCurrentDigest(Digest $digest): IndexBlock
+    {
+        $this->currentDigest = $digest;
+        return $this;
+    }
+
+    /**
+     * Retrieves the group classes and groups the entries in them.
+     *
      * @param Digest $digest
      * @return GroupInterface[]
      */
@@ -77,6 +85,10 @@ class IndexBlock extends TemplateBlock
     }
 
     /**
+     * Retrieves the setting for whether or not the store is in single-store mode.
+     *
+     * If the store is in single-store mode there is no need to render the store view column.
+     *
      * @return bool
      */
     public function isSingleStoreMode(): bool

@@ -28,8 +28,8 @@ if (!$block->getData('single-store-mode')) {
                 $displayCount = number_format($duplicates - 1);
                 ?>
                 <span class="duplicate-count" title="<?php
-                            echo sprintf('%s %s', $displayCount, $displayCount === '1' ? 'duplicate' : 'duplicates');
-                        ?> of this message <?php echo $displayCount === '1' ? 'was' : 'were'; ?> hidden, this is the most recent.">
+                echo sprintf('%s %s', $displayCount, $displayCount === '1' ? 'duplicate' : 'duplicates');
+                ?> of this message <?php echo $displayCount === '1' ? 'was' : 'were'; ?> hidden, this is the most recent.">
                     +<?php echo $displayCount; ?>
                 </span>
                 <?php

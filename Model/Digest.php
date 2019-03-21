@@ -5,6 +5,8 @@ namespace Ryvon\EventLog\Model;
 use Magento\Framework\Model\AbstractModel;
 
 /**
+ * Digest model
+ *
  * @method bool hasCreatedAt()
  * @method string getCreatedAt()
  * @method void setCreatedAt(string $time)
@@ -28,6 +30,8 @@ use Magento\Framework\Model\AbstractModel;
 class Digest extends AbstractModel
 {
     /**
+     * Initialize the model
+     *
      * @noinspection MagicMethodsValidityInspection
      * @return void
      */

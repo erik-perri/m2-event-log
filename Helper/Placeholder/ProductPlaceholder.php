@@ -45,8 +45,7 @@ class ProductPlaceholder implements PlaceholderInterface
         ProductRepositoryInterface $productRepository,
         StoreManagerInterface $storeManager,
         SvgHelper $svgHelper
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->productRepository = $productRepository;
         $this->storeManager = $storeManager;

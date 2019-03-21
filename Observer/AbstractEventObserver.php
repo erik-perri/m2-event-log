@@ -7,6 +7,9 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
+/**
+ * Base class for log observers that are monitoring for a generic event.
+ */
 abstract class AbstractEventObserver implements ObserverInterface
 {
     /**

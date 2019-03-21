@@ -35,8 +35,7 @@ class UserNamePlaceholder implements PlaceholderInterface
         UrlInterface $urlBuilder,
         User $userResourceModel,
         UserFactory $userFactory
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->userFactory = $userFactory;
         $this->userResourceModel = $userResourceModel;

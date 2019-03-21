@@ -14,6 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Command to finish the most recent (or specified) digest.
+ */
 class FinishDigestCommand extends Command
 {
     /**
@@ -52,8 +55,7 @@ class FinishDigestCommand extends Command
         Config $config,
         DigestRepository $digestRepository,
         ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->state = $state;
@@ -63,7 +65,7 @@ class FinishDigestCommand extends Command
     }
 
     /**
-     *
+     * Configures the command.
      */
     protected function configure()
     {
@@ -77,6 +79,8 @@ class FinishDigestCommand extends Command
     }
 
     /**
+     * Executes the command.
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      */
