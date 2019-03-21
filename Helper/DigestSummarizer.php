@@ -2,7 +2,6 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Entry;
 
 class DigestSummarizer
@@ -10,33 +9,50 @@ class DigestSummarizer
     const HIDDEN_DUPLICATES_KEY = 'hidden-duplicates';
 
     /**
-     * @var Config
-     */
-    private $config;
-
-    /**
      * @var DuplicateCheckerFactory
      */
     private $duplicateCheckerFactory;
 
     /**
-     * @param Config $config
+     * @var array
+     */
+    private $typeMap = [
+        'error' => ['issue', 'issues'],
+        'warning' => ['notice', 'notices'],
+    ];
+
+    /**
      * @param DuplicateCheckerFactory $duplicateCheckerFactory
      */
-    public function __construct(
-        Config $config,
-        DuplicateCheckerFactory $duplicateCheckerFactory
-    )
+    public function __construct(DuplicateCheckerFactory $duplicateCheckerFactory)
     {
-        $this->config = $config;
         $this->duplicateCheckerFactory = $duplicateCheckerFactory;
     }
 
     /**
-     * @param Entry[] $entries
      * @return array
      */
-    public function summarize($entries): array
+    public function getTypeMap(): array
+    {
+        return $this->typeMap;
+    }
+
+    /**
+     * @param array $typeMap
+     * @return DigestSummarizer
+     */
+    public function setTypeMap(array $typeMap): DigestSummarizer
+    {
+        $this->typeMap = $typeMap;
+        return $this;
+    }
+
+    /**
+     * @param Entry[] $entries
+     * @param bool $hideDuplicates
+     * @return array
+     */
+    public function summarize($entries, bool $hideDuplicates): array
     {
         $counts = [
             'error' => 0,
@@ -45,21 +61,23 @@ class DigestSummarizer
             static::HIDDEN_DUPLICATES_KEY => 0,
         ];
 
+        if (!$entries) {
+            return $counts;
+        }
+
         /** @var DuplicateChecker $duplicateChecker */
         $duplicateChecker = $this->duplicateCheckerFactory->create();
-
-        $hideDuplicates = $this->config->getHideDuplicateEntries();
 
         foreach ($entries as $entry) {
             $level = $entry->getEntryLevel();
 
-            if ($level === 'security') {
-                $level = 'warning';
-            }
-
             if ($hideDuplicates && $duplicateChecker->isDuplicate($entry)) {
                 $counts[static::HIDDEN_DUPLICATES_KEY] = isset($counts[static::HIDDEN_DUPLICATES_KEY]) ? $counts[static::HIDDEN_DUPLICATES_KEY] + 1 : 1;
                 continue;
+            }
+
+            if ($level === 'security') {
+                $level = 'warning';
             }
 
             $counts[$level] = isset($counts[$level]) ? $counts[$level] + 1 : 1;
@@ -69,27 +87,13 @@ class DigestSummarizer
     }
 
     /**
-     * @param Entry[] $entries
-     * @param bool $includeEmpty
-     * @return string
-     */
-    public function buildSummaryMessage($entries, $includeEmpty = false): string
-    {
-        $summary = $this->summarize($entries);
-        return $this->getSummaryMessage($summary, $includeEmpty);
-    }
-
-    /**
      * @param array $summary
      * @param bool $includeEmpty
      * @return string
      */
     public function getSummaryMessage($summary, $includeEmpty): string
     {
-        $map = [
-            'error' => ['issue', 'issues'],
-            'warning' => ['notice', 'notices'],
-        ];
+        $map = $this->getTypeMap();
         $message = [];
         foreach ($summary as $key => $count) {
             if (!isset($map[$key])) {
@@ -99,7 +103,14 @@ class DigestSummarizer
                 continue;
             }
 
-            $message[] = number_format($count) . ' ' . ($count === 1 ? $map[$key][0] : $map[$key][1]);
+            $text = $key;
+            if (is_string($map[$key])) {
+                $text = $map[$key];
+            } else if (isset($map[$key][0], $map[$key][1])) {
+                $text = ($count === 1 ? $map[$key][0] : $map[$key][1]);
+            }
+
+            $message[] = number_format($count) . ' ' . $text;
         }
         return implode(', ', $message);
     }

@@ -2,46 +2,25 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Ryvon\EventLog\Model\Entry;
+use Ryvon\EventLog\Helper\Group\GroupInterface;
 
 class GroupSorter
 {
     const UNKNOWN_GROUP_ORDER = Group\AbstractGroup::SORT_ORDER + 5;
 
     /**
-     * @var GroupFinder
+     * @param GroupInterface[] $groups
+     * @return array|GroupInterface[]
      */
-    private $groupFinder;
-
-    /**
-     * @param GroupFinder $groupFinder
-     */
-    public function __construct(GroupFinder $groupFinder)
+    public function sort(array $groups): array
     {
-        $this->groupFinder = $groupFinder;
-    }
-
-    /**
-     * @param Entry[] $entries
-     * @return Entry[][]
-     */
-    public function groupEntries($entries): array
-    {
-        $groups = [];
-
-        foreach ($entries as $entry) {
-            $groups[$entry->getEntryGroup()][] = $entry;
-        }
-
-        uksort($groups, function ($groupA, $groupB) {
-            $groupInstanceA = $this->groupFinder->findGroup($groupA);
-            $groupInstanceB = $this->groupFinder->findGroup($groupB);
-            $orderA = $groupInstanceA ? $groupInstanceA->getSortOrder() : static::UNKNOWN_GROUP_ORDER;
-            $orderB = $groupInstanceB ? $groupInstanceB->getSortOrder() : static::UNKNOWN_GROUP_ORDER;
+        usort($groups, function (GroupInterface $groupA, GroupInterface $groupB) {
+            $orderA = $groupA->getSortOrder();
+            $orderB = $groupB->getSortOrder();
             if ($orderA !== $orderB) {
                 return $orderA - $orderB;
             }
-            return strcasecmp($groupA, $groupB);
+            return strcasecmp($groupA->getTitle(), $groupB->getTitle());
         });
 
         return $groups;

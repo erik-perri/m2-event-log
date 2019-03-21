@@ -1,11 +1,19 @@
 <?php
-/** @var \Magento\Backend\Block\Template $block */
+/** @var \Ryvon\EventLog\Block\Adminhtml\TemplateBlock $block */
+
 ?>
 <tr>
     <th class="data-grid-th" colspan="10">
         <span class="data-grid-cell-content">
             <span class="group-title"><?php echo $block->getData('title'); ?></span>
-            <?php echo $block->getData('links') ?: ''; ?>
+            <?php
+            $links = $block->getData('links');
+            if ($links) {
+                echo $block->renderBlock('Ryvon_EventLog::heading/links.phtml', \Magento\Backend\Block\Template::class, [
+                    'links' => $block->getData('links'),
+                ]);
+            }
+            ?>
             <small class="group-message"><?php echo $block->getData('summary'); ?></small>
         </span>
     </th>

@@ -2,36 +2,17 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
-use Ryvon\EventLog\Block\Adminhtml\Digest\OrderBlock;
+use Ryvon\EventLog\Helper\Group\Template\OrdersTemplate;
+use Ryvon\EventLog\Helper\Group\Template\TemplateInterface;
 
 class OrdersGroup extends AbstractGroup
 {
     /**
-     * @var string
+     * @return void
      */
-    const HEADER_TEMPLATE = 'Ryvon_EventLog::heading/orders.phtml';
-
-    /**
-     * @var string
-     */
-    const ENTRY_TEMPLATE = 'Ryvon_EventLog::entry/orders.phtml';
-
-    /**
-     * @var string
-     */
-    const ENTRY_BLOCK_CLASS = OrderBlock::class;
-
-    /**
-     * @var int
-     */
-    const SORT_ORDER = 30;
-
-    /**
-     * @return string
-     */
-    public function getId(): string
+    public function initialize()
     {
-        return 'orders';
+        $this->addHeadingLink('View All Orders', $this->getUrlBuilder()->getUrl('sales/order/index'));
     }
 
     /**
@@ -43,10 +24,18 @@ class OrdersGroup extends AbstractGroup
     }
 
     /**
-     * @return void
+     * @return TemplateInterface
      */
-    public function initialize()
+    public function getTemplate(): TemplateInterface
     {
-        $this->addHeadingLink('View All Orders', $this->getUrlBuilder()->getUrl('sales/order/index'));
+        return new OrdersTemplate();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSortOrder(): int
+    {
+        return 30;
     }
 }

@@ -1,12 +1,40 @@
 <?php
-/** @var \Magento\Backend\Block\Template $block */
+/** @var \Ryvon\EventLog\Block\Adminhtml\TemplateBlock $block */
+/** @var \Ryvon\EventLog\Helper\Group\GroupInterface $group */
 
-$entries = $block->getData('entries');
-$heading = $block->getData('heading');
+$group = isset($block) ? ($block->getData('group') ?? null) : null;
+if (!$group) {
+    return;
+}
+
+$template = $group->getTemplate();
+$collection = $group->getEntryCollection();
+
+$odd = false;
+
 ?>
+
 <table class="data-grid" style="margin-bottom: 2rem;">
     <thead>
-    <?php echo $heading; ?>
+    <?php
+    echo $block->renderBlock($template->getHeaderTemplateFile(), $template->getHeaderBlockClass(), [
+        'title' => $group->getTitle(),
+        'summary' => $collection->buildSummaryMessage(),
+        'links' => $group->getHeadingLinks(),
+        'user-column' => $collection->hasUserContext(),
+        'single-store-mode' => $this->getData('single-store-mode'),
+    ]);
+    ?>
     </thead>
-    <?php echo $entries; ?>
+    <?php
+    foreach ($collection->getItems() as $entry) {
+        echo $block->renderBlock($template->getEntryTemplateFile(), $template->getEntryBlockClass(), [
+            'entry' => $entry,
+            'odd' => $odd = !$odd,
+            'user-column' => $collection->hasUserContext(),
+            'single-store-mode' => $this->getData('single-store-mode'),
+            'duplicates' => $collection->getDuplicateCount($entry),
+        ]);
+    }
+    ?>
 </table>

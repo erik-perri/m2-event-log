@@ -3,87 +3,105 @@
 namespace Ryvon\EventLog\Helper;
 
 use Ryvon\EventLog\Helper\Group\GroupInterface;
-use Ryvon\EventLog\Helper\Group\MissingGroup;
 use Ryvon\EventLog\Helper\Group\MissingGroupFactory;
+use Ryvon\EventLog\Model\EntryCollection;
+use Magento\Framework\ObjectManagerInterface;
 
 class GroupFinder
 {
+    /**
+     * @var ObjectManagerInterface
+     */
+    private $objectManager;
+
     /**
      * @var MissingGroupFactory
      */
     private $missingGroupFactory;
 
     /**
-     * @var GroupInterface[]
+     * @var string[]
      */
     private $groups = [];
 
     /**
+     * @param ObjectManagerInterface $objectManager
      * @param MissingGroupFactory $missingGroupFactory
      * @param array $groups
      */
-    public function __construct(MissingGroupFactory $missingGroupFactory, $groups = [])
+    public function __construct(
+        ObjectManagerInterface $objectManager,
+        MissingGroupFactory $missingGroupFactory,
+        $groups = []
+    )
     {
+        $this->objectManager = $objectManager;
         $this->missingGroupFactory = $missingGroupFactory;
 
-        foreach ($groups as $group) {
-            if ($group instanceof GroupInterface) {
-                $this->addGroup($group);
+        foreach ($groups as $id => $groupClass) {
+            try {
+                $class = new \ReflectionClass($groupClass);
+                if ($class->implementsInterface(GroupInterface::class)) {
+                    $this->addGroup($id, $groupClass);
+                }
+            } catch (\ReflectionException $e) {
             }
         }
     }
 
     /**
-     * @param GroupInterface $group
+     * @param string $groupId
+     * @param string $groupClass
      * @return GroupFinder
      */
-    public function addGroup(GroupInterface $group): GroupFinder
+    public function addGroup(string $groupId, string $groupClass): GroupFinder
     {
-        $this->groups[$group->getId()] = $group;
+        $this->groups[$groupId] = $groupClass;
         return $this;
     }
 
     /**
-     * @param GroupInterface $group
+     * @param string $groupId
      * @return GroupFinder
      */
-    public function removeGroup(GroupInterface $group): GroupFinder
+    public function removeGroup(string $groupId): GroupFinder
     {
-        if (isset($this->groups[$group->getId()])) {
-            unset($this->groups[$group->getId()]);
+        if (isset($this->groups[$groupId])) {
+            unset($this->groups[$groupId]);
         }
         return $this;
     }
 
     /**
      * @param string $groupId
-     * @return GroupInterface|null
+     * @param EntryCollection $entries
+     * @return GroupInterface
      */
-    public function findGroup($groupId)
+    public function getGroup(string $groupId, EntryCollection $entries): GroupInterface
     {
-        return $this->groups[$groupId] ?? null;
+        $group = isset($this->groups[$groupId])
+            ? $this->objectManager->create($this->groups[$groupId])
+            : null;
+
+        // If the group doesn't exist it is likely handled by a plugin that is no longer installed, we create a missing
+        // group handler to render it like a log.
+        if (!$group) {
+            $group = $this->missingGroupFactory->create();
+            $group->setTitle($this->convertIdToTitle($groupId));
+        }
+
+        return $group->setEntryCollection($entries);
     }
 
     /**
-     * @param $groupId
-     * @return GroupInterface
+     * Convert snake or dash case to title case
+     *
+     * @param string $groupId
+     * @return string
      */
-    public function addMissingGroup($groupId): GroupInterface
+    private function convertIdToTitle(string $groupId): string
     {
-        if ($this->findGroup($groupId)) {
-            return $this->findGroup($groupId);
-        }
-
-        // Convert snake or dash case to title case
         $intermediate = preg_replace('/[\-_]/', ' ', $groupId);
-        $title = ucwords(trim($intermediate)) . ' <!-- Missing renderer: ' . $groupId . ' -->';
-
-        /** @var MissingGroup $missingGroup */
-        $missingGroup = $this->missingGroupFactory->create();
-        $missingGroup->setId($groupId)->setTitle($title);
-
-        $this->addGroup($missingGroup);
-
-        return $missingGroup;
+        return ucwords(trim($intermediate));
     }
 }

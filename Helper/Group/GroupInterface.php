@@ -2,15 +2,11 @@
 
 namespace Ryvon\EventLog\Helper\Group;
 
-use Ryvon\EventLog\Model\Entry;
+use Ryvon\EventLog\Helper\Group\Template\TemplateInterface;
+use Ryvon\EventLog\Model\EntryCollection;
 
 interface GroupInterface
 {
-    /**
-     * @return string
-     */
-    public function getId(): string;
-
     /**
      * @return string
      */
@@ -22,13 +18,23 @@ interface GroupInterface
     public function getSortOrder(): int;
 
     /**
-     * @param Entry[] $entries
-     * @return $this
+     * @param EntryCollection $entries
+     * @return GroupInterface
      */
-    public function setEntries($entries): GroupInterface;
+    public function setEntryCollection(EntryCollection $entries): GroupInterface;
 
     /**
-     * @return string
+     * @return EntryCollection
      */
-    public function render(): string;
+    public function getEntryCollection(): EntryCollection;
+
+    /**
+     * @return TemplateInterface
+     */
+    public function getTemplate(): TemplateInterface;
+
+    /**
+     * @return array
+     */
+    public function getHeadingLinks(): array;
 }

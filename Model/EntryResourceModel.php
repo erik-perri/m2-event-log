@@ -66,19 +66,12 @@ class EntryResourceModel extends AbstractDb
      */
     protected function _beforeSave(AbstractModel $object): AbstractDb
     {
-        try {
-            if ($object instanceof Entry) {
-                if ($object->isObjectNew() && !$object->hasCreatedAt()) {
-                    $object->setCreatedAt($this->date->gmtDate());
-                }
-
-                $context = $object->getEntryContext();
-                if ($context instanceof DataObject) {
-                    $object->setData('entry_context', $context->convertToJson());
-                }
+        if ($object instanceof Entry) {
+            if ($object->isObjectNew() && !$object->hasCreatedAt()) {
+                $object->setCreatedAt($this->date->gmtDate());
             }
-        } catch (\Exception $e) {
-            $object->setData('entry_context', '[]');
+
+            $this->storeEntryContext($object);
         }
 
         return parent::_beforeSave($object);
@@ -90,19 +83,41 @@ class EntryResourceModel extends AbstractDb
      */
     protected function _afterLoad(AbstractModel $object): AbstractDb
     {
-        try {
-            if ($object instanceof Entry) {
-                $context = $object->getEntryContext();
-                if (!($context instanceof DataObject)) {
-                    $unserialized = $this->jsonSerializer->unserialize($context);
-                    $object->setData('entry_context', $this->dataObjectFactory->create(['data' => $unserialized]));
-                }
-            }
-        } catch (\Exception $e) {
-            $object->setData('entry_context', $this->dataObjectFactory->create());
+        if ($object instanceof Entry) {
+            $this->loadEntryContext($object);
         }
 
         return parent::_afterLoad($object);
     }
 
+    /**
+     * @param Entry $entry
+     */
+    public function loadEntryContext(Entry $entry)
+    {
+        try {
+            $context = $entry->getEntryContext();
+            if (!($context instanceof DataObject)) {
+                $unserialized = $this->jsonSerializer->unserialize($context);
+                $entry->setData('entry_context', $this->dataObjectFactory->create(['data' => $unserialized]));
+            }
+        } catch (\Exception $e) {
+            $entry->setData('entry_context', $this->dataObjectFactory->create());
+        }
+    }
+
+    /**
+     * @param Entry $entry
+     */
+    public function storeEntryContext(Entry $entry)
+    {
+        try {
+            $context = $entry->getEntryContext();
+            if ($context instanceof DataObject) {
+                $entry->setData('entry_context', $context->convertToJson());
+            }
+        } catch (\Exception $e) {
+            $entry->setData('entry_context', '[]');
+        }
+    }
 }

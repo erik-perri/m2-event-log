@@ -57,9 +57,9 @@
     <type name="Ryvon\EventLog\Helper\GroupFinder">
         <arguments>
             <argument name="groups" xsi:type="array">
-                <item name="adminGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\AdminGroup</item>
-                <item name="cleanupGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\CleanupGroup</item>
-                <item name="ordersGroup" xsi:type="object">Ryvon\EventLog\Helper\Group\OrdersGroup</item>
+                <item name="admin" xsi:type="string">Ryvon\EventLog\Helper\Group\AdminGroup</item>
+                <item name="cleanup" xsi:type="string">Ryvon\EventLog\Helper\Group\CleanupGroup</item>
+                <item name="orders" xsi:type="string">Ryvon\EventLog\Helper\Group\OrdersGroup</item>
             </argument>
         </arguments>
     </type>

@@ -46,6 +46,8 @@ class EntryRepository
     }
 
     /**
+     * Retrieve the specified entry
+     *
      * @param int $id
      * @return Entry|null
      */
@@ -60,6 +62,8 @@ class EntryRepository
     }
 
     /**
+     * Create a new entry model
+     *
      * @return Entry
      */
     public function create(): Entry
@@ -68,6 +72,8 @@ class EntryRepository
     }
 
     /**
+     * Save an entry model
+     *
      * @param Entry $entry
      * @return bool
      */
@@ -84,30 +90,59 @@ class EntryRepository
     }
 
     /**
+     * Find entries in the specified digest
+     *
      * @param Digest $digest
-     * @return Entry[]
+     * @return EntryCollection
      */
-    public function findInDigest(Digest $digest): array
+    public function findInDigest(Digest $digest): EntryCollection
     {
         $collection = $this->entryCollectionFactory->create();
 
-        $collection->removeAllFieldsFromSelect()->addFieldToSelect('entry_id');
+        $collection->setHideDuplicates(false);
+        $collection->removeAllFieldsFromSelect()->addFieldToSelect(['entry_id', 'entry_group', 'entry_level']);
         $collection->addFieldToFilter('digest_id', ['eq' => $digest->getId()]);
         $collection->setOrder('entry_group', DigestCollection::SORT_ORDER_ASC);
         $collection->addOrder('created_at', DigestCollection::SORT_ORDER_ASC);
         $collection->addOrder('entry_message', DigestCollection::SORT_ORDER_ASC);
 
-        $entries = [];
+        return $collection;
+    }
 
-        foreach ($collection as $entry) {
-            // We load the entry outside of the collection so _afterLoad is called and the context
-            // is run through json_decode properly
-            $loaded = $this->getById($entry->getId());
-            if ($loaded) {
-                $entries[] = $loaded;
-            }
+    /**
+     * Find the entries in the group
+     *
+     * @param Digest $digest
+     * @param bool $hideDuplicates
+     * @return EntryCollection[]
+     */
+    public function findGroupsInDigest(Digest $digest, bool $hideDuplicates): array
+    {
+        $entries = $this->findInDigest($digest);
+        if (!$entries || !$entries->count()) {
+            return [];
         }
 
-        return $entries;
+        $return = [];
+        $groupedEntries = [];
+
+        foreach ($entries as $entry) {
+            $groupedEntries[$entry->getEntryGroup()][] = $entry->getEntryId();
+        }
+
+        foreach ($groupedEntries as $groupId => $groupEntryId) {
+            $collection = $this->entryCollectionFactory->create();
+
+            $collection->setHideDuplicates($hideDuplicates);
+            $collection->removeAllFieldsFromSelect()->addFieldToSelect('*');
+            $collection->addFieldToFilter('entry_id', ['in' => $groupEntryId]);
+            $collection->setOrder('entry_group', DigestCollection::SORT_ORDER_ASC);
+            $collection->addOrder('created_at', DigestCollection::SORT_ORDER_ASC);
+            $collection->addOrder('entry_message', DigestCollection::SORT_ORDER_ASC);
+
+            $return[$groupId] = $collection;
+        }
+
+        return $return;
     }
 }

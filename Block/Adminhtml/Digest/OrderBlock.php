@@ -13,11 +13,6 @@ use Magento\Framework\Stdlib\DateTime\Timezone;
 class OrderBlock extends EntryBlock
 {
     /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
-
-    /**
      * @var IpLocationHelper
      */
     private $locationHelper;
@@ -26,6 +21,11 @@ class OrderBlock extends EntryBlock
      * @var PricingHelper
      */
     private $priceHelper;
+
+    /**
+     * @var UrlInterface
+     */
+    private $urlBuilder;
 
     /**
      * @param UrlInterface $urlBuilder
@@ -38,21 +38,21 @@ class OrderBlock extends EntryBlock
      * @param array $data
      */
     public function __construct(
-        UrlInterface $urlBuilder,
-        IpLocationHelper $locationHelper,
-        PricingHelper $priceHelper,
         DigestRequestHelper $digestRequestHelper,
+        IpLocationHelper $locationHelper,
         PlaceholderReplacer $placeholderReplacer,
+        PricingHelper $priceHelper,
         Timezone $timezone,
+        UrlInterface $urlBuilder,
         Template\Context $context,
         array $data = []
     )
     {
         parent::__construct($digestRequestHelper, $placeholderReplacer, $timezone, $context, $data);
 
-        $this->urlBuilder = $urlBuilder;
         $this->locationHelper = $locationHelper;
         $this->priceHelper = $priceHelper;
+        $this->urlBuilder = $urlBuilder;
     }
 
     /**

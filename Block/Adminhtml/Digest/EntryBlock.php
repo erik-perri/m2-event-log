@@ -2,6 +2,7 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
+use Ryvon\EventLog\Block\Adminhtml\TemplateBlock;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
@@ -10,7 +11,7 @@ use Magento\Backend\Block\Template;
 use Magento\Framework\DataObject;
 use Magento\Framework\Stdlib\DateTime\Timezone;
 
-class EntryBlock extends Template
+class EntryBlock extends TemplateBlock
 {
     /**
      * @var DigestRequestHelper

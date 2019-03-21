@@ -9,7 +9,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Ryvon\EventLog\Block\Adminhtml\Digest\DateBlock" template="Ryvon_EventLog::date.phtml"/>
-            <block class="Ryvon\EventLog\Block\Adminhtml\Digest\EntryListBlock" template="Ryvon_EventLog::index.phtml"/>
+            <block class="Ryvon\EventLog\Block\Adminhtml\Digest\IndexBlock" template="Ryvon_EventLog::index.phtml"/>
         </referenceContainer>
     </body>
 </page>

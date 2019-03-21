@@ -2,12 +2,14 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Ryvon\EventLog\Block\Adminhtml\Digest\IndexBlock;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\EntryRepository;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\View\LayoutInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class EmailBuilder
@@ -26,11 +28,6 @@ class EmailBuilder
      * @var DigestSummarizer
      */
     private $digestSummarizer;
-
-    /**
-     * @var DigestRenderer
-     */
-    private $digestRenderer;
 
     /**
      * @var DigestRequestHelper
@@ -63,40 +60,45 @@ class EmailBuilder
     private $emailEmogrifier;
 
     /**
+     * @var LayoutInterface
+     */
+    private $layout;
+
+    /**
      * @param TransportBuilder $transportBuilder
      * @param EntryRepository $entryRepository
      * @param DigestSummarizer $digestSummarizer
-     * @param DigestRenderer $digestRenderer
      * @param DigestRequestHelper $digestRequestHelper
      * @param Config $config
      * @param StoreManagerInterface $storeManager
      * @param DeploymentConfig $deploymentConfig
      * @param DateRangeBuilder $dateRangeBuilder
      * @param EmailEmogrifier $emailEmogrifier
+     * @param LayoutInterface $layout
      */
     public function __construct(
         TransportBuilder $transportBuilder,
         EntryRepository $entryRepository,
         DigestSummarizer $digestSummarizer,
-        DigestRenderer $digestRenderer,
         DigestRequestHelper $digestRequestHelper,
         Config $config,
         StoreManagerInterface $storeManager,
         DeploymentConfig $deploymentConfig,
         DateRangeBuilder $dateRangeBuilder,
-        EmailEmogrifier $emailEmogrifier
+        EmailEmogrifier $emailEmogrifier,
+        LayoutInterface $layout
     )
     {
         $this->transportBuilder = $transportBuilder;
         $this->entryRepository = $entryRepository;
         $this->digestSummarizer = $digestSummarizer;
-        $this->digestRenderer = $digestRenderer;
         $this->digestRequestHelper = $digestRequestHelper;
         $this->config = $config;
         $this->storeManager = $storeManager;
         $this->deploymentConfig = $deploymentConfig;
         $this->dateRangeBuilder = $dateRangeBuilder;
         $this->emailEmogrifier = $emailEmogrifier;
+        $this->layout = $layout;
     }
 
     /**
@@ -106,7 +108,10 @@ class EmailBuilder
     public function createDigestEmail(Digest $digest): TransportBuilder
     {
         $entries = $this->entryRepository->findInDigest($digest);
-        $summary = $this->digestSummarizer->summarize($entries);
+        $summary = $this->digestSummarizer->summarize(
+            $entries->getUnfilteredItems(),
+            true
+        );
 
         $subject = sprintf(
             'Event digest (%s) for %s, %s',
@@ -115,25 +120,32 @@ class EmailBuilder
             strip_tags($this->dateRangeBuilder->buildTimeRange($digest->getStartedAt(), $digest->getFinishedAt()))
         );
 
-        $emailData = $this->digestRenderer->renderEntries($entries);
-        if ($emailData) {
-            $emailData = $this->updateEmailUrls($digest, $emailData);
-        } else {
-            $emailData = $this->digestRenderer->renderNoEntries();
-        }
+        /** @var IndexBlock $block */
+        $block = $this->layout->createBlock(IndexBlock::class);
+        $block
+            ->setTemplate('Ryvon_EventLog::index.phtml')
+            ->setCurrentDigest($digest)
+            ->setData('email', true)
+            // We need to set the area on the block or Magento will set it to crontab and fail to find the templates \
+            // when running this code through the cron.
+            ->setData('area', \Magento\Framework\App\Area::AREA_ADMINHTML);
+
+        $emailHtml = $block->toHtml();
 
         if ($this->config->getIncludeLinksInEmail()) {
-            $emailData = $this->digestRenderer->renderHeader(
-                    $this->getStoreUrl(),
-                    $this->digestRequestHelper->getDigestUrl(
-                        $digest,
-                        $this->config->getBypassUrlKey() ? [
-                            '_source' => $digest->getDigestKey(), // For the other links in the email this is added in updateEmailUrls
-                        ] : [])
-                ) . $emailData;
+            /** @var \Magento\Backend\Block\Template $headerBlock */
+            $headerBlock = $this->layout->createBlock(\Magento\Backend\Block\Template::class);
+            $headerBlock->setData('area', \Magento\Framework\App\Area::AREA_ADMINHTML);
+            $headerHtml = $headerBlock->setTemplate('Ryvon_EventLog::email-header.phtml')
+                    ->setData('store-url', $this->getStoreUrl())
+                    ->setData('digest-url', $this->digestRequestHelper->getDigestUrl($digest))
+                    ->toHtml();
+            // We need to wrap both in a container or \DOMDocument will put emailHtml inside headerHtml's div.
+            $emailHtml = '<div>' . $headerHtml . $emailHtml . '</div>';
         }
 
-        $emailData = $this->emailEmogrifier->emogrify($emailData);
+        $emailHtml = $this->updateEmailLinks($digest, $emailHtml);
+        $emailHtml = $this->emailEmogrifier->emogrify($emailHtml);
 
         $builder = $this->transportBuilder
             ->setTemplateIdentifier('event_log_digest_email_template')
@@ -143,7 +155,7 @@ class EmailBuilder
             ])
             ->setTemplateVars([
                 'subject' => $subject,
-                'data' => $emailData,
+                'data' => $emailHtml,
             ])
             ->setFrom($this->config->getEmailIdentity());
 
@@ -165,7 +177,7 @@ class EmailBuilder
      * @param string $content
      * @return string
      */
-    protected function updateEmailUrls(Digest $digest, $content): string
+    private function updateEmailLinks(Digest $digest, $content): string
     {
         if (!$content) {
             return $content;
@@ -223,7 +235,7 @@ class EmailBuilder
     /**
      * @return string
      */
-    protected function getStoreUrl()
+    private function getStoreUrl()
     {
         try {
             /** @var \Magento\Store\Model\Store $store */
