@@ -44,7 +44,6 @@ class UserIpPlaceholder implements PlaceholderInterface
         return $this->locationHelper->generateLocateLinkTag($userIp, [
             'title' => 'View information for IP: ' . $userIp,
             'target' => '_blank',
-            'class' => 'icon',
         ], $userIp) ?: $userIp;
     }
 }
