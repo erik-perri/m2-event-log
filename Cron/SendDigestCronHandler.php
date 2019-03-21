@@ -48,8 +48,7 @@ class SendDigestCronHandler
      */
     public function execute(): SendDigestCronHandler
     {
-        if (!$this->config->getEnableDigestEmail() ||
-            !$this->config->getInternalDigestCron()) {
+        if (!$this->config->getInternalDigestCron()) {
             return $this;
         }
 
@@ -62,14 +61,11 @@ class SendDigestCronHandler
             return $this;
         }
 
-        if (!$this->config->getRecipients()) {
+        if (!$this->config->getEnableDigestEmail() || !$this->config->getRecipients()) {
             return $this;
         }
 
-        if ($this->config->getEnableDigestEmail()) {
-            $this->digestSender->sendDigest($digest);
-        }
-
+        $this->digestSender->sendDigest($digest);
         return $this;
     }
 }
