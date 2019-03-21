@@ -79,7 +79,7 @@ class OrderPlaceholder implements PlaceholderInterface
      * @param string $incrementId
      * @return \Magento\Sales\Api\Data\OrderInterface|null
      */
-    protected function findOrderById($incrementId)
+    private function findOrderById($incrementId)
     {
         try {
             $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId)->create();

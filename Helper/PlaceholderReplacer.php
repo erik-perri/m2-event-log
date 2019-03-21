@@ -65,7 +65,7 @@ class PlaceholderReplacer
      * @param $value
      * @return bool
      */
-    protected function canBeString($value): bool
+    private function canBeString($value): bool
     {
         // https://stackoverflow.com/a/5496674
         return !is_array($value) && (

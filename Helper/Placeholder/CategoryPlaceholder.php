@@ -101,7 +101,7 @@ class CategoryPlaceholder implements PlaceholderInterface
      * @param $id
      * @return Category|null
      */
-    protected function findCategoryById($id)
+    private function findCategoryById($id)
     {
         try {
             return $this->categoryRepository->get($id);

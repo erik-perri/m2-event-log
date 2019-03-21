@@ -105,7 +105,7 @@ class ProductPlaceholder implements PlaceholderInterface
      * @param string $productSku
      * @return \Magento\Catalog\Api\Data\ProductInterface|null
      */
-    protected function findProductBySku($productSku)
+    private function findProductBySku($productSku)
     {
         try {
             return $this->productRepository->get($productSku);
@@ -117,7 +117,7 @@ class ProductPlaceholder implements PlaceholderInterface
     /**
      * @return string|null
      */
-    protected function getStoreUrl()
+    private function getStoreUrl()
     {
         try {
             /** @var \Magento\Store\Model\Store $store */

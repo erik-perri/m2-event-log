@@ -34,7 +34,7 @@ class Ip extends Action
      *
      * @return string|null
      */
-    protected function getIpAddress()
+    private function getIpAddress()
     {
         $ip = $this->getRequest()->getParam('v');
         if ($ip && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
@@ -50,7 +50,7 @@ class Ip extends Action
      * @param string $url
      * @return ResultInterface
      */
-    protected function createRedirect($url): ResultInterface
+    private function createRedirect($url): ResultInterface
     {
         /**
          * @var Redirect $resultRedirect

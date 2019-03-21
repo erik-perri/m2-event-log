@@ -76,7 +76,7 @@ class OrderReporter
      * @param string $endMysqlTime
      * @return \Magento\Sales\Model\ResourceModel\Order\Collection|\Magento\Sales\Api\Data\OrderSearchResultInterface
      */
-    protected function findOrders($startMysqlTime, $endMysqlTime)
+    private function findOrders($startMysqlTime, $endMysqlTime)
     {
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter('status', 'canceled', 'neq')
@@ -132,7 +132,7 @@ class OrderReporter
      * @param Order $order
      * @return string|null
      */
-    protected function getOrderBillToName(Order $order)
+    private function getOrderBillToName(Order $order)
     {
         $billTo = $order->getBillingAddress();
         if (!$billTo) {
@@ -146,7 +146,7 @@ class OrderReporter
      * @param Order $order
      * @return string|null
      */
-    protected function getOrderPaymentMethodTitle(Order $order)
+    private function getOrderPaymentMethodTitle(Order $order)
     {
         try {
             /** @var \Magento\Sales\Model\Order\Payment $payment */
@@ -174,7 +174,7 @@ class OrderReporter
      * @param string $incrementId
      * @return Order|null
      */
-    protected function findOrderByIncrementId($incrementId)
+    private function findOrderByIncrementId($incrementId)
     {
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('increment_id', $incrementId)->create();
         $orderList = $this->orderRepository->getList($searchCriteria)->getItems();

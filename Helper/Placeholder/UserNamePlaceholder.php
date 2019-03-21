@@ -81,7 +81,7 @@ class UserNamePlaceholder implements PlaceholderInterface
      * @param $id
      * @return \Magento\User\Model\User|null
      */
-    protected function findUserById($id)
+    private function findUserById($id)
     {
         $user = $this->userFactory->create();
         $this->userResourceModel->load($user, $id);

@@ -79,7 +79,7 @@ class CustomerPlaceholder implements PlaceholderInterface
      * @param $id
      * @return CustomerInterface|null
      */
-    protected function findCustomerById($id)
+    private function findCustomerById($id)
     {
         try {
             return $this->customerRepository->getById($id);

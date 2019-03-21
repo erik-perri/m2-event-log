@@ -34,7 +34,7 @@ class SvgHelper
      * @param string $id
      * @return string
      */
-    protected function getSvg($type, $id): string
+    private function getSvg($type, $id): string
     {
         $path = sprintf(
             '%s/%s/%s.svg',
@@ -53,7 +53,7 @@ class SvgHelper
     /**
      * @return string
      */
-    protected function getFontAwesomeSvgPath(): string
+    private function getFontAwesomeSvgPath(): string
     {
         $componentPath = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, 'Ryvon_EventLog');
         return sprintf('%s/view/assets/node_modules/@fortawesome/fontawesome-free/svgs', $componentPath);

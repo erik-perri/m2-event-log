@@ -92,7 +92,7 @@ class UserContextHelper
      * @param string $ip
      * @return bool
      */
-    protected function isValidIp($ip): bool
+    private function isValidIp($ip): bool
     {
         return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) ? true : false;
     }

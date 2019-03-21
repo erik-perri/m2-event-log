@@ -58,7 +58,7 @@ class AdminLoginFailedObserver implements ObserverInterface
      * @param \Exception $exception
      * @return string
      */
-    protected function getUserError($exception)
+    private function getUserError($exception)
     {
         if (!$exception || !($exception instanceof \Exception)) {
             return 'unknown error';

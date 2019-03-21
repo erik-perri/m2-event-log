@@ -128,7 +128,7 @@ class EntryBlock extends TemplateBlock
      *
      * @return bool
      */
-    protected function digestSpansMultipleDays(): bool
+    private function digestSpansMultipleDays(): bool
     {
         $digest = $this->getDigest();
         if (!$digest) {

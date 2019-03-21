@@ -49,7 +49,7 @@ class DuplicateChecker
      * @param Entry $entry
      * @return string
      */
-    protected function getHash(Entry $entry): string
+    private function getHash(Entry $entry): string
     {
         return md5(
             $entry->getEntryGroup() .
