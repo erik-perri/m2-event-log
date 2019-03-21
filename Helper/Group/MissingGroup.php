@@ -43,6 +43,6 @@ class MissingGroup extends AbstractGroup
      */
     public function getSortOrder(): int
     {
-        return 60;
+        return 50;
     }
 }

@@ -24,6 +24,6 @@ class AdminGroup extends AbstractGroup
      */
     public function getSortOrder(): int
     {
-        return 50;
+        return 60;
     }
 }
