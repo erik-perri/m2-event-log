@@ -6,28 +6,20 @@ use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
-use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class DigestResourceModel extends AbstractDb
 {
-    /**
-     * @var DateTime
-     */
-    private $date;
-
     /**
      * @var EncryptorInterface
      */
     private $encryptor;
 
     /**
-     * @param DateTime $date
      * @param EncryptorInterface $encryptor
      * @param Context $context
      * @param string $connectionName
      */
     public function __construct(
-        DateTime $date,
         EncryptorInterface $encryptor,
         Context $context,
         $connectionName = null
@@ -35,7 +27,6 @@ class DigestResourceModel extends AbstractDb
     {
         parent::__construct($context, $connectionName);
 
-        $this->date = $date;
         $this->encryptor = $encryptor;
     }
 
@@ -56,19 +47,10 @@ class DigestResourceModel extends AbstractDb
      */
     protected function _beforeSave(AbstractModel $object): AbstractDb
     {
-        if ($object instanceof Digest) {
-            if ($object->isObjectNew()) {
-                if (!$object->hasCreatedAt()) {
-                    $object->setCreatedAt($this->date->gmtDate());
-                }
-                if (!$object->hasDigestKey()) {
-                    $object->setDigestKey($this->encryptor->hash(uniqid('event-log', true)));
-                }
-            }
-            $object->setUpdatedAt($this->date->gmtDate());
+        if (($object instanceof Digest) && $object->isObjectNew() && !$object->hasDigestKey()) {
+            $object->setDigestKey($this->encryptor->hash(uniqid('event-log', true)));
         }
 
         return parent::_beforeSave($object);
     }
-
 }

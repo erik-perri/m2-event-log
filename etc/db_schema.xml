@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="event_log_digest" resource="default" engine="innodb">
+        <column xsi:type="int" name="digest_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+
+        <column xsi:type="varchar" name="digest_key" nullable="true" length="64"/>
+
+        <column xsi:type="timestamp" name="started_at" on_update="false" nullable="false" default="NULL"/>
+        <column xsi:type="timestamp" name="finished_at" on_update="false" nullable="true"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="digest_id"/>
+        </constraint>
+    </table>
+    <table name="event_log_entry" resource="default" engine="innodb">
+        <column xsi:type="int" name="entry_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="digest_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+
+        <column xsi:type="varchar" name="entry_level" nullable="false" length="12"/>
+        <column xsi:type="varchar" name="entry_group" nullable="false" length="32"/>
+        <column xsi:type="varchar" name="entry_message" nullable="false" length="128"/>
+        <column xsi:type="text" name="entry_context" nullable="false"/>
+
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entry_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign"
+                    referenceId="EVENT_LOG_ENTRY_DIGEST_ID_EVENT_LOG_DIGEST_DIGEST_ID"
+                    table="event_log_entry"
+                    column="digest_id"
+                    referenceTable="event_log_digest"
+                    referenceColumn="digest_id"
+                    onDelete="CASCADE"/>
+    </table>
+</schema>

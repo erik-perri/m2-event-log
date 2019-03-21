@@ -7,9 +7,14 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
+/**
+ * Install schema for Magento <= 2.2.
+ */
 class InstallSchema implements InstallSchemaInterface
 {
     /**
+     * Setup the database tables.
+     *
      * @param SchemaSetupInterface $setup
      * @param ModuleContextInterface $context
      * @throws \Zend_Db_Exception
@@ -21,6 +26,8 @@ class InstallSchema implements InstallSchemaInterface
     }
 
     /**
+     * Setup the digest table.
+     *
      * @param SchemaSetupInterface $installer
      * @throws \Zend_Db_Exception
      */
@@ -33,7 +40,8 @@ class InstallSchema implements InstallSchemaInterface
         }
 
         $table = $installer->getConnection()->newTable($installer->getTable('event_log_digest'))
-            ->addColumn('digest_id',
+            ->addColumn(
+                'digest_id',
                 Table::TYPE_INTEGER,
                 null,
                 [
@@ -45,24 +53,31 @@ class InstallSchema implements InstallSchemaInterface
                 'Digest ID'
             )
             ->addColumn(
-                'created_at',
-                Table::TYPE_TIMESTAMP,
-                null,
+                'digest_key',
+                Table::TYPE_TEXT,
+                64,
                 [
-                    'nullable' => false,
-                    'default' => Table::TIMESTAMP_INIT,
+                    'nullable' => true,
                 ],
-                'Created At'
+                'Digest Key'
             )
             ->addColumn(
-                'updated_at',
+                'started_at',
                 Table::TYPE_TIMESTAMP,
                 null,
                 [
                     'nullable' => false,
-                    'default' => Table::TIMESTAMP_INIT_UPDATE,
                 ],
-                'Updated At'
+                'Started At'
+            )
+            ->addColumn(
+                'finished_at',
+                Table::TYPE_TIMESTAMP,
+                null,
+                [
+                    'nullable' => true,
+                ],
+                'Finished At'
             )
             ->setComment('Digest Table');
 
@@ -72,6 +87,8 @@ class InstallSchema implements InstallSchemaInterface
     }
 
     /**
+     * Setup the entry table.
+     *
      * @param SchemaSetupInterface $installer
      * @throws \Zend_Db_Exception
      */
@@ -84,7 +101,8 @@ class InstallSchema implements InstallSchemaInterface
         }
 
         $table = $installer->getConnection()->newTable($installer->getTable('event_log_entry'))
-            ->addColumn('entry_id',
+            ->addColumn(
+                'entry_id',
                 Table::TYPE_INTEGER,
                 null,
                 [
@@ -95,7 +113,8 @@ class InstallSchema implements InstallSchemaInterface
                 ],
                 'Entry ID'
             )
-            ->addColumn('digest_id',
+            ->addColumn(
+                'digest_id',
                 Table::TYPE_INTEGER,
                 null,
                 [
@@ -110,6 +129,13 @@ class InstallSchema implements InstallSchemaInterface
                 12,
                 ['nullable' => false],
                 'Entry Level'
+            )
+            ->addColumn(
+                'entry_group',
+                Table::TYPE_TEXT,
+                32,
+                ['nullable' => false],
+                'Entry Group'
             )
             ->addColumn(
                 'entry_message',

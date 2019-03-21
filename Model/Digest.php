@@ -7,14 +7,6 @@ use Magento\Framework\Model\AbstractModel;
 /**
  * Digest model
  *
- * @method bool hasCreatedAt()
- * @method string getCreatedAt()
- * @method void setCreatedAt(string $time)
- *
- * @method bool hasUpdatedAt()
- * @method string getUpdatedAt()
- * @method void setUpdatedAt(string $time)
- *
  * @method bool hasStartedAt()
  * @method string getStartedAt()
  * @method void setStartedAt(string $time)
