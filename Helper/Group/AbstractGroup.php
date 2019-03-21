@@ -13,11 +13,6 @@ use Magento\Backend\Model\UrlInterface;
 abstract class AbstractGroup implements GroupInterface
 {
     /**
-     * @var int
-     */
-    const SORT_ORDER = 40;
-
-    /**
      * @var EntryCollection
      */
     private $entries = [];
@@ -58,7 +53,7 @@ abstract class AbstractGroup implements GroupInterface
      */
     public function getSortOrder(): int
     {
-        return static::SORT_ORDER;
+        return 40;
     }
 
     /**

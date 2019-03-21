@@ -6,8 +6,6 @@ use Ryvon\EventLog\Helper\Group\GroupInterface;
 
 class GroupSorter
 {
-    const UNKNOWN_GROUP_ORDER = Group\AbstractGroup::SORT_ORDER + 5;
-
     /**
      * @param GroupInterface[] $groups
      * @return array|GroupInterface[]
