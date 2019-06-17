@@ -7,8 +7,6 @@ use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\DataObject;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManagerInterface;
 
 class ProductPlaceholder implements PlaceholderInterface
 {
@@ -25,11 +23,6 @@ class ProductPlaceholder implements PlaceholderInterface
     private $productRepository;
 
     /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var SvgHelper
      */
     private $svgHelper;
@@ -37,18 +30,15 @@ class ProductPlaceholder implements PlaceholderInterface
     /**
      * @param UrlInterface $urlBuilder
      * @param ProductRepositoryInterface $productRepository
-     * @param StoreManagerInterface $storeManager
      * @param SvgHelper $svgHelper
      */
     public function __construct(
         UrlInterface $urlBuilder,
         ProductRepositoryInterface $productRepository,
-        StoreManagerInterface $storeManager,
         SvgHelper $svgHelper
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->productRepository = $productRepository;
-        $this->storeManager = $storeManager;
         $this->svgHelper = $svgHelper;
     }
 
@@ -86,7 +76,7 @@ class ProductPlaceholder implements PlaceholderInterface
         ]);
 
         if ((int)$product->getStatus() === Product\Attribute\Source\Status::STATUS_ENABLED) {
-            $frontendUrl = $this->getStoreUrl() . $product->getUrlKey();
+            $frontendUrl = $product->getUrlModel()->getUrl($product);
             if ($frontendUrl) {
                 $return .= $this->buildLinkTag([
                     'html' => $this->svgHelper->getStoreSvg(),
@@ -110,20 +100,6 @@ class ProductPlaceholder implements PlaceholderInterface
         try {
             return $this->productRepository->get($productSku);
         } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @return string|null
-     */
-    private function getStoreUrl()
-    {
-        try {
-            /** @var \Magento\Store\Model\Store $store */
-            $store = $this->storeManager->getStore();
-            return $store->getBaseUrl();
-        } catch (NoSuchEntityException $e) {
             return null;
         }
     }
