@@ -2,6 +2,7 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
+use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Helper\SvgHelper;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Model\Category;
@@ -24,22 +25,35 @@ class CategoryPlaceholder implements PlaceholderInterface
     private $categoryRepository;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @var SvgHelper
      */
     private $svgHelper;
 
     /**
+     * @var array
+     */
+    private $rootCategories = [];
+
+    /**
      * @param UrlInterface $urlBuilder
      * @param CategoryRepository $categoryRepository
+     * @param StoreManagerInterface $storeManager
      * @param SvgHelper $svgHelper
      */
     public function __construct(
         UrlInterface $urlBuilder,
         CategoryRepository $categoryRepository,
+        StoreManagerInterface $storeManager,
         SvgHelper $svgHelper
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->categoryRepository = $categoryRepository;
+        $this->storeManager = $storeManager;
         $this->svgHelper = $svgHelper;
     }
 
@@ -81,7 +95,7 @@ class CategoryPlaceholder implements PlaceholderInterface
             'target' => '_blank',
         ]);
 
-        if ($category->getIsActive()) {
+        if ($category->getIsActive() && !$this->isRootCategory($category)) {
             $frontendUrl = $category->getUrl();
             if ($frontendUrl) {
                 $return .= $this->buildLinkTag([
@@ -95,6 +109,25 @@ class CategoryPlaceholder implements PlaceholderInterface
         }
 
         return $return;
+    }
+
+    /**
+     * @param Category $category
+     * @return bool
+     */
+    private function isRootCategory($category): bool
+    {
+        if (!isset($this->rootCategories[$category->getStoreId()])) {
+            try {
+                $store = $this->storeManager->getStore($category->getStoreId());
+            } catch (NoSuchEntityException $e) {
+                return false;
+            }
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->rootCategories[$category->getStoreId()] = $store->getRootCategoryId();
+        }
+
+        return (int)$this->rootCategories[$category->getStoreId()] === (int)$category->getId();
     }
 
     /**
