@@ -5,7 +5,7 @@
         <system>
             <event_log>
                 <hide_duplicates>1</hide_duplicates>
-                <enable_digest_email>1</enable_digest_email>
+                <enable_digest_email>0</enable_digest_email>
                 <internal_digest_cron>1</internal_digest_cron>
                 <sender_email_identity>custom2</sender_email_identity>
                 <recipient_email>
