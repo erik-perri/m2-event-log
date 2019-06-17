@@ -65,17 +65,20 @@ class AdminLoginFailedObserver implements ObserverInterface
         }
 
         $message = $exception->getMessage();
+
+        if (preg_match('#(did not sign in correctly|account sign-in was incorrect)#i', $message)) {
+            return 'invalid credentials';
+        }
+
         $lowerMessage = strtolower(trim($message, '.'));
         switch ($lowerMessage) {
-            case 'you did not sign in correctly or your account is temporarily disabled':
-                return 'invalid credentials';
             case 'your account is temporarily disabled':
                 return 'account is disabled';
             case 'incorrect recaptcha':
             case 'incorrect captcha':
                 return 'incorrect captcha';
             default:
-                return sprintf('error sent to user: "%s"', $message);
+                return sprintf('error sent to user: "%s"', trim($message, '.'));
         }
     }
 }
