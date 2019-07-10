@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
         <job name="event_log_send_digest" instance="Ryvon\EventLog\Cron\SendDigestCronHandler" method="execute">
-            <!-- Sync product related at 8:20 AM -->
+            <!-- Send digest at 8:20 AM -->
             <schedule>20 8 * * *</schedule>
         </job>
     </group>
