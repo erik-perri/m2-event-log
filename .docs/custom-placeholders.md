@@ -104,28 +104,3 @@ In your plugin's di.xml add the placeholder to the `PlaceholderReplacer` constru
     </type>
 </config>
 ```
-
-## Add action to the key check disabler
-
-This is only needed if you are linking to the admin from the placeholder.  If you link to the admin and do not
-do this the admin link will redirect to the index when clicked from the digest email.
-
-In your plugin's di.xml add the action name to the `UrlKeyDisableChecker` constructor.
-
-```xml
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <!-- ... -->
-
-    <!-- Add the banner edit page to the event log url key disabler -->
-    <type name="Ryvon\EventLog\Helper\UrlKeyDisableChecker">
-        <arguments>
-            <argument name="whitelist" xsi:type="array">
-                <item name="banners_banner_edit" xsi:type="string">banners_banner_edit</item>
-            </argument>
-        </arguments>
-    </type>
-</config>
-```

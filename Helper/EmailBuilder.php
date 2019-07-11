@@ -30,11 +30,6 @@ class EmailBuilder
     private $digestSummarizer;
 
     /**
-     * @var DigestRequestHelper
-     */
-    private $digestRequestHelper;
-
-    /**
      * @var Config
      */
     private $config;
@@ -43,11 +38,6 @@ class EmailBuilder
      * @var StoreManagerInterface
      */
     private $storeManager;
-
-    /**
-     * @var DeploymentConfig
-     */
-    private $deploymentConfig;
 
     /**
      * @var DateRangeBuilder
@@ -68,10 +58,8 @@ class EmailBuilder
      * @param TransportBuilder $transportBuilder
      * @param EntryRepository $entryRepository
      * @param DigestSummarizer $digestSummarizer
-     * @param DigestRequestHelper $digestRequestHelper
      * @param Config $config
      * @param StoreManagerInterface $storeManager
-     * @param DeploymentConfig $deploymentConfig
      * @param DateRangeBuilder $dateRangeBuilder
      * @param EmailEmogrifier $emailEmogrifier
      * @param LayoutInterface $layout
@@ -80,10 +68,8 @@ class EmailBuilder
         TransportBuilder $transportBuilder,
         EntryRepository $entryRepository,
         DigestSummarizer $digestSummarizer,
-        DigestRequestHelper $digestRequestHelper,
         Config $config,
         StoreManagerInterface $storeManager,
-        DeploymentConfig $deploymentConfig,
         DateRangeBuilder $dateRangeBuilder,
         EmailEmogrifier $emailEmogrifier,
         LayoutInterface $layout
@@ -91,10 +77,8 @@ class EmailBuilder
         $this->transportBuilder = $transportBuilder;
         $this->entryRepository = $entryRepository;
         $this->digestSummarizer = $digestSummarizer;
-        $this->digestRequestHelper = $digestRequestHelper;
         $this->config = $config;
         $this->storeManager = $storeManager;
-        $this->deploymentConfig = $deploymentConfig;
         $this->dateRangeBuilder = $dateRangeBuilder;
         $this->emailEmogrifier = $emailEmogrifier;
         $this->layout = $layout;
@@ -129,21 +113,9 @@ class EmailBuilder
             // when running this code through the cron.
             ->setData('area', \Magento\Framework\App\Area::AREA_ADMINHTML);
 
-        $emailHtml = $block->toHtml();
-
-        if ($this->config->getIncludeLinksInEmail()) {
-            /** @var \Magento\Backend\Block\Template $headerBlock */
-            $headerBlock = $this->layout->createBlock(\Magento\Backend\Block\Template::class);
-            $headerBlock->setData('area', \Magento\Framework\App\Area::AREA_ADMINHTML);
-            $headerHtml = $headerBlock->setTemplate('Ryvon_EventLog::email-header.phtml')
-                ->setData('store-url', $this->getStoreUrl())
-                ->setData('digest-url', $this->digestRequestHelper->getDigestUrl($digest))
-                ->toHtml();
-            // We need to wrap both in a container or \DOMDocument will put emailHtml inside headerHtml's div.
-            $emailHtml = '<div>' . $headerHtml . $emailHtml . '</div>';
-        }
-
-        $emailHtml = $this->updateEmailLinks($digest, $emailHtml);
+        // DOMDocument seems to not handle multiple root elements well.  We wrap it in a div just in case.
+        $emailHtml = '<div>' . $block->toHtml() . '</div>';
+        $emailHtml = $this->updateEmailLinks($emailHtml);
         $emailHtml = $this->emailEmogrifier->emogrify($emailHtml);
 
         $builder = $this->transportBuilder
@@ -172,34 +144,14 @@ class EmailBuilder
     }
 
     /**
-     * @return string
-     */
-    private function getStoreUrl()
-    {
-        try {
-            /** @var \Magento\Store\Model\Store $store */
-            $store = $this->storeManager->getStore();
-            return $store->getBaseUrl();
-        } catch (NoSuchEntityException $e) {
-            return '/';
-        }
-    }
-
-    /**
-     * @param Digest $digest
      * @param string $content
      * @return string
      */
-    private function updateEmailLinks(Digest $digest, $content): string
+    private function updateEmailLinks($content): string
     {
         if (!$content) {
             return $content;
         }
-
-        $includeLinks = $this->config->getIncludeLinksInEmail();
-        $bypassUrlKey = $this->config->getBypassUrlKey();
-
-        $adminPath = sprintf('/%s/', $this->deploymentConfig->get('backend/frontName') ?: 'admin');
 
         $previousUseInternalErrors = libxml_use_internal_errors(true);
 
@@ -215,26 +167,10 @@ class EmailBuilder
         foreach ($links as $link) {
             /** @var \DOMElement $link */
 
-            if (!$includeLinks) {
-                $link->parentNode->replaceChild(
-                    new \DOMText($link->textContent),
-                    $link
-                );
-                continue;
-            }
-
-            if (!$bypassUrlKey) {
-                continue;
-            }
-
-            $href = $link->getAttribute('href');
-
-            if (strpos($href, $adminPath) !== false && strpos($href, '/key/') !== false) {
-                $replacement = sprintf('/_source/%s/key/', $digest->getDigestKey());
-                $link->setAttribute('href', str_replace('/key/', $replacement, $href));
-            }
-
-            $link->setAttribute('rel', 'nofollow noindex noopener noreferrer');
+            $link->parentNode->replaceChild(
+                new \DOMText($link->textContent),
+                $link
+            );
         }
 
         $content = $dom->saveHTML();
