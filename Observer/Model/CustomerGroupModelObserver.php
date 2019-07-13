@@ -1,34 +1,36 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\Customers;
+namespace Ryvon\EventLog\Observer\Model;
 
-use Ryvon\EventLog\Observer\AbstractModelObserver;
+use Magento\Customer\Model\Group;
+use Magento\Framework\Event;
 use Magento\Framework\Model\AbstractModel;
 
+/**
+ * Monitors the customer group model for changes.
+ */
 class CustomerGroupModelObserver extends AbstractModelObserver
 {
     /**
-     * @param \Magento\Framework\Event $event
-     * @return AbstractModel
+     * @inheritDoc
      */
-    public function getModel(\Magento\Framework\Event $event): AbstractModel
+    public function findModel(Event $event): AbstractModel
     {
         $entity = $event->getData('object');
 
-        return $entity && $entity instanceof \Magento\Customer\Model\Group ? $entity : null;
+        return $entity && $entity instanceof Group ? $entity : null;
     }
 
     /**
-     * @param \Magento\Customer\Model\Group $entity
-     * @param $action
+     * @inheritDoc
      */
-    protected function dispatch($entity, $action)
+    protected function handle(AbstractModel $entity, string $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',
             'message' => 'Customer group {customer-group} {action}.',
             'context' => [
-                'customer-group' => trim($entity->getCode()),
+                'customer-group' => trim($entity->getData('code')),
                 'customer-id' => (string)$entity->getId(),
                 'action' => $action,
             ],

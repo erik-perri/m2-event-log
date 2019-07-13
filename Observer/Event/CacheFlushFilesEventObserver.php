@@ -1,23 +1,25 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\System;
+namespace Ryvon\EventLog\Observer\Event;
 
-use Ryvon\EventLog\Observer\AbstractEventObserver;
 use Magento\Framework\Event;
 
+/**
+ * Handles the flush cache files events.
+ */
 class CacheFlushFilesEventObserver extends AbstractEventObserver
 {
     /**
-     * @param Event $event
+     * @inheritDoc
      */
-    protected function dispatch(Event $event)
+    protected function handle(Event $event)
     {
         $cache = 'unknown files cache';
         if (stripos($event->getName(), 'catalog_images') !== false) {
             $cache = 'catalog images cache';
-        } else if (stripos($event->getName(), 'static_files') !== false) {
+        } elseif (stripos($event->getName(), 'static_files') !== false) {
             $cache = 'static files cache';
-        } else if (stripos($event->getName(), 'media') !== false) {
+        } elseif (stripos($event->getName(), 'media') !== false) {
             $cache = 'JavaScript/CSS cache';
         }
 

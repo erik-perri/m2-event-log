@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Event;
 
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
@@ -25,6 +25,8 @@ class AdminLoginSuccessObserver implements ObserverInterface
     }
 
     /**
+     * Adds an event log when a user logs into the admin.
+     *
      * @param Observer $observer
      */
     public function execute(Observer $observer)

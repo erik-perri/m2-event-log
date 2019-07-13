@@ -1,14 +1,16 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Model;
 
-use Ryvon\EventLog\Helper\StoreViewFinder;
+use Exception;
 use Magento\Backend\Model\Auth\Session;
+use Magento\Framework\Event;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Model\AbstractModel;
 use Psr\Log\LoggerInterface;
+use Ryvon\EventLog\Helper\StoreViewFinder;
 
 /**
  * Base class for log observers that are monitoring for a model modification event.
@@ -46,8 +48,7 @@ abstract class AbstractModelObserver implements ObserverInterface
         ManagerInterface $eventManager,
         Session $authSession,
         StoreViewFinder $storeViewFinder
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->eventManager = $eventManager;
         $this->authSession = $authSession;
@@ -55,8 +56,7 @@ abstract class AbstractModelObserver implements ObserverInterface
     }
 
     /**
-     * Ensures we are a valid event with an expected model using getModel then calls dispatch with the model and event
-     * type.
+     * Ensures we are a valid event with an expected model using getModel then calls handle.
      *
      * @param Observer $observer
      */
@@ -73,7 +73,7 @@ abstract class AbstractModelObserver implements ObserverInterface
                 return;
             }
 
-            $model = $this->getModel($event);
+            $model = $this->findModel($event);
             if (!$model || !($model instanceof AbstractModel)) {
                 return;
             }
@@ -84,25 +84,32 @@ abstract class AbstractModelObserver implements ObserverInterface
                 $action = $model->isObjectNew() ? 'created' : 'modified';
             }
 
-            $this->dispatch($model, $action);
-        } catch (\Exception $e) {
+            $this->handle($model, $action);
+        } catch (Exception $e) {
             $this->getLogger()->critical($e);
         }
     }
 
     /**
-     * Called by execute to obtain the model from the event. Should return null if the model is not set or is not the
-     * expected class.
+     * Called by execute to obtain the model from the event. Should return null if the model is not what was expected.
      *
-     * @param \Magento\Framework\Event $event
+     * @param Event $event
      * @return AbstractModel|null
      */
-    abstract protected function getModel(\Magento\Framework\Event $event): AbstractModel;
+    abstract protected function findModel(Event $event): AbstractModel;
+
+    /**
+     * Dispatches an add log event if the model is valid.
+     *
+     * @param AbstractModel $entity
+     * @param string $action
+     */
+    abstract protected function handle(AbstractModel $entity, string $action);
 
     /**
      * Checks if the event is a delete event.
      *
-     * @param \Magento\Framework\Event|null $event
+     * @param Event|null $event
      * @return bool
      */
     private function isDeleteEvent($event): bool
@@ -113,15 +120,6 @@ abstract class AbstractModelObserver implements ObserverInterface
 
         return preg_match('#_delete_(before|after)$#i', $event->getName()) > 0;
     }
-
-    /**
-     * Called by execute if we had a valid model. Should dispatch an event_log_(info|error|warning|security) using
-     * getEventManager.
-     *
-     * @param AbstractModel $entity
-     * @param $action
-     */
-    abstract protected function dispatch($entity, $action);
 
     /**
      * Helper function to retrieve the logger.

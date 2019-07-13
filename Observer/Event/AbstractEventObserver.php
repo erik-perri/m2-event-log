@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Event;
 
 use Magento\Framework\Event;
 use Magento\Framework\Event\ManagerInterface;
@@ -26,14 +26,8 @@ abstract class AbstractEventObserver implements ObserverInterface
     }
 
     /**
-     * @return ManagerInterface
-     */
-    public function getEventManager(): ManagerInterface
-    {
-        return $this->eventManager;
-    }
-
-    /**
+     * Retrieves the event from the observer and passes it to the handle function.
+     *
      * @param Observer $observer
      * @return void
      */
@@ -44,11 +38,23 @@ abstract class AbstractEventObserver implements ObserverInterface
             return;
         }
 
-        $this->dispatch($event);
+        $this->handle($event);
     }
 
     /**
+     * Dispatches an add log event if the event context is valid.
+     *
      * @param Event $event
      */
-    abstract protected function dispatch(Event $event);
+    abstract protected function handle(Event $event);
+
+    /**
+     * Helper function to retrieve the event manager.
+     *
+     * @return ManagerInterface
+     */
+    protected function getEventManager(): ManagerInterface
+    {
+        return $this->eventManager;
+    }
 }

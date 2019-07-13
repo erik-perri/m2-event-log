@@ -1,28 +1,30 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\Content;
+namespace Ryvon\EventLog\Observer\Model;
 
-use Ryvon\EventLog\Observer\AbstractModelObserver;
+use Magento\Cms\Model\Block;
+use Magento\Framework\Event;
 use Magento\Framework\Model\AbstractModel;
 
+/**
+ * Monitors the CMS block model for changes.
+ */
 class CmsBlockModelObserver extends AbstractModelObserver
 {
     /**
-     * @param \Magento\Framework\Event $event
-     * @return AbstractModel
+     * @inheritDoc
      */
-    public function getModel(\Magento\Framework\Event $event): AbstractModel
+    public function findModel(Event $event): AbstractModel
     {
         $entity = $event->getData('object');
 
-        return $entity && $entity instanceof \Magento\Cms\Model\Block ? $entity : null;
+        return $entity && $entity instanceof Block ? $entity : null;
     }
 
     /**
-     * @param AbstractModel $entity
-     * @param $action
+     * @inheritDoc
      */
-    protected function dispatch($entity, $action)
+    protected function handle(AbstractModel $entity, string $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',

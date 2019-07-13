@@ -1,21 +1,23 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\System;
+namespace Ryvon\EventLog\Observer\Event;
 
-use Ryvon\EventLog\Observer\AbstractEventObserver;
 use Magento\Framework\Event;
 
+/**
+ * Handles the flush cache events.
+ */
 class CacheFlushEventObserver extends AbstractEventObserver
 {
     /**
-     * @param Event $event
+     * @inheritDoc
      */
-    protected function dispatch(Event $event)
+    protected function handle(Event $event)
     {
         $cache = 'unknown cache';
         if (preg_match('#_all$#i', $event->getName())) {
             $cache = 'cache storage';
-        } else if (preg_match('#_system$#i', $event->getName())) {
+        } elseif (preg_match('#_system$#i', $event->getName())) {
             $cache = 'Magento cache';
         }
 

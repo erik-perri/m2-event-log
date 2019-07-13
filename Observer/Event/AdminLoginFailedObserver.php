@@ -1,11 +1,12 @@
 <?php
 
-namespace Ryvon\EventLog\Observer;
+namespace Ryvon\EventLog\Observer\Event;
 
-use Ryvon\EventLog\Helper\UserContextHelper;
+use Exception;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Ryvon\EventLog\Helper\UserContextHelper;
 
 /**
  * Monitors for the admin login failed event.
@@ -29,13 +30,14 @@ class AdminLoginFailedObserver implements ObserverInterface
     public function __construct(
         ManagerInterface $eventManager,
         UserContextHelper $userContextHelper
-    )
-    {
+    ) {
         $this->eventManager = $eventManager;
         $this->userContextHelper = $userContextHelper;
     }
 
     /**
+     * Adds an event log when the user fails to login to the admin.
+     *
      * @param Observer $observer
      */
     public function execute(Observer $observer)
@@ -55,12 +57,14 @@ class AdminLoginFailedObserver implements ObserverInterface
     }
 
     /**
-     * @param \Exception $exception
+     * Retrieves a simplified version of the login error.
+     *
+     * @param Exception $exception
      * @return string
      */
     private function getUserError($exception)
     {
-        if (!$exception || !($exception instanceof \Exception)) {
+        if (!$exception || !($exception instanceof Exception)) {
             return 'unknown error';
         }
 

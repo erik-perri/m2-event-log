@@ -1,28 +1,30 @@
 <?php
 
-namespace Ryvon\EventLog\Observer\Customers;
+namespace Ryvon\EventLog\Observer\Model;
 
-use Ryvon\EventLog\Observer\AbstractModelObserver;
+use Magento\Customer\Model\Customer;
+use Magento\Framework\Event;
 use Magento\Framework\Model\AbstractModel;
 
+/**
+ * Monitors the customer model for changes.
+ */
 class CustomerModelObserver extends AbstractModelObserver
 {
     /**
-     * @param \Magento\Framework\Event $event
-     * @return AbstractModel
+     * @inheritDoc
      */
-    public function getModel(\Magento\Framework\Event $event): AbstractModel
+    public function findModel(Event $event): AbstractModel
     {
         $entity = $event->getData('customer');
 
-        return $entity && $entity instanceof \Magento\Customer\Model\Customer ? $entity : null;
+        return $entity && $entity instanceof Customer ? $entity : null;
     }
 
     /**
-     * @param \Magento\Customer\Model\Customer $entity
-     * @param $action
+     * @inheritDoc
      */
-    protected function dispatch($entity, $action)
+    protected function handle(AbstractModel $entity, string $action)
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',
