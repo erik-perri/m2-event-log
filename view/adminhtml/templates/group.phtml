@@ -9,6 +9,7 @@ if (!$group) {
 
 $template = $group->getTemplate();
 $collection = $group->getEntryCollection();
+$hasUserContext = $collection->hasUserContext();
 
 $odd = false;
 
@@ -21,7 +22,7 @@ $odd = false;
         'title' => $group->getTitle(),
         'summary' => $collection->buildSummaryMessage(),
         'links' => $group->getHeadingLinks(),
-        'user-column' => $collection->hasUserContext(),
+        'user-column' => $hasUserContext,
         'single-store-mode' => $this->getData('single-store-mode'),
     ]);
     ?>
@@ -31,7 +32,7 @@ $odd = false;
         echo $block->renderBlock($template->getEntryTemplateFile(), $template->getEntryBlockClass(), [
             'entry' => $entry,
             'odd' => $odd = !$odd,
-            'user-column' => $collection->hasUserContext(),
+            'user-column' => $hasUserContext,
             'single-store-mode' => $this->getData('single-store-mode'),
             'duplicates' => $collection->getDuplicateCount($entry),
         ]);
