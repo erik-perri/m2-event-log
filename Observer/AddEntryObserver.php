@@ -15,7 +15,7 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\User\Model\User;
 use Psr\Log\LoggerInterface;
 
-class RecordEntryObserver implements ObserverInterface
+class AddEntryObserver implements ObserverInterface
 {
     /**
      * @var DigestRepository
@@ -62,8 +62,7 @@ class RecordEntryObserver implements ObserverInterface
         EntryRepository $entryRepository,
         PlaceholderReplacer $placeholderReplacer,
         ObjectManagerInterface $objectManager
-    )
-    {
+    ) {
         $this->digestRepository = $digestRepository;
         $this->logger = $logger;
         $this->dataObjectFactory = $dataObjectFactory;
@@ -101,8 +100,10 @@ class RecordEntryObserver implements ObserverInterface
             } else {
                 $user = $observer->getData('user');
                 if ($group === 'admin' || $user) {
-                    // This class relies on Session which will not work unless an area code is set (we are not running a
-                    // CLI command).   We initialize after so CLI commands can trigger logs.
+                    // This class relies on Session which will not work unless an area code is set (which only happens
+                    // when we are not running a CLI command).   We load using ObjectManager to give CLI commands
+                    // leaving logs a chance to set an area code before doing so.
+                    /** @var UserContextHelper $helper */
                     $helper = $this->objectManager->get(UserContextHelper::class);
                     if ($helper) {
                         if ($user instanceof User) {

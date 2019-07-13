@@ -2,20 +2,16 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="event_log_info">
-        <observer name="event_log_record_info"
-                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_info" instance="Ryvon\EventLog\Observer\AddEntryObserver"/>
     </event>
     <event name="event_log_error">
-        <observer name="event_log_record_error"
-                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_error" instance="Ryvon\EventLog\Observer\AddEntryObserver"/>
     </event>
     <event name="event_log_warning">
-        <observer name="event_log_record_warning"
-                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_warning" instance="Ryvon\EventLog\Observer\AddEntryObserver"/>
     </event>
     <event name="event_log_security">
-        <observer name="event_log_record_security"
-                  instance="Ryvon\EventLog\Observer\RecordEntryObserver"/>
+        <observer name="event_log_record_security" instance="Ryvon\EventLog\Observer\AddEntryObserver"/>
     </event>
 
     <event name="event_log_post_finish_digest">
