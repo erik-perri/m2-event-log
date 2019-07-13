@@ -71,6 +71,9 @@
                 <item name="adminhtml_system_config_save" xsi:type="object">
                     Ryvon\EventLog\Observer\Action\SystemConfigSaveObserver
                 </item>
+                <item name="theme_design_config_save" xsi:type="object">
+                    Ryvon\EventLog\Observer\Action\DesignConfigSaveObserver
+                </item>
             </argument>
         </arguments>
     </type>
