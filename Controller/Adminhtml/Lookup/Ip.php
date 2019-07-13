@@ -14,6 +14,11 @@ use Magento\Framework\Exception\NotFoundException;
 class Ip extends Action
 {
     /**
+     * Require event log index acl permissions.
+     */
+    const ADMIN_RESOURCE = 'Ryvon_EventLog::index';
+
+    /**
      * Redirect the user to the IP lookup URL.
      *
      * @return ResultInterface

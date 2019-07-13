@@ -12,6 +12,11 @@ use Magento\Framework\View\Result\PageFactory;
 class Index extends Action
 {
     /**
+     * Require event log index acl permissions.
+     */
+    const ADMIN_RESOURCE = 'Ryvon_EventLog::index';
+
+    /**
      * @var PageFactory
      */
     private $resultPageFactory;
