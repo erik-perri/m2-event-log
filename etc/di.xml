@@ -16,37 +16,37 @@
     <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
         <arguments>
             <argument name="placeholders" xsi:type="array">
-                <item name="attributePlaceholder" xsi:type="object">
+                <item name="attribute" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\AttributePlaceholder
                 </item>
-                <item name="attributeSetPlaceholder" xsi:type="object">
+                <item name="attribute-set" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\AttributeSetPlaceholder
                 </item>
-                <item name="categoryPlaceholder" xsi:type="object">
+                <item name="category" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CategoryPlaceholder
                 </item>
-                <item name="cmsPagePlaceholder" xsi:type="object">
+                <item name="cms-page" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CmsPagePlaceholder
                 </item>
-                <item name="cmsBlockPlaceholder" xsi:type="object">
+                <item name="cms-block" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CmsBlockPlaceholder
                 </item>
-                <item name="configSectionPlaceholder" xsi:type="object">
+                <item name="config-section" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\ConfigSectionPlaceholder
                 </item>
-                <item name="customerPlaceholder" xsi:type="object">
+                <item name="customer" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CustomerPlaceholder
                 </item>
-                <item name="orderPlaceholder" xsi:type="object">
+                <item name="order" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder
                 </item>
-                <item name="productPlaceholder" xsi:type="object">
+                <item name="product" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\ProductPlaceholder
                 </item>
-                <item name="userIpPlaceholder" xsi:type="object">
+                <item name="user-ip" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\UserIpPlaceholder
                 </item>
-                <item name="userNamePlaceholder" xsi:type="object">
+                <item name="user-name" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\UserNamePlaceholder
                 </item>
             </argument>
