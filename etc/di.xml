@@ -96,12 +96,11 @@
         <plugin name="event_log_action_monitor" type="Ryvon\EventLog\Plugin\ActionMonitorPlugin" sortOrder="1"/>
     </type>
 
-    <!-- Add some plugins to hook into their save events -->
+    <!-- Add plugins to hook into the attribute save and delete events -->
     <type name="Magento\Catalog\Model\ResourceModel\Attribute">
         <plugin name="event_log_attribute_plugin" type="Ryvon\EventLog\Plugin\AttributePlugin" sortOrder="1"/>
     </type>
     <type name="Magento\Eav\Model\ResourceModel\Entity\Attribute\Set">
-        <plugin name="event_log_attribute_set_plugin" type="Ryvon\EventLog\Plugin\AttributeSetPlugin"
-                sortOrder="1"/>
+        <plugin name="event_log_attribute_set_plugin" type="Ryvon\EventLog\Plugin\AttributeSetPlugin" sortOrder="1"/>
     </type>
 </config>

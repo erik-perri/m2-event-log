@@ -2,12 +2,16 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Exception;
 use Ryvon\EventLog\Helper\OrderReporter;
 use Ryvon\EventLog\Model\Digest;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Event observer to add the orders from the digest period to the digest before sending.
+ */
 class ReportOrdersObserver implements ObserverInterface
 {
     /**
@@ -27,13 +31,14 @@ class ReportOrdersObserver implements ObserverInterface
     public function __construct(
         LoggerInterface $logger,
         OrderReporter $orderReporter
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->orderReporter = $orderReporter;
     }
 
     /**
+     * Adds the orders made in the digest period to the digest.
+     *
      * @param Observer $observer
      * @return void
      */
@@ -46,7 +51,7 @@ class ReportOrdersObserver implements ObserverInterface
             }
 
             $this->orderReporter->reportOrdersInDigest($digest);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->critical($e);
         }
     }

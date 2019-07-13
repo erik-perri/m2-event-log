@@ -2,6 +2,8 @@
 
 namespace Ryvon\EventLog\Observer;
 
+use Exception;
+use Magento\Framework\Event;
 use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Helper\UserContextHelper;
 use Ryvon\EventLog\Model\Digest;
@@ -15,6 +17,9 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\User\Model\User;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Event observer to handle the various event_log_[...] events.
+ */
 class AddEntryObserver implements ObserverInterface
 {
     /**
@@ -72,6 +77,8 @@ class AddEntryObserver implements ObserverInterface
     }
 
     /**
+     * Adds an event log based on the event context.
+     *
      * @param Observer $observer
      * @return void
      */
@@ -154,16 +161,18 @@ class AddEntryObserver implements ObserverInterface
                 ->setEntryLevel($level)
                 ->setEntryMessage($message)
                 ->setEntryContext($context)
-                ->setCreatedAt($observer->getData('date') ?? null);
+                ->setCreatedAt($observer->getData('date') ?: null);
 
             $this->entryRepository->save($entry);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->critical($e);
         }
     }
 
     /**
-     * @param \Magento\Framework\Event $event
+     * Retrieves the entry level from the event name.
+     *
+     * @param Event $event
      * @return string|null
      */
     private function getEntryLevelFromEventName($event)
@@ -177,10 +186,12 @@ class AddEntryObserver implements ObserverInterface
             return null;
         }
 
-        return preg_replace('#^event_log_([a-z]+)$#i', '$1', $event->getName());
+        return preg_replace($match, '$1', $event->getName());
     }
 
     /**
+     * Checks if the message can be rendered with no placeholders loaded.
+     *
      * @param string $message
      * @param DataObject $context
      * @return bool
@@ -192,7 +203,7 @@ class AddEntryObserver implements ObserverInterface
             if (strpos($replaced, $this->placeholderReplacer->getUnknownText()) !== false) {
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
 
@@ -200,6 +211,8 @@ class AddEntryObserver implements ObserverInterface
     }
 
     /**
+     * Retrieves the current digest or creates a new one.
+     *
      * @return Digest|null
      */
     private function findOrCreateDigest()
