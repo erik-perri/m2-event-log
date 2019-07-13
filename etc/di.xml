@@ -37,6 +37,9 @@
                 <item name="customer" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\CustomerPlaceholder
                 </item>
+                <item name="design-config-scope" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\DesignConfigScopePlaceholder
+                </item>
                 <item name="order" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder
                 </item>
