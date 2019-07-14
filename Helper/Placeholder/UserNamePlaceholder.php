@@ -3,13 +3,25 @@
 namespace Ryvon\EventLog\Helper\Placeholder;
 
 use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\DataObject;
 use Magento\User\Model\ResourceModel\User;
 use Magento\User\Model\UserFactory;
 
+/**
+ * Placeholder to replace {user-name} with a link to edit user form.
+ */
 class UserNamePlaceholder implements PlaceholderInterface
 {
     use LinkPlaceholderTrait;
+
+    /**
+     * The name context key.
+     */
+    const NAME_KEY = 'user-name';
+
+    /**
+     * The ID context key.
+     */
+    const ID_KEY = 'user-id';
 
     /**
      * @var UrlInterface
@@ -42,7 +54,7 @@ class UserNamePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getSearchString(): string
     {
@@ -50,13 +62,12 @@ class UserNamePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
     public function getReplaceString($context)
     {
-        $userId = $context->getData('user-id');
-        $userName = $context->getData('user-name');
+        $userId = $context->getData(static::ID_KEY);
+        $userName = $context->getData(static::NAME_KEY);
 
         if (!$userId && !$userName) {
             return null;
@@ -78,7 +89,9 @@ class UserNamePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param $id
+     * Loads the admin user with the specified ID.
+     *
+     * @param int $id
      * @return \Magento\User\Model\User|null
      */
     private function findUserById($id)

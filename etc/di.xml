@@ -16,6 +16,12 @@
     <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
         <arguments>
             <argument name="placeholders" xsi:type="array">
+                <item name="admin-user" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\AdminUserPlaceholder
+                </item>
+                <item name="admin-role" xsi:type="object">
+                    Ryvon\EventLog\Helper\Placeholder\AdminRolePlaceholder
+                </item>
                 <item name="attribute" xsi:type="object">
                     Ryvon\EventLog\Helper\Placeholder\AttributePlaceholder
                 </item>
@@ -102,5 +108,13 @@
     </type>
     <type name="Magento\Eav\Model\ResourceModel\Entity\Attribute\Set">
         <plugin name="event_log_attribute_set_plugin" type="Ryvon\EventLog\Plugin\AttributeSetPlugin" sortOrder="1"/>
+    </type>
+
+    <!-- Add plugins to hook into the admin user and role save and delete events -->
+    <type name="Magento\User\Model\User">
+        <plugin name="event_log_admin_user_plugin" type="Ryvon\EventLog\Plugin\AdminUserPlugin" sortOrder="1"/>
+    </type>
+    <type name="Magento\Authorization\Model\Role">
+        <plugin name="event_log_admin_role_plugin" type="Ryvon\EventLog\Plugin\AdminRolePlugin" sortOrder="1"/>
     </type>
 </config>
