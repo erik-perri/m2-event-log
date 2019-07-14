@@ -12,23 +12,16 @@ class IpLocationHelper
     private $urlBuilder;
 
     /**
-     * @var SvgHelper
-     */
-    private $svgHelper;
-
-    /**
      * @var array
      */
     private $shown = [];
 
     /**
      * @param UrlInterface $urlBuilder
-     * @param SvgHelper $svgHelper
      */
-    public function __construct(UrlInterface $urlBuilder, SvgHelper $svgHelper)
+    public function __construct(UrlInterface $urlBuilder)
     {
         $this->urlBuilder = $urlBuilder;
-        $this->svgHelper = $svgHelper;
     }
 
     /**
@@ -55,7 +48,7 @@ class IpLocationHelper
      * @param string $tag
      * @return string|null
      */
-    public function generateLocateLinkTag($ip, $attributes, $child = '{icon}', $tag = 'a')
+    public function generateLocateLinkTag($ip, $attributes, $child, $tag = 'a')
     {
         $url = $this->getLocateUrl($ip);
         if (!$url) {
@@ -75,9 +68,7 @@ class IpLocationHelper
             $parameters[] = sprintf('%s="%s"', htmlentities($parameter, ENT_QUOTES), htmlentities($value, ENT_QUOTES));
         }
 
-        $content = str_replace('{icon}', $this->svgHelper->getSearchLocationSvg(), $child);
-
-        return sprintf('<%s %s>%s</%s>', $tag, implode(' ', $parameters), $content, $tag);
+        return sprintf('<%s %s>%s</%s>', $tag, implode(' ', $parameters), $child, $tag);
     }
 
     /**
