@@ -3,7 +3,7 @@
 namespace Ryvon\EventLog\Helper\Placeholder;
 
 use Magento\Store\Model\StoreManagerInterface;
-use Ryvon\EventLog\Helper\SvgHelper;
+use Ryvon\EventLog\Helper\ImageFinder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryRepository;
@@ -30,9 +30,9 @@ class CategoryPlaceholder implements PlaceholderInterface
     private $storeManager;
 
     /**
-     * @var SvgHelper
+     * @var ImageFinder
      */
-    private $svgHelper;
+    private $imageFinder;
 
     /**
      * @var array
@@ -43,18 +43,18 @@ class CategoryPlaceholder implements PlaceholderInterface
      * @param UrlInterface $urlBuilder
      * @param CategoryRepository $categoryRepository
      * @param StoreManagerInterface $storeManager
-     * @param SvgHelper $svgHelper
+     * @param ImageFinder $imageFinder
      */
     public function __construct(
         UrlInterface $urlBuilder,
         CategoryRepository $categoryRepository,
         StoreManagerInterface $storeManager,
-        SvgHelper $svgHelper
+        ImageFinder $imageFinder
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->categoryRepository = $categoryRepository;
         $this->storeManager = $storeManager;
-        $this->svgHelper = $svgHelper;
+        $this->imageFinder = $imageFinder;
     }
 
     /**
@@ -99,7 +99,7 @@ class CategoryPlaceholder implements PlaceholderInterface
             $frontendUrl = $category->getUrl();
             if ($frontendUrl) {
                 $return .= $this->buildLinkTag([
-                    'html' => $this->svgHelper->getStoreSvg(),
+                    'html' => $this->imageFinder->getSvgContents('store.svg'),
                     'title' => 'View this category on the frontend',
                     'href' => $frontendUrl,
                     'target' => '_blank',

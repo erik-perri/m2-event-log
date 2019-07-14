@@ -2,7 +2,7 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Ryvon\EventLog\Helper\SvgHelper;
+use Ryvon\EventLog\Helper\ImageFinder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Cms\Helper\Page as PageHelper;
 use Magento\Cms\Model\PageRepository;
@@ -29,26 +29,26 @@ class CmsPagePlaceholder implements PlaceholderInterface
     private $pageRepository;
 
     /**
-     * @var SvgHelper
+     * @var ImageFinder
      */
-    private $svgHelper;
+    private $imageFinder;
 
     /**
      * @param UrlInterface $urlBuilder
      * @param PageHelper $pageHelper
      * @param PageRepository $pageRepository
-     * @param SvgHelper $svgHelper
+     * @param ImageFinder $imageFinder
      */
     public function __construct(
         UrlInterface $urlBuilder,
         PageHelper $pageHelper,
         PageRepository $pageRepository,
-        SvgHelper $svgHelper
+        ImageFinder $imageFinder
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->pageHelper = $pageHelper;
         $this->pageRepository = $pageRepository;
-        $this->svgHelper = $svgHelper;
+        $this->imageFinder = $imageFinder;
     }
 
     /**
@@ -93,7 +93,7 @@ class CmsPagePlaceholder implements PlaceholderInterface
         $frontendUrl = $this->pageHelper->getPageUrl($pageId);
         if ($frontendUrl && $page->isActive()) {
             $return .= $this->buildLinkTag([
-                'html' => $this->svgHelper->getStoreSvg(),
+                'html' => $this->imageFinder->getSvgContents('store.svg'),
                 'title' => 'View this page on the frontend',
                 'href' => $frontendUrl,
                 'target' => '_blank',

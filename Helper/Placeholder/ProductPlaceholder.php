@@ -2,7 +2,7 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Ryvon\EventLog\Helper\SvgHelper;
+use Ryvon\EventLog\Helper\ImageFinder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
@@ -23,23 +23,23 @@ class ProductPlaceholder implements PlaceholderInterface
     private $productRepository;
 
     /**
-     * @var SvgHelper
+     * @var ImageFinder
      */
-    private $svgHelper;
+    private $imageFinder;
 
     /**
      * @param UrlInterface $urlBuilder
      * @param ProductRepositoryInterface $productRepository
-     * @param SvgHelper $svgHelper
+     * @param ImageFinder $imageFinder
      */
     public function __construct(
         UrlInterface $urlBuilder,
         ProductRepositoryInterface $productRepository,
-        SvgHelper $svgHelper
+        ImageFinder $imageFinder
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->productRepository = $productRepository;
-        $this->svgHelper = $svgHelper;
+        $this->imageFinder = $imageFinder;
     }
 
     /**
@@ -79,7 +79,7 @@ class ProductPlaceholder implements PlaceholderInterface
             $frontendUrl = $product->getUrlModel()->getUrl($product);
             if ($frontendUrl) {
                 $return .= $this->buildLinkTag([
-                    'html' => $this->svgHelper->getStoreSvg(),
+                    'html' => $this->imageFinder->getSvgContents('store.svg'),
                     'title' => 'View this product on the frontend',
                     'href' => $frontendUrl,
                     'target' => '_blank',
