@@ -2,6 +2,8 @@
 
 namespace Ryvon\EventLog\Plugin;
 
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\User\Model\ResourceModel\User as UserResourceModel;
 use Magento\User\Model\User;
@@ -28,18 +30,26 @@ class AdminUserPlugin
     private $userFactory;
 
     /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
      * @param ManagerInterface $eventManager
      * @param UserResourceModel $userResourceModel
      * @param UserFactory $userFactory
+     * @param RequestInterface $request
      */
     public function __construct(
         ManagerInterface $eventManager,
         UserResourceModel $userResourceModel,
-        UserFactory $userFactory
+        UserFactory $userFactory,
+        RequestInterface $request
     ) {
         $this->eventManager = $eventManager;
         $this->userResourceModel = $userResourceModel;
         $this->userFactory = $userFactory;
+        $this->request = $request;
     }
 
     /**
@@ -56,15 +66,17 @@ class AdminUserPlugin
         // We proceed with the save to obtain the ID in case this is a new attribute.
         $return = $proceed();
 
-        $this->eventManager->dispatch('event_log_info', [
-            'group' => 'admin',
-            'message' => 'Admin user {admin-user} {action}.',
-            'context' => [
-                'admin-user' => $subject->getData('username'),
-                'admin-user-id' => (string)$subject->getId(),
-                'action' => $subject->isObjectNew() ? 'created' : 'modified',
-            ],
-        ]);
+        if ($this->isEditingUser()) {
+            $this->eventManager->dispatch('event_log_info', [
+                'group' => 'admin',
+                'message' => 'Admin user {admin-user} {action}.',
+                'context' => [
+                    'admin-user' => $subject->getData('username'),
+                    'admin-user-id' => (string)$subject->getId(),
+                    'action' => $subject->isObjectNew() ? 'created' : 'modified',
+                ],
+            ]);
+        }
 
         return $return;
     }
@@ -94,5 +106,28 @@ class AdminUserPlugin
         }
 
         return [];
+    }
+
+    /**
+     * Checks whether the current request is a post request to the user edit page.
+     *
+     * This is needed due to the role form modifying the user on save.
+     *
+     * @return bool
+     */
+    private function isEditingUser(): bool
+    {
+        if (!$this->request instanceof Http) {
+            return false;
+        }
+
+        if (!$this->request->isPost() || !in_array($this->request->getFullActionName(), [
+            'adminhtml_user_save',
+            'adminhtml_user_delete',
+        ])) {
+            return false;
+        }
+
+        return true;
     }
 }
