@@ -15,92 +15,14 @@
     </event>
 
     <event name="event_log_post_finish_digest">
-        <observer name="event_log_report_orders"
-                  instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
+        <observer name="event_log_report_orders" instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
     </event>
 
-    <event name="backend_auth_user_login_success">
-        <observer name="event_log_login_success_observer"
-                  instance="Ryvon\EventLog\Observer\Event\AdminLoginSuccessObserver"/>
-    </event>
-    <event name="backend_auth_user_login_failed">
-        <observer name="event_log_login_failed_observer"
-                  instance="Ryvon\EventLog\Observer\Event\AdminLoginFailedObserver"/>
-    </event>
-
-    <event name="catalog_product_save_after">
-        <observer name="event_log_product_save_observer"
-                  instance="Ryvon\EventLog\Observer\Model\ProductModelObserver"/>
-    </event>
-    <event name="catalog_product_delete_after">
-        <observer name="event_log_product_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\ProductModelObserver"/>
-    </event>
-
-    <event name="catalog_category_save_after">
-        <observer name="event_log_category_save_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CategoryModelObserver"/>
-    </event>
-    <event name="catalog_category_delete_after">
-        <observer name="event_log_category_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CategoryModelObserver"/>
-    </event>
-
-    <event name="cms_page_save_after">
-        <observer name="event_log_page_save_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CmsPageModelObserver"/>
-    </event>
-    <event name="cms_page_delete_after">
-        <observer name="event_log_page_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CmsPageModelObserver"/>
-    </event>
-
-    <event name="cms_block_save_after">
-        <observer name="event_log_block_save_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CmsBlockModelObserver"/>
-    </event>
-    <event name="cms_block_delete_after">
-        <observer name="event_log_block_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CmsBlockModelObserver"/>
-    </event>
-
-    <event name="customer_save_after">
-        <observer name="event_log_customer_save_after_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CustomerModelObserver"/>
-    </event>
-    <event name="customer_delete_after">
-        <observer name="event_log_customer_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CustomerModelObserver"/>
-    </event>
-
-    <event name="customer_group_save_after">
-        <observer name="event_log_customer_group_save_after_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CustomerGroupModelObserver"/>
-    </event>
-    <event name="customer_group_delete_after">
-        <observer name="event_log_customer_group_delete_observer"
-                  instance="Ryvon\EventLog\Observer\Model\CustomerGroupModelObserver"/>
-    </event>
-
+    <!-- These events are here instead of adminhtml/events.xml to catch CLI cache clears as well -->
     <event name="adminhtml_cache_flush_all">
-        <observer name="event_log_cache_flush_all"
-                  instance="Ryvon\EventLog\Observer\Event\CacheFlushEventObserver"/>
+        <observer name="event_log_cache_flush_all" instance="Ryvon\EventLog\Observer\Event\CacheFlushEventObserver"/>
     </event>
     <event name="adminhtml_cache_flush_system">
-        <observer name="event_log_cache_flush_system"
-                  instance="Ryvon\EventLog\Observer\Event\CacheFlushEventObserver"/>
-    </event>
-
-    <event name="clean_catalog_images_cache_after">
-        <observer name="event_log_catalog_images_cache"
-                  instance="Ryvon\EventLog\Observer\Event\CacheFlushFilesEventObserver"/>
-    </event>
-    <event name="clean_static_files_cache_after">
-        <observer name="event_log_static_files_cache"
-                  instance="Ryvon\EventLog\Observer\Event\CacheFlushFilesEventObserver"/>
-    </event>
-    <event name="clean_media_cache_after">
-        <observer name="event_log_media_cache"
-                  instance="Ryvon\EventLog\Observer\Event\CacheFlushFilesEventObserver"/>
+        <observer name="event_log_cache_flush_system" instance="Ryvon\EventLog\Observer\Event\CacheFlushEventObserver"/>
     </event>
 </config>
