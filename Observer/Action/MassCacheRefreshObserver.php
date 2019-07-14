@@ -37,7 +37,7 @@ class MassCacheRefreshObserver implements ActionObserverInterface
 
         $this->eventManager->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Flushed cache(s) {types}.',
+            'message' => 'Flushed cache: {types}.',
             'context' => [
                 'types' => implode(', ', $types),
             ],
