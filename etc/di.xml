@@ -99,7 +99,7 @@
 
     <!-- Add a plugin to hook into the action dispatch event -->
     <type name="Magento\Backend\App\AbstractAction">
-        <plugin name="event_log_action_monitor" type="Ryvon\EventLog\Plugin\ActionMonitorPlugin" sortOrder="1"/>
+        <plugin name="event_log_action_monitor_plugin" type="Ryvon\EventLog\Plugin\ActionMonitorPlugin" sortOrder="1"/>
     </type>
 
     <!-- Add plugins to hook into the attribute save and delete events -->
