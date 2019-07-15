@@ -43,29 +43,26 @@ class SendDigestCronHandler
 
     /**
      * Executes the cron job, finishing and sending the digest depending on configuration.
-     *
-     * @return SendDigestCronHandler
      */
-    public function execute(): SendDigestCronHandler
+    public function execute()
     {
         if (!$this->config->getInternalDigestCron()) {
-            return $this;
+            return;
         }
 
         $digest = $this->digestRepository->findNewestUnfinishedDigest();
         if (!$digest) {
-            return $this;
+            return;
         }
 
         if (!$this->digestSender->finishDigest($digest)) {
-            return $this;
+            return;
         }
 
         if (!$this->config->getEnableDigestEmail() || !$this->config->getRecipients()) {
-            return $this;
+            return;
         }
 
         $this->digestSender->sendDigest($digest);
-        return $this;
     }
 }
