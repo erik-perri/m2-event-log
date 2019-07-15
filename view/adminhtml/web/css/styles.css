@@ -60,6 +60,7 @@
 /*noinspection CssUnusedSymbol*/
 a.icon {
     margin-left: 5px;
+    display: inline-block;
 }
 
 .group-title {
