@@ -2,15 +2,13 @@
 
 namespace Ryvon\EventLog\Helper;
 
+use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Block\Adminhtml\Digest\IndexBlock;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\EntryRepository;
-use Magento\Framework\App\DeploymentConfig;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Mail\Template\TransportBuilder;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Store\Model\StoreManagerInterface;
 
 class EmailBuilder
 {
@@ -166,11 +164,22 @@ class EmailBuilder
         $links = $path->query('//a');
         foreach ($links as $link) {
             /** @var \DOMElement $link */
+            $includeLinkContent = true;
+            $classAttribute = $link->getAttribute('class');
+            if ($classAttribute) {
+                $classes = explode(' ', $classAttribute);
+                // The text in buttons and icons is not useful after removing the link.
+                $includeLinkContent = !in_array('icon', $classes, true) && !in_array('btn', $classes, true);
+            }
 
-            $link->parentNode->replaceChild(
-                new \DOMText($link->textContent),
-                $link
-            );
+            if ($includeLinkContent) {
+                $link->parentNode->replaceChild(
+                    new \DOMText($link->textContent),
+                    $link
+                );
+            } else {
+                $link->parentNode->removeChild($link);
+            }
         }
 
         $content = $dom->saveHTML();
