@@ -20,7 +20,7 @@ class IpLocationHelper
     }
 
     /**
-     * Generates an anchor tag to the lookup IP info URL.
+     * Builds an anchor tag to the lookup IP info URL.
      *
      * @param string $ip
      * @param array $attributes
@@ -28,7 +28,7 @@ class IpLocationHelper
      * @param string $tag
      * @return string|null
      */
-    public function generateLocateLinkTag($ip, $attributes, $innerHtml, $tag = 'a')
+    public function buildLookupIpTag($ip, $attributes, $innerHtml, $tag = 'a')
     {
         $url = $this->getLocateUrl($ip);
         if (!$url) {

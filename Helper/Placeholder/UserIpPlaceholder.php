@@ -2,8 +2,8 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Ryvon\EventLog\Helper\IpLocationHelper;
 use Magento\Framework\DataObject;
+use Ryvon\EventLog\Helper\IpLocationHelper;
 
 class UserIpPlaceholder implements PlaceholderInterface
 {
@@ -41,7 +41,7 @@ class UserIpPlaceholder implements PlaceholderInterface
             return null;
         }
 
-        return $this->locationHelper->generateLocateLinkTag($userIp, [
+        return $this->locationHelper->buildLookupIpTag($userIp, [
             'title' => 'View information for IP: ' . $userIp,
             'target' => '_blank',
         ], $userIp) ?: $userIp;
