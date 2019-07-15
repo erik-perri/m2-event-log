@@ -121,9 +121,9 @@ class OrderReporter
                 'status-code' => $order->getStatus(),
                 'store-view' => $order->getStore() ? $order->getStore()->getFrontendName() : null,
                 'payment-method' => $this->getOrderPaymentMethodTitle($order),
-                'ips' => array_values(array_filter($ips, function ($ip) {
+                'ips' => array_values(array_unique(array_filter($ips, function ($ip) {
                     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-                }))
+                })))
             ],
         ]);
     }

@@ -50,6 +50,7 @@ if (!$incrementId) {
             <?php
             $ips = $context->getData('ips') ?: [];
             if ($ips && is_array($ips)) {
+                $ips = array_unique($ips);
                 foreach ($ips as $ip) {
                     $link = $block->getLocationHelper()->generateLocateLinkTag($ip, [
                         'title' => 'View information for IP: ' . $ip,
