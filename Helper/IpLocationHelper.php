@@ -12,33 +12,11 @@ class IpLocationHelper
     private $urlBuilder;
 
     /**
-     * @var array
-     */
-    private $shown = [];
-
-    /**
      * @param UrlInterface $urlBuilder
      */
     public function __construct(UrlInterface $urlBuilder)
     {
         $this->urlBuilder = $urlBuilder;
-    }
-
-    /**
-     * @param $ip
-     * @param $context
-     * @param bool $addIfNot
-     * @return bool
-     */
-    public function hasShownInContext($ip, $context, $addIfNot = true): bool
-    {
-        if (isset($this->shown[$context][$ip])) {
-            return true;
-        }
-        if ($addIfNot) {
-            $this->shown[$context][$ip] = true;
-        }
-        return false;
     }
 
     /**
