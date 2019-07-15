@@ -96,7 +96,7 @@ In your plugin's di.xml add the placeholder to the `PlaceholderReplacer` constru
     <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
         <arguments>
             <argument name="placeholders" xsi:type="array">
-                <item name="bannerPlaceholder" xsi:type="object">
+                <item name="banner" xsi:type="object">
                     ExampleCompany\ExamplePlugin\EventLog\Placeholder\BannerPlaceholder
                 </item>
             </argument>
