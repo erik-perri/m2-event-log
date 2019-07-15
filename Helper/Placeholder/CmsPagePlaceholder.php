@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Ryvon\EventLog\Helper\ImageFinder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Cms\Helper\Page as PageHelper;
 use Magento\Cms\Model\PageRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Ryvon\EventLog\Helper\ImageLocator;
 
 class CmsPagePlaceholder implements PlaceholderInterface
 {
@@ -29,26 +29,26 @@ class CmsPagePlaceholder implements PlaceholderInterface
     private $pageRepository;
 
     /**
-     * @var ImageFinder
+     * @var ImageLocator
      */
-    private $imageFinder;
+    private $imageLocator;
 
     /**
      * @param UrlInterface $urlBuilder
      * @param PageHelper $pageHelper
      * @param PageRepository $pageRepository
-     * @param ImageFinder $imageFinder
+     * @param ImageLocator $imageLocator
      */
     public function __construct(
         UrlInterface $urlBuilder,
         PageHelper $pageHelper,
         PageRepository $pageRepository,
-        ImageFinder $imageFinder
+        ImageLocator $imageLocator
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->pageHelper = $pageHelper;
         $this->pageRepository = $pageRepository;
-        $this->imageFinder = $imageFinder;
+        $this->imageLocator = $imageLocator;
     }
 
     /**
@@ -93,7 +93,7 @@ class CmsPagePlaceholder implements PlaceholderInterface
         $frontendUrl = $this->pageHelper->getPageUrl($pageId);
         if ($frontendUrl && $page->isActive()) {
             $return .= $this->buildLinkTag([
-                'html' => $this->imageFinder->getSvgContents('store.svg'),
+                'html' => $this->imageLocator->getIconSvg('store') ?: '[Frontend]',
                 'title' => 'View this page on the frontend',
                 'href' => $frontendUrl,
                 'target' => '_blank',

@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Helper\Placeholder;
 
-use Magento\Store\Model\StoreManagerInterface;
-use Ryvon\EventLog\Helper\ImageFinder;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
+use Ryvon\EventLog\Helper\ImageLocator;
 
 class CategoryPlaceholder implements PlaceholderInterface
 {
@@ -30,9 +30,9 @@ class CategoryPlaceholder implements PlaceholderInterface
     private $storeManager;
 
     /**
-     * @var ImageFinder
+     * @var ImageLocator
      */
-    private $imageFinder;
+    private $imageLocator;
 
     /**
      * @var array
@@ -43,18 +43,18 @@ class CategoryPlaceholder implements PlaceholderInterface
      * @param UrlInterface $urlBuilder
      * @param CategoryRepository $categoryRepository
      * @param StoreManagerInterface $storeManager
-     * @param ImageFinder $imageFinder
+     * @param ImageLocator $imageLocator
      */
     public function __construct(
         UrlInterface $urlBuilder,
         CategoryRepository $categoryRepository,
         StoreManagerInterface $storeManager,
-        ImageFinder $imageFinder
+        ImageLocator $imageLocator
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->categoryRepository = $categoryRepository;
         $this->storeManager = $storeManager;
-        $this->imageFinder = $imageFinder;
+        $this->imageLocator = $imageLocator;
     }
 
     /**
@@ -99,7 +99,7 @@ class CategoryPlaceholder implements PlaceholderInterface
             $frontendUrl = $category->getUrl();
             if ($frontendUrl) {
                 $return .= $this->buildLinkTag([
-                    'html' => $this->imageFinder->getSvgContents('store.svg'),
+                    'html' => $this->imageLocator->getIconSvg('store') ?: '[Frontend]',
                     'title' => 'View this category on the frontend',
                     'href' => $frontendUrl,
                     'target' => '_blank',
