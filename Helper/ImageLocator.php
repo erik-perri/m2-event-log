@@ -32,19 +32,4 @@ class ImageLocator
             $imageName
         );
     }
-
-    /**
-     * Returns the contents of the specified image file.
-     *
-     * @param string $isoCode
-     * @return string|null
-     */
-    public function getFlagSvg(string $isoCode)
-    {
-        $imageName = sprintf('%s.svg', strtolower($isoCode));
-        return $this->locator->getVendorFileContents(
-            'components/flag-icon-css/flags/4x3',
-            $imageName
-        );
-    }
 }
