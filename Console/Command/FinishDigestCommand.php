@@ -94,6 +94,8 @@ class FinishDigestCommand extends Command
             // from being run.
             $this->digestSender = $this->objectManager->create(DigestSender::class);
         } catch (LocalizedException $e) {
+            $output->writeln('Failed to create digest sender');
+            $output->writeln($e->getMessage());
         }
 
         if ($input->getOption('digest-id')) {
