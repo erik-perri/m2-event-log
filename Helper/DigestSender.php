@@ -74,15 +74,13 @@ class DigestSender
                 return false;
             }
 
-            $this->eventManager->dispatch('event_log_digest_finished', [
-                'digest' => $digest,
-            ]);
-
             if (!$this->digestRepository->createNewDigest()) {
                 $this->logger->critical('Failed to create next digest');
                 // Don't return false, whatever is asking us to finish the digest doesn't care whether the next was
                 // created or not.
             }
+
+            $this->eventManager->dispatch('event_log_digest_finished', ['digest' => $digest]);
         }
 
         return true;
