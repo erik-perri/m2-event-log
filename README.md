@@ -72,15 +72,17 @@ the standard renderer with the supplied group id converted to title case.
 
 Type: `String`
 
-The event log message.  Dynamic portions should use {curly-brackets} and the `context` array.
+The event log message.  Dynamic portions, or HTML, should use {curly-brackets} and the `context` array.
+The string is passed through an HTML escaper before processing the placeholders.
 
 
 ### `context`
 
 Type: `Array`
 
-The context for the event log message.  The context can include non-string values but any keys referenced
-in the message string must be strings or the message will not be recorded.
+The context for the event log message.  The context can include non-string values (as long as they can
+be encoded in json) but any keys referenced in the message string must be strings or the message will
+not be recorded.
 
 
 ### `user`

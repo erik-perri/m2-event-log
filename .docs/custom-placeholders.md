@@ -1,6 +1,6 @@
 # Custom Placeholders
 
-This is the preferred way to add links or other dynamic content to the log entry.  The
+This is the only way to add links or other dynamic content to the log entry.  The
 example below will replace `{banner}` with a link to a banner edit page.  We prefer to
 use a placeholder so the message can be translated later.  It also offers the benefit of
 being able to load the current banner (using the `banner-id` context) which allows the
@@ -48,25 +48,19 @@ class BannerPlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
-        // The default return should generally match the search string since that is what
-        // will be displayed if this placeholder is not found
-        $bannerName = $context->getData('banner');
-        if (!$bannerName) {
-            return false;
-        }
-
-        // If no banner id was provided we can't link to edit it (we could search by name
-        // but this theoretical banner component may not require unique names, or the name
-        // may have changed since this log event was created)
         $bannerId = $context->getData('banner-id');
-        if (!$bannerId) {
-            return $bannerName;
+        $bannerName = $context->getData('banner');
+
+        // When invalid context is found we return null which tells the placeholder to
+        // use (and escape) whatever context value is in the banner context.
+        if (!$bannerId || !$bannerName) {
+            return null;
         }
 
         // Ensure the banner still exists to link to
         $banner = $this->findBannerById($bannerId);
         if (!$banner) {
-            return $bannerName;
+            return null;
         }
 
         return $this->buildLinkTag([
