@@ -1,7 +1,6 @@
 {
   "name": "erik-perri/m2-event-log",
   "description": "Magento 2 plugin to log events.",
-  "version": "0.0.7",
   "license": "MIT",
   "require": {
     "php": "~7.0.13|~7.1.0",
