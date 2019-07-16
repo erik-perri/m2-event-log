@@ -50,7 +50,7 @@ class Config
     public function getRecipients()
     {
         $recipientsValue = $this->scopeConfig->getValue('system/event_log/recipient_email', ScopeInterface::SCOPE_WEBSITE);
-        if (!$recipientsValue || strpos($recipientsValue, '@example.com') !== false) {
+        if (!$recipientsValue) {
             return null;
         }
         if (strpos($recipientsValue, ',') !== false) {
