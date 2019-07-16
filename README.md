@@ -9,6 +9,9 @@ by developers creating sites that have background tasks which need a visible log
 
 ## Logging Example
 
+**Warning** This is likely to change before 1.0 due to the limitations with this way of handling
+placeholders (inability to have multiple instances of a placeholder in a message).
+
 ```php
 /** @var \Magento\Framework\Event\ManagerInterface $eventManager */
 
