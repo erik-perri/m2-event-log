@@ -10,7 +10,7 @@
             $links = $block->getData('links');
             if ($links) {
                 echo $block->renderBlock('Ryvon_EventLog::heading/links.phtml', \Magento\Backend\Block\Template::class, [
-                    'links' => $block->getData('links'),
+                    'links' => $links,
                 ]);
             }
             ?>
