@@ -14,7 +14,7 @@
         <observer name="event_log_record_security" instance="Ryvon\EventLog\Observer\AddEntryObserver"/>
     </event>
 
-    <event name="event_log_post_finish_digest">
+    <event name="event_log_digest_finished">
         <observer name="event_log_report_orders" instance="Ryvon\EventLog\Observer\ReportOrdersObserver"/>
     </event>
 

@@ -60,7 +60,7 @@ class DigestSender
                 return false;
             }
 
-            $this->eventManager->dispatch('event_log_post_finish_digest', [
+            $this->eventManager->dispatch('event_log_digest_finished', [
                 'digest' => $digest,
             ]);
 
@@ -82,7 +82,7 @@ class DigestSender
     {
         $builder = $this->emailHelper->createDigestEmail($digest);
 
-        $this->eventManager->dispatch('event_log_pre_send_digest', [
+        $this->eventManager->dispatch('event_log_email_sending', [
             'instance' => $this,
             'digest' => $digest,
             'builder' => $builder,
