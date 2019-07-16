@@ -65,20 +65,16 @@ class CmsPagePlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
-        $pageName = $context->getData('cms-page');
-        if (!$pageName) {
-            return null;
-        }
-
         $pageId = $context->getData('cms-page-id');
-        if (!$pageId) {
-            return $pageName;
+        $pageName = $context->getData('cms-page');
+        if (!$pageId || !$pageName) {
+            return null;
         }
 
         try {
             $page = $this->pageRepository->getById($pageId);
         } catch (NoSuchEntityException $e) {
-            return $pageName;
+            return null;
         }
 
         $return = $this->buildLinkTag([

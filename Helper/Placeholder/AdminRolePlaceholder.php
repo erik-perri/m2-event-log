@@ -63,26 +63,25 @@ class AdminRolePlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
+        $roleId = $context->getData('admin-role-id');
         $roleName = $context->getData('admin-role');
-        if (!$roleName) {
+        if (!$roleId || !$roleName) {
             return null;
         }
 
-        $roleId = $context->getData('admin-role-id');
-        if (!$roleId) {
-            return $roleName;
+        $role = $this->findRoleById($roleId);
+        if (!$role) {
+            return null;
         }
 
-        $role = $this->findRoleById($roleId);
-
-        return $role ? $this->buildLinkTag([
+        return $this->buildLinkTag([
             'text' => $roleName,
             'title' => 'Edit this role in the admin',
             'href' => $this->urlBuilder->getUrl('adminhtml/user_role/editrole', [
                 'rid' => $roleId,
             ]),
             'target' => '_blank',
-        ]) : $roleName;
+        ]);
     }
 
     /**

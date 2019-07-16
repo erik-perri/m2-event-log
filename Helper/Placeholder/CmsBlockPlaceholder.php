@@ -36,17 +36,13 @@ class CmsBlockPlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
+        $blockId = $context->getData('cms-block-id');
         $blockName = $context->getData('cms-block');
-        if (!$blockName) {
+        if (!$blockId || !$blockName) {
             return null;
         }
 
-        $blockId = $context->getData('cms-block-id');
-        if (!$blockId) {
-            return $blockName;
-        }
-
-        $return = $this->buildLinkTag([
+        return $this->buildLinkTag([
             'text' => $blockName,
             'title' => 'Edit this block in the admin',
             'href' => $this->urlBuilder->getUrl('cms/block/edit', [
@@ -54,7 +50,5 @@ class CmsBlockPlaceholder implements PlaceholderInterface
             ]),
             'target' => '_blank',
         ]);
-
-        return $return;
     }
 }

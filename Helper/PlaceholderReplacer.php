@@ -2,8 +2,8 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Ryvon\EventLog\Helper\Placeholder\PlaceholderInterface;
 use Magento\Framework\DataObject;
+use Ryvon\EventLog\Helper\Placeholder\PlaceholderInterface;
 
 class PlaceholderReplacer
 {
@@ -45,20 +45,39 @@ class PlaceholderReplacer
      * @param bool $onlyContext
      * @return string
      */
-    public function replace($message, $context, bool $onlyContext = false): string
+    public function replace(string $message, DataObject $context, bool $onlyContext = false): string
     {
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $onlyContext) {
             // If a placeholder does not exist for this match we will use the string value of the placeholder
             if ($onlyContext || !isset($this->placeholders[$matches[1]])) {
-                $value = $context->getData($matches[1]);
-                if ($value !== false && $value !== null && $this->canBeString($value)) {
-                    return (string)$value;
-                }
-                return $this->getUnknownText();
+                return $this->getReplaceStringFromContext($matches[1], $context);
             }
 
-            return $this->placeholders[$matches[1]]->getReplaceString($context) ?? $this->getUnknownText();
+            $value = $this->placeholders[$matches[1]]->getReplaceString($context);
+            if ($value === null) {
+                return $this->getReplaceStringFromContext($matches[1], $context);
+            }
+
+            return $value;
         }, $message);
+    }
+
+    /**
+     * Returns the replace string from the context, using unknown if not found.
+     *
+     * HTML in the string is escaped.
+     *
+     * @param string $placeholderKey
+     * @param DataObject $context
+     * @return string
+     */
+    private function getReplaceStringFromContext(string $placeholderKey, DataObject $context): string
+    {
+        $value = $context->getData($placeholderKey);
+        if ($value !== false && $value !== null && $this->canBeString($value)) {
+            return htmlentities((string)$value, ENT_QUOTES);
+        }
+        return htmlentities($this->getUnknownText(), ENT_QUOTES);
     }
 
     /**

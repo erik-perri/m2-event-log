@@ -63,7 +63,7 @@ class ProductPlaceholder implements PlaceholderInterface
 
         $product = $this->findProductBySku($productSku);
         if (!$product || !($product instanceof Product)) {
-            return $productSku;
+            return null;
         }
 
         $return = $this->buildLinkTag([

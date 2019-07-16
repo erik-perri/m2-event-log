@@ -68,24 +68,23 @@ class UserNamePlaceholder implements PlaceholderInterface
     {
         $userId = $context->getData(static::ID_KEY);
         $userName = $context->getData(static::NAME_KEY);
-
-        if (!$userId && !$userName) {
+        if (!$userId || !$userName) {
             return null;
-        }
-        if (!$userId) {
-            return $userName;
         }
 
         $user = $this->findUserById($userId);
+        if (!$user) {
+            return null;
+        }
 
-        return $user ? $this->buildLinkTag([
+        return $this->buildLinkTag([
             'text' => $user->getUserName(),
             'title' => sprintf('Edit %s (%s) in the admin', $user->getUserName(), $user->getEmail()),
             'href' => $this->urlBuilder->getUrl('adminhtml/user/edit', [
                 'user_id' => $user->getId(),
             ]),
             'target' => '_blank',
-        ]) : $userName;
+        ]);
     }
 
     /**

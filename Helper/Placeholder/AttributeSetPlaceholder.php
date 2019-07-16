@@ -43,14 +43,10 @@ class AttributeSetPlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
-        $attributeSet = $context->getData('attribute-set');
-        if (!$attributeSet) {
-            return null;
-        }
-
         $attributeSetId = $context->getData('attribute-set-id');
-        if (!$attributeSetId) {
-            return $attributeSet;
+        $attributeSet = $context->getData('attribute-set');
+        if (!$attributeSetId || !$attributeSet) {
+            return null;
         }
 
         return $this->buildLinkTag([

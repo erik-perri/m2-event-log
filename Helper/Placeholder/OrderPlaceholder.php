@@ -62,7 +62,7 @@ class OrderPlaceholder implements PlaceholderInterface
 
         $order = $this->findOrderById($orderId);
         if (!$order) {
-            return $orderId;
+            return null;
         }
 
         return $this->buildLinkTag([

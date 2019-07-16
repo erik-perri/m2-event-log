@@ -71,19 +71,15 @@ class CategoryPlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
-        $categoryName = $context->getData('category');
-        if (!$categoryName) {
-            return null;
-        }
-
         $categoryId = $context->getData('category-id');
-        if (!$categoryId) {
-            return $categoryName;
+        $categoryName = $context->getData('category');
+        if (!$categoryId || !$categoryName) {
+            return null;
         }
 
         $category = $this->findCategoryById($categoryId);
         if (!$category) {
-            return $categoryName;
+            return null;
         }
 
         $return = $this->buildLinkTag([

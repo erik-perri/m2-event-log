@@ -48,19 +48,15 @@ class CustomerPlaceholder implements PlaceholderInterface
      */
     public function getReplaceString($context)
     {
-        $customerName = $context->getData('customer');
-        if (!$customerName) {
-            return null;
-        }
-
         $customerId = $context->getData('customer-id');
-        if (!$customerId) {
-            return $customerName;
+        $customerName = $context->getData('customer');
+        if (!$customerId || !$customerName) {
+            return null;
         }
 
         $customer = $this->findCustomerById($customerId);
         if (!$customer) {
-            return $customerName;
+            return null;
         }
 
         $return = $this->buildLinkTag([

@@ -41,6 +41,8 @@ class UserIpPlaceholder implements PlaceholderInterface
             return null;
         }
 
+        $userIp = htmlentities($userIp, ENT_QUOTES);
+
         return $this->locationHelper->buildLookupIpTag($userIp, [
             'title' => 'View information for IP: ' . $userIp,
             'target' => '_blank',
