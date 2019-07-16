@@ -2,24 +2,19 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
-use Ryvon\EventLog\Helper\DigestRequestHelper;
-use Ryvon\EventLog\Helper\IpLocationHelper;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
 use Magento\Framework\Stdlib\DateTime\Timezone;
+use Ryvon\EventLog\Helper\DigestRequestHelper;
+use Ryvon\EventLog\Helper\PlaceholderReplacer;
 
 /**
  * Block class for the order entry block for both the administrator and email.
  */
 class OrderBlock extends EntryBlock
 {
-    /**
-     * @var IpLocationHelper
-     */
-    private $locationHelper;
-
     /**
      * @var PricingHelper
      */
@@ -32,7 +27,6 @@ class OrderBlock extends EntryBlock
 
     /**
      * @param DigestRequestHelper $digestRequestHelper
-     * @param IpLocationHelper $locationHelper
      * @param PlaceholderReplacer $placeholderReplacer
      * @param PricingHelper $priceHelper
      * @param Timezone $timezone
@@ -42,7 +36,6 @@ class OrderBlock extends EntryBlock
      */
     public function __construct(
         DigestRequestHelper $digestRequestHelper,
-        IpLocationHelper $locationHelper,
         PlaceholderReplacer $placeholderReplacer,
         PricingHelper $priceHelper,
         Timezone $timezone,
@@ -52,7 +45,6 @@ class OrderBlock extends EntryBlock
     ) {
         parent::__construct($digestRequestHelper, $placeholderReplacer, $timezone, $context, $data);
 
-        $this->locationHelper = $locationHelper;
         $this->priceHelper = $priceHelper;
         $this->urlBuilder = $urlBuilder;
     }
@@ -102,12 +94,15 @@ class OrderBlock extends EntryBlock
     }
 
     /**
-     * Helper function to retrieve the IP location helper.
+     * Renders the specified IP address using the user-ip placeholder.
      *
-     * @return IpLocationHelper
+     * @param string $ipAddress
+     * @return string
      */
-    public function getLocationHelper(): IpLocationHelper
+    public function formatIpAddress(string $ipAddress): string
     {
-        return $this->locationHelper;
+        return $this->replacePlaceholders('{user-ip}', new DataObject([
+            'user-ip' => $ipAddress,
+        ]));
     }
 }

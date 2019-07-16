@@ -52,13 +52,7 @@ if (!$incrementId) {
             if ($ips && is_array($ips)) {
                 $ips = array_unique($ips);
                 foreach ($ips as $ip) {
-                    $link = $block->getLocationHelper()->buildLookupIpTag($ip, [
-                        'title' => 'View information for IP: ' . $ip,
-                        'target' => '_blank',
-                    ], $ip);
-                    if ($link) {
-                        echo $link . '<br/>';
-                    }
+                    echo $block->formatIpAddress($ip) . '<br/>';
                 }
             }
             ?>
