@@ -52,14 +52,6 @@ class CmsPagePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'cms-page';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

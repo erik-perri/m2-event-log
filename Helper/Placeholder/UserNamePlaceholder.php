@@ -56,14 +56,6 @@ class UserNamePlaceholder implements PlaceholderInterface
     /**
      * @inheritDoc
      */
-    public function getSearchString(): string
-    {
-        return 'user-name';
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getReplaceString($context)
     {
         $userId = $context->getData(static::ID_KEY);

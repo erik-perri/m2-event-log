@@ -42,14 +42,6 @@ class OrderPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'order';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

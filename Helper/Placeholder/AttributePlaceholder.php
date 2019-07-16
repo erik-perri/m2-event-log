@@ -28,16 +28,6 @@ class AttributePlaceholder implements PlaceholderInterface
     /**
      * @inheritdoc
      *
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'attribute';
-    }
-
-    /**
-     * @inheritdoc
-     *
      * @param DataObject $context
      * @return string|null
      */

@@ -58,14 +58,6 @@ class CategoryPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'category';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

@@ -31,20 +31,7 @@ class BannerPlaceholder implements PlaceholderInterface
     // ...
 
     /**
-     * Returns the search string the placeholder is for (excluding brackets).
-     *
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'banner';
-    }
-
-    /**
-     * Returns the replacement string of the placeholder.
-     *
-     * @param \Magento\Framework\DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
     public function getReplaceString($context)
     {
@@ -90,6 +77,7 @@ In your plugin's di.xml add the placeholder to the `PlaceholderReplacer` constru
     <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
         <arguments>
             <argument name="placeholders" xsi:type="array">
+                <!-- The name attribute should be set to the search string (the text between the curly-brackets). -->
                 <item name="banner" xsi:type="object">
                     ExampleCompany\ExamplePlugin\EventLog\Placeholder\BannerPlaceholder
                 </item>

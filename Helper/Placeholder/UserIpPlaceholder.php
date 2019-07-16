@@ -9,14 +9,6 @@ class UserIpPlaceholder implements PlaceholderInterface
     use LinkPlaceholderTrait;
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'user-ip';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

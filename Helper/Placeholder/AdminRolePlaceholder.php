@@ -48,16 +48,6 @@ class AdminRolePlaceholder implements PlaceholderInterface
     /**
      * @inheritdoc
      *
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'admin-role';
-    }
-
-    /**
-     * @inheritdoc
-     *
      * @param DataObject $context
      * @return string|null
      */

@@ -18,12 +18,4 @@ class AdminUserPlaceholder extends UserNamePlaceholder
      * The ID context key.
      */
     const ID_KEY = 'admin-user-id';
-
-    /**
-     * @inheritDoc
-     */
-    public function getSearchString(): string
-    {
-        return 'admin-user';
-    }
 }

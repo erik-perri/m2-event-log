@@ -23,14 +23,6 @@ class ConfigSectionPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'config-section';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

@@ -35,14 +35,6 @@ class CustomerPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'customer';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

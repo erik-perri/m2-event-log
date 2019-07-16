@@ -23,14 +23,6 @@ class DesignConfigScopePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'design-config-scope';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

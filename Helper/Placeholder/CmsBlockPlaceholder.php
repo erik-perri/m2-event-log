@@ -23,14 +23,6 @@ class CmsBlockPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @return string
-     */
-    public function getSearchString(): string
-    {
-        return 'cms-block';
-    }
-
-    /**
      * @param DataObject $context
      * @return string|null
      */

@@ -22,21 +22,7 @@ class PlaceholderReplacer
      */
     public function __construct($placeholders = [])
     {
-        foreach ($placeholders as $placeholder) {
-            if ($placeholder instanceof PlaceholderInterface) {
-                $this->addPlaceholder($placeholder);
-            }
-        }
-    }
-
-    /**
-     * @param PlaceholderInterface $placeholder
-     * @return PlaceholderReplacer
-     */
-    public function addPlaceholder(PlaceholderInterface $placeholder): PlaceholderReplacer
-    {
-        $this->placeholders[$placeholder->getSearchString()] = $placeholder;
-        return $this;
+        $this->placeholders = $placeholders;
     }
 
     /**
@@ -50,12 +36,14 @@ class PlaceholderReplacer
         $message = htmlentities($message, ENT_QUOTES);
 
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $onlyContext) {
+            $placeholder = $this->placeholders[$matches[1]] ?? null;
+
             // If a placeholder does not exist for this match we will use the string value of the placeholder
-            if ($onlyContext || !isset($this->placeholders[$matches[1]])) {
+            if ($onlyContext || !$placeholder || !($placeholder instanceof PlaceholderInterface)) {
                 return $this->getReplaceStringFromContext($matches[1], $context);
             }
 
-            $value = $this->placeholders[$matches[1]]->getReplaceString($context);
+            $value = $placeholder->getReplaceString($context);
             if ($value === null) {
                 return $this->getReplaceStringFromContext($matches[1], $context);
             }
