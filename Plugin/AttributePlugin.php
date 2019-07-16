@@ -54,8 +54,11 @@ class AttributePlugin
                 'group' => 'admin',
                 'message' => 'Attribute {attribute} {action}.',
                 'context' => [
-                    'attribute' => $object->getData('attribute_code'),
-                    'attribute-id' => $object->getData('attribute_id'),
+                    'attribute' => [
+                        'handler' => 'attribute',
+                        'text' => $object->getData('attribute_code'),
+                        'id' => $object->getData('attribute_id'),
+                    ],
                     'action' => $object->isObjectNew() ? 'created' : 'modified',
                 ],
             ]);
@@ -82,7 +85,11 @@ class AttributePlugin
                 'group' => 'admin',
                 'message' => 'Attribute {attribute} {action}.',
                 'context' => [
-                    'attribute' => $object->getData('attribute_code'),
+                    'attribute' => [
+                        'handler' => 'attribute',
+                        'text' => $object->getData('attribute_code'),
+                        'id' => $object->getData('attribute_id'),
+                    ],
                     'action' => 'deleted',
                 ],
             ]);

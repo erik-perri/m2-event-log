@@ -69,10 +69,13 @@ class AdminUserPlugin
         if ($this->isEditingUser()) {
             $this->eventManager->dispatch('event_log_info', [
                 'group' => 'admin',
-                'message' => 'Admin user {admin-user} {action}.',
+                'message' => 'Admin user {user} {action}.',
                 'context' => [
-                    'admin-user' => $subject->getData('username'),
-                    'admin-user-id' => (string)$subject->getId(),
+                    'user' => [
+                        'handler' => 'user',
+                        'text' => $subject->getData('username'),
+                        'id' => (string)$subject->getId(),
+                    ],
                     'action' => $subject->isObjectNew() ? 'created' : 'modified',
                 ],
             ]);
@@ -96,10 +99,13 @@ class AdminUserPlugin
         if ($user->getId()) {
             $this->eventManager->dispatch('event_log_info', [
                 'group' => 'admin',
-                'message' => 'Admin user {admin-user} {action}.',
+                'message' => 'Admin user {user} {action}.',
                 'context' => [
-                    'admin-user' => $user->getData('username'),
-                    'admin-user-id' => (string)$user->getId(),
+                    'user' => [
+                        'handler' => 'user',
+                        'text' => $subject->getData('username'),
+                        'id' => (string)$subject->getId(),
+                    ],
                     'action' => 'deleted',
                 ],
             ]);

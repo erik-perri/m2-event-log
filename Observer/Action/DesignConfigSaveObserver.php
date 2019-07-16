@@ -33,10 +33,13 @@ class DesignConfigSaveObserver implements ActionObserverInterface
 
         $this->eventManager->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Design configuration scope {design-config-scope} modified.',
+            'message' => 'Design configuration scope {design-config} modified.',
             'context' => [
-                'design-config-scope' => $scope,
-                'design-config-scope-id' => $scopeId,
+                'design-config' => [
+                    'handler' => 'design-config',
+                    'text' => $scope,
+                    'id' => $scopeId,
+                ],
             ],
         ]);
     }

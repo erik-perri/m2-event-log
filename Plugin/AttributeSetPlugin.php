@@ -55,8 +55,11 @@ class AttributeSetPlugin
                 'group' => 'admin',
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
-                    'attribute-set' => $object->getData('attribute_set_name'),
-                    'attribute-set-id' => $id,
+                    'attribute-set' => [
+                        'handler' => 'attribute-set',
+                        'text' => $object->getData('attribute_set_name'),
+                        'id' => $id,
+                    ],
                     'action' => $object->isObjectNew() ? 'created' : 'modified',
                 ],
             ]);
@@ -81,7 +84,11 @@ class AttributeSetPlugin
                 'group' => 'admin',
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
-                    'attribute-set' => $object->getData('attribute_set_name'),
+                    'attribute-set' => [
+                        'handler' => 'attribute-set',
+                        'text' => $object->getData('attribute_set_name'),
+                        'id' => $object->getData('attribute_set_id'),
+                    ],
                     'action' => 'deleted',
                 ],
             ]);

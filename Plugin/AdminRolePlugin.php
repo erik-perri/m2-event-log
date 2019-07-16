@@ -18,9 +18,8 @@ class AdminRolePlugin
     /**
      * @param ManagerInterface $eventManager
      */
-    public function __construct(
-        ManagerInterface $eventManager
-    ) {
+    public function __construct(ManagerInterface $eventManager)
+    {
         $this->eventManager = $eventManager;
     }
 
@@ -40,10 +39,13 @@ class AdminRolePlugin
 
         $this->eventManager->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Admin role {admin-role} {action}.',
+            'message' => 'Admin role {role} {action}.',
             'context' => [
-                'admin-role' => $subject->getData('name'),
-                'admin-role-id' => (string)$subject->getId(),
+                'role' => [
+                    'handler' => 'role',
+                    'text' => $subject->getData('name'),
+                    'id' => (string)$subject->getId(),
+                ],
                 'action' => $subject->isObjectNew() ? 'created' : 'modified',
             ],
         ]);
@@ -62,10 +64,13 @@ class AdminRolePlugin
     ): array {
         $this->eventManager->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Admin role {admin-role} {action}.',
+            'message' => 'Admin role {role} {action}.',
             'context' => [
-                'admin-role' => $subject->getData('role_name'),
-                'admin-role-id' => (string)$subject->getId(),
+                'role' => [
+                    'handler' => 'role',
+                    'text' => $subject->getData('role_name'),
+                    'id' => (string)$subject->getId(),
+                ],
                 'action' => 'deleted',
             ],
         ]);

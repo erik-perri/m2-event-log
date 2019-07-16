@@ -30,10 +30,13 @@ class CustomerModelObserver extends AbstractModelObserver
             'group' => 'admin',
             'message' => 'Customer {customer} {action}.',
             'context' => [
-                'store-view' => $this->getActiveStoreView(),
-                'customer' => trim(sprintf('%s %s', $entity->getData('firstname'), $entity->getData('lastname'))),
-                'customer-id' => (string)$entity->getId(),
+                'customer' => [
+                    'handler' => 'customer',
+                    'text' => trim(sprintf('%s %s', $entity->getData('firstname'), $entity->getData('lastname'))),
+                    'id' => (string)$entity->getId(),
+                ],
                 'action' => $action,
+                'store-view' => $this->getActiveStoreView(),
             ],
         ]);
     }

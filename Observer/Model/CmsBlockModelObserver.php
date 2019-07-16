@@ -30,10 +30,13 @@ class CmsBlockModelObserver extends AbstractModelObserver
             'group' => 'admin',
             'message' => 'Content block {cms-block} {action}.',
             'context' => [
-                'store-view' => $this->getActiveStoreView(),
-                'cms-block' => $entity->getData('title'),
-                'cms-block-id' => $entity->getId(),
+                'cms-block' => [
+                    'handler' => 'cms-block',
+                    'text' => $entity->getData('title'),
+                    'id' => $entity->getId(),
+                ],
                 'action' => $action,
+                'store-view' => $this->getActiveStoreView(),
             ],
         ]);
     }
