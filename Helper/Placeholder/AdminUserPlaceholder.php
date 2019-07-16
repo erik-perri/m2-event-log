@@ -4,6 +4,8 @@ namespace Ryvon\EventLog\Helper\Placeholder;
 
 /**
  * Placeholder to replace {admin-user} with a link to edit user form.
+ *
+ * TODO Figure out a better way to handle duplicate placeholders
  */
 class AdminUserPlaceholder extends UserNamePlaceholder
 {
