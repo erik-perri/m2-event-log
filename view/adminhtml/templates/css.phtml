@@ -1,0 +1,12 @@
+<?php
+/** @var \Ryvon\EventLog\Block\Adminhtml\CssBlock $this */
+
+foreach ($this->getCommonCss() as $cssFile) {
+    $file = $this->getViewFileUrl($cssFile);
+    if (!$file) {
+        continue;
+    }
+
+    $file = $this->escapeUrl($file);
+    echo '<link rel="stylesheet" type="text/css" media="all" href="' . $file . '"/>' . PHP_EOL;
+}

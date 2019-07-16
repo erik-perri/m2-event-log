@@ -5,9 +5,10 @@
         <title>
             Event Log
         </title>
-        <css src="Ryvon_EventLog::css/styles.css"/>
     </head>
     <body>
+        <block class="Ryvon\EventLog\Block\Adminhtml\CssBlock" name="head.additional" as="head.additional"
+               template="Ryvon_EventLog::css.phtml"/>
         <referenceContainer name="content">
             <block class="Ryvon\EventLog\Block\Adminhtml\Digest\DateBlock" template="Ryvon_EventLog::date.phtml"/>
             <block class="Ryvon\EventLog\Block\Adminhtml\Digest\IndexBlock" template="Ryvon_EventLog::index.phtml"/>
