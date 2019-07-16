@@ -2,9 +2,11 @@
 
 namespace Ryvon\EventLog\Plugin;
 
+use Exception;
 use Magento\Backend\App\AbstractAction;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\RequestInterface;
+use Psr\Log\LoggerInterface;
 use Ryvon\EventLog\Observer\Action\ActionObserverInterface;
 
 /**
@@ -13,15 +15,22 @@ use Ryvon\EventLog\Observer\Action\ActionObserverInterface;
 class ActionMonitorPlugin
 {
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var array
      */
     private $monitors;
 
     /**
+     * @param LoggerInterface $logger
      * @param array $monitors
      */
-    public function __construct($monitors = [])
+    public function __construct(LoggerInterface $logger, $monitors = [])
     {
+        $this->logger = $logger;
         $this->monitors = $monitors;
     }
 
@@ -36,12 +45,16 @@ class ActionMonitorPlugin
         /** @noinspection PhpUnusedParameterInspection */ AbstractAction $subject,
         RequestInterface $request
     ): array {
-        if (($request instanceof Http) && $request->isPost()) {
-            $action = $request->getFullActionName();
-            $monitor = $this->monitors[$action] ?? null;
-            if ($monitor && $monitor instanceof ActionObserverInterface) {
-                $monitor->handle($request);
+        try {
+            if (($request instanceof Http) && $request->isPost()) {
+                $action = $request->getFullActionName();
+                $monitor = $this->monitors[$action] ?? null;
+                if ($monitor && $monitor instanceof ActionObserverInterface) {
+                    $monitor->handle($request);
+                }
             }
+        } catch (Exception $e) {
+            $this->logger->critical($e);
         }
 
         return [$request];
