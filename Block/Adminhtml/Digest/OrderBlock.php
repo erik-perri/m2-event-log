@@ -2,6 +2,8 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
+use DateTime;
+use Exception;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
@@ -80,7 +82,7 @@ class OrderBlock extends EntryBlock
     /**
      * Formats the specified time for the order table.
      *
-     * @param string|\DateTime $mysqlTime
+     * @param string|DateTime $mysqlTime
      * @return string
      */
     public function formatOrderTime($mysqlTime): string
@@ -90,7 +92,11 @@ class OrderBlock extends EntryBlock
         }
 
         $format = 'M d, h:i A';
-        return $this->getTimezone()->date($mysqlTime)->format($format);
+        try {
+            return $this->getTimezone()->date($mysqlTime)->format($format);
+        } catch (Exception $e) {
+            return 'Unknown';
+        }
     }
 
     /**
