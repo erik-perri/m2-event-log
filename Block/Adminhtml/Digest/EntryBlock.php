@@ -4,12 +4,12 @@ namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
 use Ryvon\EventLog\Block\Adminhtml\TemplateBlock;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
 use Magento\Backend\Block\Template;
 use Magento\Framework\DataObject;
 use Magento\Framework\Stdlib\DateTime\Timezone;
+use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
 /**
  * Block class for the default entry block for both the administrator and email.
@@ -22,9 +22,9 @@ class EntryBlock extends TemplateBlock
     private $digestRequestHelper;
 
     /**
-     * @var PlaceholderReplacer
+     * @var PlaceholderProcessor
      */
-    private $placeholderReplacer;
+    private $placeholderProcessor;
 
     /**
      * @var Timezone
@@ -38,14 +38,14 @@ class EntryBlock extends TemplateBlock
 
     /**
      * @param DigestRequestHelper $digestRequestHelper
-     * @param PlaceholderReplacer $placeholderReplacer
+     * @param PlaceholderProcessor $placeholderProcessor
      * @param Timezone $timezone
      * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
         DigestRequestHelper $digestRequestHelper,
-        PlaceholderReplacer $placeholderReplacer,
+        PlaceholderProcessor $placeholderProcessor,
         Timezone $timezone,
         Template\Context $context,
         array $data = []
@@ -53,7 +53,7 @@ class EntryBlock extends TemplateBlock
         parent::__construct($context, $data);
 
         $this->digestRequestHelper = $digestRequestHelper;
-        $this->placeholderReplacer = $placeholderReplacer;
+        $this->placeholderProcessor = $placeholderProcessor;
         $this->timezone = $timezone;
     }
 
@@ -186,6 +186,6 @@ class EntryBlock extends TemplateBlock
      */
     public function replacePlaceholders(string $message, DataObject $context): string
     {
-        return $this->placeholderReplacer->replace($message, $context);
+        return $this->placeholderProcessor->process($message, $context);
     }
 }

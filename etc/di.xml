@@ -12,56 +12,6 @@
         </arguments>
     </type>
 
-    <!-- Add the placeholders to the placeholder replacer -->
-    <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
-        <arguments>
-            <argument name="placeholders" xsi:type="array">
-                <item name="admin-user" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\AdminUserPlaceholder
-                </item>
-                <item name="admin-role" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\AdminRolePlaceholder
-                </item>
-                <item name="attribute" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\AttributePlaceholder
-                </item>
-                <item name="attribute-set" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\AttributeSetPlaceholder
-                </item>
-                <item name="category" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\CategoryPlaceholder
-                </item>
-                <item name="cms-page" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\CmsPagePlaceholder
-                </item>
-                <item name="cms-block" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\CmsBlockPlaceholder
-                </item>
-                <item name="config-section" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\ConfigSectionPlaceholder
-                </item>
-                <item name="customer" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\CustomerPlaceholder
-                </item>
-                <item name="design-config-scope" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\DesignConfigScopePlaceholder
-                </item>
-                <item name="order" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\OrderPlaceholder
-                </item>
-                <item name="product" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\ProductPlaceholder
-                </item>
-                <item name="user-ip" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\UserIpPlaceholder
-                </item>
-                <item name="user-name" xsi:type="object">
-                    Ryvon\EventLog\Helper\Placeholder\UserNamePlaceholder
-                </item>
-            </argument>
-        </arguments>
-    </type>
-
     <!-- Add the groups to the group finder -->
     <type name="Ryvon\EventLog\Helper\GroupFinder">
         <arguments>

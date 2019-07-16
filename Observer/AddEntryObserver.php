@@ -3,19 +3,19 @@
 namespace Ryvon\EventLog\Observer;
 
 use Exception;
-use Magento\Framework\Event;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
-use Ryvon\EventLog\Helper\UserContextHelper;
-use Ryvon\EventLog\Model\Digest;
-use Ryvon\EventLog\Model\DigestRepository;
-use Ryvon\EventLog\Model\EntryRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Event;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\User\Model\User;
 use Psr\Log\LoggerInterface;
+use Ryvon\EventLog\Helper\UserContextHelper;
+use Ryvon\EventLog\Model\Digest;
+use Ryvon\EventLog\Model\DigestRepository;
+use Ryvon\EventLog\Model\EntryRepository;
+use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
 /**
  * Event observer to handle the various event_log_[...] events.
@@ -43,9 +43,9 @@ class AddEntryObserver implements ObserverInterface
     private $entryRepository;
 
     /**
-     * @var PlaceholderReplacer
+     * @var PlaceholderProcessor
      */
-    private $placeholderReplacer;
+    private $placeholderProcessor;
 
     /**
      * @var ObjectManagerInterface
@@ -57,7 +57,7 @@ class AddEntryObserver implements ObserverInterface
      * @param LoggerInterface $logger
      * @param DataObjectFactory $dataObjectFactory
      * @param EntryRepository $entryRepository
-     * @param PlaceholderReplacer $placeholderReplacer
+     * @param PlaceholderProcessor $placeholderProcessor
      * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
@@ -65,14 +65,14 @@ class AddEntryObserver implements ObserverInterface
         LoggerInterface $logger,
         DataObjectFactory $dataObjectFactory,
         EntryRepository $entryRepository,
-        PlaceholderReplacer $placeholderReplacer,
+        PlaceholderProcessor $placeholderProcessor,
         ObjectManagerInterface $objectManager
     ) {
         $this->digestRepository = $digestRepository;
         $this->logger = $logger;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->entryRepository = $entryRepository;
-        $this->placeholderReplacer = $placeholderReplacer;
+        $this->placeholderProcessor = $placeholderProcessor;
         $this->objectManager = $objectManager;
     }
 
@@ -199,8 +199,8 @@ class AddEntryObserver implements ObserverInterface
     private function checkMessageSanity(string $message, DataObject $context): bool
     {
         try {
-            $replaced = $this->placeholderReplacer->replace($message, $context, true);
-            if (strpos($replaced, $this->placeholderReplacer->getUnknownText()) !== false) {
+            $replaced = $this->placeholderProcessor->process($message, $context, true);
+            if (strpos($replaced, $this->placeholderProcessor->getUnknownText()) !== false) {
                 return false;
             }
         } catch (Exception $e) {
