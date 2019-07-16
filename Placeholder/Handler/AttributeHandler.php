@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
@@ -8,7 +8,7 @@ use Magento\Framework\DataObject;
 /**
  * Placeholder to replace {attribute} with a link to edit the related item.
  */
-class AttributePlaceholder implements PlaceholderInterface
+class AttributeHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -26,15 +26,12 @@ class AttributePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $attributeId = $context->getData('attribute-id');
-        $attributeCode = $context->getData('attribute');
+        $attributeId = $context->getData('id');
+        $attributeCode = $context->getData('text');
         if (!$attributeId || !$attributeCode) {
             return null;
         }

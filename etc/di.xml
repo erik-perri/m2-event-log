@@ -12,6 +12,27 @@
         </arguments>
     </type>
 
+    <!-- Add the placeholders to the placeholder replacer -->
+    <type name="Ryvon\EventLog\Placeholder\PlaceholderProcessor">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="attribute" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\AttributeHandler</item>
+                <item name="attribute-set" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\AttributeSetHandler</item>
+                <item name="category" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CategoryHandler</item>
+                <item name="cms-block" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CmsBlockHandler</item>
+                <item name="cms-page" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CmsPageHandler</item>
+                <item name="config-section" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\ConfigSectionHandler</item>
+                <item name="customer" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CustomerHandler</item>
+                <item name="design-config" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\DesignConfigHandler</item>
+                <item name="ip" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\IpHandler</item>
+                <item name="order" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\OrderHandler</item>
+                <item name="product" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\ProductHandler</item>
+                <item name="role" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\RoleHandler</item>
+                <item name="user" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\UserHandler</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Add the groups to the group finder -->
     <type name="Ryvon\EventLog\Helper\GroupFinder">
         <arguments>

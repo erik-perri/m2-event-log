@@ -1,20 +1,19 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Framework\DataObject;
 
-class UserIpPlaceholder implements PlaceholderInterface
+class IpHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $userIp = $context->getData('user-ip');
+        $userIp = $context->getData('text');
         if (!$userIp) {
             return null;
         }

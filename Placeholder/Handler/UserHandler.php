@@ -1,27 +1,18 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\DataObject;
 use Magento\User\Model\ResourceModel\User;
 use Magento\User\Model\UserFactory;
 
 /**
  * Placeholder to replace {user-name} with a link to edit user form.
  */
-class UserNamePlaceholder implements PlaceholderInterface
+class UserHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
-
-    /**
-     * The name context key.
-     */
-    const NAME_KEY = 'user-name';
-
-    /**
-     * The ID context key.
-     */
-    const ID_KEY = 'user-id';
 
     /**
      * @var UrlInterface
@@ -56,10 +47,10 @@ class UserNamePlaceholder implements PlaceholderInterface
     /**
      * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $userId = $context->getData(static::ID_KEY);
-        $userName = $context->getData(static::NAME_KEY);
+        $userId = $context->getData('id');
+        $userName = $context->getData('text');
         if (!$userId || !$userName) {
             return null;
         }

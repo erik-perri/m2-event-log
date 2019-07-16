@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Authorization\Model\ResourceModel\Role as RoleResourceModel;
 use Magento\Authorization\Model\Role;
@@ -11,7 +11,7 @@ use Magento\Framework\DataObject;
 /**
  * Placeholder to replace {admin-role} with a link to edit role form.
  */
-class AdminRolePlaceholder implements PlaceholderInterface
+class RoleHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -46,15 +46,12 @@ class AdminRolePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @inheritdoc
-     *
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $roleId = $context->getData('admin-role-id');
-        $roleName = $context->getData('admin-role');
+        $roleId = $context->getData('id');
+        $roleName = $context->getData('text');
         if (!$roleId || !$roleName) {
             return null;
         }

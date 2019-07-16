@@ -1,14 +1,16 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
+use Exception;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\DataObject;
 use Ryvon\EventLog\Helper\ImageLocator;
 
-class ProductPlaceholder implements PlaceholderInterface
+class ProductHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -43,12 +45,11 @@ class ProductPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $productSku = $context->getData('product');
+        $productSku = $context->getData('text');
         if (!$productSku) {
             return null;
         }
@@ -85,13 +86,13 @@ class ProductPlaceholder implements PlaceholderInterface
 
     /**
      * @param string $productSku
-     * @return \Magento\Catalog\Api\Data\ProductInterface|null
+     * @return ProductInterface|null
      */
     private function findProductBySku($productSku)
     {
         try {
             return $this->productRepository->get($productSku);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

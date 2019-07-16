@@ -1,11 +1,11 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
 
-class DesignConfigScopePlaceholder implements PlaceholderInterface
+class DesignConfigHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -23,12 +23,11 @@ class DesignConfigScopePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $scope = $context->getData('design-config-scope');
+        $scope = $context->getData('text');
         if (!$scope) {
             return null;
         }
@@ -37,7 +36,7 @@ class DesignConfigScopePlaceholder implements PlaceholderInterface
             'scope' => $scope,
         ];
 
-        $scopeId = $context->getData('design-config-scope-id');
+        $scopeId = $context->getData('id');
         if ($scopeId) {
             $params['scope_id'] = $scopeId;
         }

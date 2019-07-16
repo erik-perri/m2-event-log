@@ -1,11 +1,11 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
 
-class ConfigSectionPlaceholder implements PlaceholderInterface
+class ConfigSectionHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -23,12 +23,11 @@ class ConfigSectionPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $section = $context->getData('config-section');
+        $section = $context->getData('text');
         if (!$section) {
             return null;
         }

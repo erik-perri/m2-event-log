@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Cms\Helper\Page as PageHelper;
@@ -9,7 +9,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Ryvon\EventLog\Helper\ImageLocator;
 
-class CmsPagePlaceholder implements PlaceholderInterface
+class CmsPageHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -52,13 +52,12 @@ class CmsPagePlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $pageId = $context->getData('cms-page-id');
-        $pageName = $context->getData('cms-page');
+        $pageId = $context->getData('id');
+        $pageName = $context->getData('text');
         if (!$pageId || !$pageName) {
             return null;
         }

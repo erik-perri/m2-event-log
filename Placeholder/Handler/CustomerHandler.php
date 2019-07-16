@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
@@ -8,7 +8,7 @@ use Magento\Customer\Model\ResourceModel\CustomerRepository;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 
-class CustomerPlaceholder implements PlaceholderInterface
+class CustomerHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -35,13 +35,12 @@ class CustomerPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $customerId = $context->getData('customer-id');
-        $customerName = $context->getData('customer');
+        $customerId = $context->getData('id');
+        $customerName = $context->getData('text');
         if (!$customerId || !$customerName) {
             return null;
         }
