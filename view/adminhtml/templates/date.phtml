@@ -12,7 +12,7 @@ $next = $this->getNextDigest($current);
 <div class="admin__data-grid-header-row">
     <div style="padding: 0 0 15px 0; text-align: center">
         <?php if ($previous) { ?>
-            <button type="button" title="Previous page" class="action-previous" onclick="window.location.href = '<?php echo $this->getDigestUrl($previous); ?>';return false;">
+            <button type="button" title="Previous page" class="action-previous" onclick="window.location.href = '<?php echo $this->escapeJs($this->getDigestUrl($previous)); ?>';return false;">
                 <span>Previous page</span>
             </button>
         <?php } else { ?>
@@ -29,7 +29,7 @@ $next = $this->getNextDigest($current);
             } ?>
         </span>
         <?php if ($next) { ?>
-            <button type="button" title="Next page" class="action-next" onclick="window.location.href = '<?php echo $this->getDigestUrl($next); ?>';return false;">
+            <button type="button" title="Next page" class="action-next" onclick="window.location.href = '<?php echo $this->escapeJs($this->getDigestUrl($next)); ?>';return false;">
                 <span>Next page</span>
             </button>
         <?php } else { ?>

@@ -9,6 +9,6 @@ $links = $block->getData('links') ?: [];
         continue;
     } ?>
     <small style="margin-left: 15px;">
-        <a class="btn" target="_blank" href="<?php echo $url; ?>"><?php echo $text; ?></a>
+        <a class="btn" target="_blank" href="<?php echo $block->escapeUrl($url); ?>"><?php echo $block->escapeHtml($text); ?></a>
     </small>
 <?php } ?>

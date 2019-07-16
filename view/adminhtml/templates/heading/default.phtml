@@ -14,7 +14,7 @@ if (!$block->getData('single-store-mode')) {
 <tr>
     <th class="data-grid-th" colspan="<?php echo $colspan; ?>">
         <span class="data-grid-cell-content">
-            <span class="group-title"><?php echo $block->getData('title'); ?></span>
+            <span class="group-title"><?php echo $block->escapeHtml($block->getData('title')); ?></span>
             <?php
             $links = $block->getData('links');
             if ($links) {
@@ -23,7 +23,7 @@ if (!$block->getData('single-store-mode')) {
                 ]);
             }
             ?>
-            <small class="group-message"><?php echo $block->getData('summary'); ?></small>
+            <small class="group-message"><?php echo $block->escapeHtml($block->getData('summary')); ?></small>
         </span>
     </th>
 </tr>

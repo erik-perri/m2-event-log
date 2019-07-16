@@ -13,36 +13,38 @@ if (!$incrementId) {
     return;
 }
 ?>
-<tr class="data-row <?php echo $block->getRowClass($entry); ?>">
+<tr class="data-row <?php echo $block->escapeHtmlAttr($block->getRowClass($entry)); ?>">
     <td>
         <div class="data-grid-cell-content">
             <?php if ($orderId) { ?>
-                <a target="_blank" href="<?php echo $block->getOrderUrl($orderId); ?>"><?php echo $incrementId; ?></a>
+                <a target="_blank" href="<?php echo $block->escapeUrl($block->getOrderUrl($orderId)); ?>">
+                    <?php echo $block->escapeHtml($incrementId); ?>
+                </a>
             <?php } else { ?>
-                <?php echo $incrementId; ?>
+                <?php echo $block->escapeHtml($incrementId); ?>
             <?php } ?>
         </div>
     </td>
     <td>
-        <div class="data-grid-cell-content" title="<?php echo $block->formatTitleTime($entry->getCreatedAt()); ?>">
-            <?php echo $block->formatOrderTime($context->getData('created-at')); ?>
+        <div class="data-grid-cell-content" title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAt())); ?>">
+            <?php echo $block->escapeHtml($block->formatOrderTime($context->getData('created-at'))); ?>
         </div>
     </td>
     <td>
-        <div class="data-grid-cell-content"><?php echo $context->getData('bill-to-name'); ?></div>
+        <div class="data-grid-cell-content"><?php echo $block->escapeHtml($context->getData('bill-to-name')); ?></div>
     </td>
     <td>
-        <div class="data-grid-cell-content"><?php echo $block->formatPrice($context->getData('price')); ?></div>
+        <div class="data-grid-cell-content"><?php echo $block->escapeHtml($block->formatPrice($context->getData('price'))); ?></div>
     </td>
     <td>
-        <div class="data-grid-cell-content"><?php echo $context->getData('status'); ?></div>
+        <div class="data-grid-cell-content"><?php echo $block->escapeHtml($context->getData('status')); ?></div>
     </td>
     <td>
-        <div class="data-grid-cell-content"><?php echo $context->getData('payment-method'); ?></div>
+        <div class="data-grid-cell-content"><?php echo $block->escapeHtml($context->getData('payment-method')); ?></div>
     </td>
     <?php if (!$block->getData('single-store-mode')) { ?>
         <td>
-            <div class="data-grid-cell-content"><?php echo $context->getData('store-view'); ?></div>
+            <div class="data-grid-cell-content"><?php echo $block->escapeHtml($context->getData('store-view')); ?></div>
         </td>
     <?php } ?>
     <td class="ip">
