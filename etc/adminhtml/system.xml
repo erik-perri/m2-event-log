@@ -2,19 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-
-        <section id="system"
-                 translate="label"
-                 type="text"
-                 sortOrder="900"
-                 showInDefault="1"
-                 showInWebsite="1"
-                 showInStore="1">
-            <class>separator-top</class>
-            <label>System</label>
-            <tab>advanced</tab>
-            <resource>Magento_Config::config_system</resource>
-
+        <section id="system">
             <group id="event_log"
                    translate="label"
                    type="text"
