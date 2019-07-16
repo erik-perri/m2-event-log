@@ -2,7 +2,7 @@
 /** @var \Ryvon\EventLog\Block\Adminhtml\TemplateBlock $block */
 /** @var \Ryvon\EventLog\Helper\Group\GroupInterface $group */
 
-$group = isset($block) ? ($block->getData('group') ?? null) : null;
+$group = isset($block) ? $block->getData('group') : null;
 if (!$group) {
     return;
 }
