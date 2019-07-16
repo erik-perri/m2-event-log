@@ -47,6 +47,8 @@ class PlaceholderReplacer
      */
     public function replace(string $message, DataObject $context, bool $onlyContext = false): string
     {
+        $message = htmlentities($message, ENT_QUOTES);
+
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $onlyContext) {
             // If a placeholder does not exist for this match we will use the string value of the placeholder
             if ($onlyContext || !isset($this->placeholders[$matches[1]])) {
