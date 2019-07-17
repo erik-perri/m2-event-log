@@ -154,7 +154,7 @@ class EntryBlock extends TemplateBlock
      */
     public function getDigest()
     {
-        // TODO Change this to being getData and setData
+        // TODO Change this to getData and setData
         if ($this->currentDigest === null) {
             $this->currentDigest = $this->digestRequestHelper->getCurrentDigest($this->getRequest());
         }
@@ -181,10 +181,10 @@ class EntryBlock extends TemplateBlock
      * Replaces the placeholders in the specified message using the specified context.
      *
      * @param string $message
-     * @param DataObject $context
+     * @param DataObject|array $context
      * @return string
      */
-    public function replacePlaceholders(string $message, DataObject $context): string
+    public function replacePlaceholders(string $message, $context): string
     {
         return $this->placeholderProcessor->process($message, $context);
     }

@@ -38,6 +38,14 @@ class UserContextHelper
     {
         $user = $this->authSession->getUser();
         if (!$user) {
+            if (PHP_SAPI === 'cli') {
+                $caller = isset($_SERVER['TERM']) ? 'CLI' : 'Cron';
+                return array_merge($context, [
+                    'text' => sprintf('%s (%s)', get_current_user(), $caller),
+                    'ip-address' => '127.0.0.1',
+                ]);
+            }
+
             return $context;
         }
 
@@ -56,9 +64,9 @@ class UserContextHelper
         }
 
         return array_merge($context, [
-            'user-id' => $user->getId(),
-            'user-name' => $user->getUserName(),
-            'user-ip' => $this->getClientIp(),
+            'text' => $user->getUserName(),
+            'id' => $user->getId(),
+            'ip-address' => $this->getClientIp(),
         ]);
     }
 

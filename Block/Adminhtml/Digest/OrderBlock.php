@@ -6,7 +6,6 @@ use DateTime;
 use Exception;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\DataObject;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
 use Magento\Framework\Stdlib\DateTime\Timezone;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
@@ -102,13 +101,17 @@ class OrderBlock extends EntryBlock
     /**
      * Renders the specified IP address using the user-ip placeholder.
      *
-     * @param string $ipAddress
+     * @param string|null $ipAddress
      * @return string
      */
-    public function formatIpAddress(string $ipAddress): string
+    public function formatIpAddress($ipAddress): string
     {
-        return $this->replacePlaceholders('{ip-address}', new DataObject([
+        if (!$ipAddress) {
+            return '';
+        }
+
+        return $this->replacePlaceholders('{ip-address}', [
             'ip-address' => $ipAddress,
-        ]));
+        ]);
     }
 }

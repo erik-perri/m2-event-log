@@ -49,9 +49,11 @@ class AdminLoginFailedObserver implements ObserverInterface
             'group' => 'admin',
             'message' => 'User login failed, {error}.',
             'context' => [
-                'user-name' => $userName,
-                'user-ip' => $this->userContextHelper->getClientIp(),
                 'error' => $message,
+            ],
+            'user-context' => [
+                'text' => $userName,
+                'ip-address' => $this->userContextHelper->getClientIp(),
             ],
         ]);
     }

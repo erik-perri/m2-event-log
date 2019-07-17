@@ -97,32 +97,21 @@ class AddEntryObserver implements ObserverInterface
 
             $group = $observer->getData('group') ?: '';
             $context = $observer->getData('context') ?: [];
-            $userContext = [];
+            $userContext = $observer->getData('user-context') ?: false;
 
-            if (PHP_SAPI === 'cli') {
-                $userContext = [
-                    'user-name' => sprintf('%s (CLI)', get_current_user()),
-                    'user-ip' => '127.0.0.1',
-                ];
-            } else {
-                $user = $observer->getData('user');
-                if ($group === 'admin' || $user) {
-                    // This class relies on Session which will not work unless an area code is set (which only happens
-                    // when we are not running a CLI command).   We load using ObjectManager to give CLI commands
-                    // leaving logs a chance to set an area code before doing so.
-                    /** @var UserContextHelper $helper */
-                    $helper = $this->objectManager->get(UserContextHelper::class);
-                    if ($helper) {
-                        if ($user instanceof User) {
-                            $userContext = $helper->getContextFromUser($user);
-                        } else {
-                            $userContext = $helper->getContextFromCurrentUser();
-                        }
-                    }
-                }
+            if ($group === 'admin' || $userContext) {
+                // This class relies on Session which will not work unless an area code is set (which only happens
+                // when we are not running a CLI command).   We load using ObjectManager to give CLI commands
+                // leaving logs a chance to set an area code before doing so.
+                /** @var UserContextHelper $helper */
+                $helper = $this->objectManager->get(UserContextHelper::class);
+
+                $userContext = $helper->getContextFromCurrentUser(is_array($userContext) ? $userContext : []);
             }
 
-            $context = array_merge($context, $userContext);
+            if ($userContext) {
+                $context = array_merge($context, ['.user' => $userContext]);
+            }
 
             $context = $this->dataObjectFactory->create(['data' => $context]);
             if (!$this->checkMessageSanity($message, $context)) {
