@@ -31,7 +31,6 @@ class ProductModelObserver extends AbstractModelObserver
             'message' => 'Product {product} {action}.',
             'context' => [
                 'product' => [
-                    'handler' => 'product',
                     'text' => $entity->getData('sku'),
                 ],
                 'action' => $action,

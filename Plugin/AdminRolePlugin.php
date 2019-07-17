@@ -42,7 +42,6 @@ class AdminRolePlugin
             'message' => 'Admin role {role} {action}.',
             'context' => [
                 'role' => [
-                    'handler' => 'role',
                     'text' => $subject->getData('name'),
                     'id' => (string)$subject->getId(),
                 ],
@@ -67,7 +66,6 @@ class AdminRolePlugin
             'message' => 'Admin role {role} {action}.',
             'context' => [
                 'role' => [
-                    'handler' => 'role',
                     'text' => $subject->getData('role_name'),
                     'id' => (string)$subject->getId(),
                 ],

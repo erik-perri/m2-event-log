@@ -31,7 +31,6 @@ class CustomerModelObserver extends AbstractModelObserver
             'message' => 'Customer {customer} {action}.',
             'context' => [
                 'customer' => [
-                    'handler' => 'customer',
                     'text' => trim(sprintf('%s %s', $entity->getData('firstname'), $entity->getData('lastname'))),
                     'id' => (string)$entity->getId(),
                 ],

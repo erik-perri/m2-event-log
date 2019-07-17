@@ -55,7 +55,6 @@ class AttributePlugin
                 'message' => 'Attribute {attribute} {action}.',
                 'context' => [
                     'attribute' => [
-                        'handler' => 'attribute',
                         'text' => $object->getData('attribute_code'),
                         'id' => $object->getData('attribute_id'),
                     ],
@@ -86,7 +85,6 @@ class AttributePlugin
                 'message' => 'Attribute {attribute} {action}.',
                 'context' => [
                     'attribute' => [
-                        'handler' => 'attribute',
                         'text' => $object->getData('attribute_code'),
                         'id' => $object->getData('attribute_id'),
                     ],

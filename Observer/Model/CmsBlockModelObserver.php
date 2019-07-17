@@ -31,7 +31,6 @@ class CmsBlockModelObserver extends AbstractModelObserver
             'message' => 'Content block {cms-block} {action}.',
             'context' => [
                 'cms-block' => [
-                    'handler' => 'cms-block',
                     'text' => $entity->getData('title'),
                     'id' => $entity->getId(),
                 ],

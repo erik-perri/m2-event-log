@@ -31,7 +31,6 @@ class CategoryModelObserver extends AbstractModelObserver
             'message' => 'Category {category} {action}.',
             'context' => [
                 'category' => [
-                    'handler' => 'category',
                     'text' => $entity->getData('name'),
                     'id' => $entity->getId(),
                 ],

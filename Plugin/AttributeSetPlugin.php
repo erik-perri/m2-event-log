@@ -56,7 +56,6 @@ class AttributeSetPlugin
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
                     'attribute-set' => [
-                        'handler' => 'attribute-set',
                         'text' => $object->getData('attribute_set_name'),
                         'id' => $id,
                     ],
@@ -85,7 +84,6 @@ class AttributeSetPlugin
                 'message' => 'Attribute Set {attribute-set} {action}.',
                 'context' => [
                     'attribute-set' => [
-                        'handler' => 'attribute-set',
                         'text' => $object->getData('attribute_set_name'),
                         'id' => $object->getData('attribute_set_id'),
                     ],

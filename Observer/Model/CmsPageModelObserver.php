@@ -31,7 +31,6 @@ class CmsPageModelObserver extends AbstractModelObserver
             'message' => 'Page {cms-page} {action}.',
             'context' => [
                 'cms-page' => [
-                    'handler' => 'cms-page',
                     'text' => $entity->getData('title'),
                     'id' => $entity->getId(),
                 ],

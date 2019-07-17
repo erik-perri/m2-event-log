@@ -72,7 +72,6 @@ class AdminUserPlugin
                 'message' => 'Admin user {user} {action}.',
                 'context' => [
                     'user' => [
-                        'handler' => 'user',
                         'text' => $subject->getData('username'),
                         'id' => (string)$subject->getId(),
                     ],
@@ -102,7 +101,6 @@ class AdminUserPlugin
                 'message' => 'Admin user {user} {action}.',
                 'context' => [
                     'user' => [
-                        'handler' => 'user',
                         'text' => $subject->getData('username'),
                         'id' => (string)$subject->getId(),
                     ],

@@ -6,6 +6,9 @@ use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use Ryvon\EventLog\Placeholder\Handler\HandlerInterface;
 
+/**
+ * Replaces placeholders in the message string.
+ */
 class PlaceholderProcessor
 {
     /**
@@ -21,76 +24,127 @@ class PlaceholderProcessor
     /**
      * @var Handler\HandlerInterface[]
      */
-    private $handlers = [];
+    private $handlers;
 
     /**
      * @param DataObjectFactory $dataObjectFactory
      * @param array $handlers
      */
-    public function __construct(DataObjectFactory $dataObjectFactory, $handlers = [])
-    {
+    public function __construct(
+        DataObjectFactory $dataObjectFactory,
+        $handlers = []
+    ) {
         $this->dataObjectFactory = $dataObjectFactory;
         $this->handlers = $handlers;
     }
 
     /**
+     * Returns the string to use when a placeholder is not able to be replaced.
+     *
      * @return string
      */
     public function getUnknownText(): string
     {
-        return $this->unknownText;
+        return htmlentities($this->unknownText);
     }
 
     /**
+     * Replaces any placeholders in the message.
+     *
      * @param string $message
-     * @param DataObject $context
-     * @param bool $plainText
+     * @param DataObject|array $context
+     * @param bool $withoutHandlers
      * @return string
      */
-    public function process(string $message, DataObject $context, bool $plainText = false): string
+    public function process(string $message, $context, bool $withoutHandlers = false): string
     {
+        if (!($context instanceof DataObject)) {
+            $context = $this->dataObjectFactory->create(['data' => $context]);
+        }
+
         $message = htmlentities($message, ENT_QUOTES);
 
-        return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $plainText) {
+        return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $withoutHandlers) {
             $placeholderKey = $matches[1];
 
-            $placeholderContext = $context->getData($placeholderKey);
-            if (!is_array($placeholderContext)) {
-                if (!$this->canBeString($placeholderContext)) {
-                    return $this->unknownText;
-                }
-
-                $placeholderContext = ['text' => (string)$placeholderContext];
-
-                switch($placeholderKey) {
-                    case 'user-ip':
-                        $placeholderContext['handler'] = 'ip';
-                        break;
-                }
+            $placeholderValue = $context->getData($placeholderKey);
+            if ($placeholderValue === null) {
+                return $this->getUnknownText();
             }
 
-            $plainTextVersion = $placeholderContext['text'] ?? $this->unknownText;
-            if (!$this->canBeString($plainTextVersion)) {
-                return $this->unknownText;
-            }
+            $placeholderDataObject = $this->createPlaceholderContext($placeholderKey, $placeholderValue);
 
-            $placeholderHandlerId = $placeholderContext['handler'] ?? null;
-            $placeholderHandler = $placeholderHandlerId ? ($this->handlers[$placeholderHandlerId] ?? null) : null;
-            if ($plainText || !$placeholderHandler || !($placeholderHandler instanceof HandlerInterface)) {
-                return htmlentities($plainTextVersion);
-            }
-
-            $value = $placeholderHandler->handle($this->dataObjectFactory->create(['data' => $placeholderContext]));
-            if ($value === null) {
-                return htmlentities($plainTextVersion);
-            }
-
-            return $value;
+            return $this->handle($placeholderDataObject, $withoutHandlers);
         }, $message);
     }
 
     /**
-     * @param $value
+     * Returns the replacement string for the specified placeholder key using the specified context.
+     *
+     * @param DataObject|array $context
+     * @param bool $withoutHandlers
+     * @return string
+     */
+    private function handle($context, bool $withoutHandlers = false): string
+    {
+        if (!($context instanceof DataObject)) {
+            $context = $this->dataObjectFactory->create(['data' => $context]);
+        }
+
+        $plainTextVersion = $context->getData('text');
+        if ($plainTextVersion === null || !$this->canBeString($plainTextVersion)) {
+            return $this->getUnknownText();
+        }
+
+        $plainTextVersion = htmlentities((string)$plainTextVersion);
+
+        $placeholderHandlerId = $context->getData('handler');
+        $placeholderHandler = $placeholderHandlerId ? ($this->handlers[$placeholderHandlerId] ?? null) : null;
+        if ($withoutHandlers || !$placeholderHandler || !($placeholderHandler instanceof HandlerInterface)) {
+            return $plainTextVersion;
+        }
+
+        $value = $placeholderHandler->handle($context);
+        if ($value === null) {
+            return $plainTextVersion;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Creates the placeholder context.
+     *
+     * If the value is not an array it is set as the context's 'text' value.  If no handler is specified the placeholder
+     * key is used.
+     *
+     * @param string $placeholderKey
+     * @param string|array $placeholderValue
+     * @return DataObject
+     */
+    private function createPlaceholderContext(string $placeholderKey, $placeholderValue): DataObject
+    {
+        if (!is_array($placeholderValue)) {
+            $placeholderContext = [
+                'text' => $placeholderValue,
+            ];
+        } else {
+            $placeholderContext = $placeholderValue;
+        }
+
+        if (!array_key_exists('handler', $placeholderContext)) {
+            $placeholderContext['handler'] = $placeholderKey;
+        }
+
+        return $this->dataObjectFactory->create([
+            'data' => $placeholderContext,
+        ]);
+    }
+
+    /**
+     * Checks if the value can be properly converted to a plain string.
+     *
+     * @param mixed $value
      * @return bool
      */
     private function canBeString($value): bool

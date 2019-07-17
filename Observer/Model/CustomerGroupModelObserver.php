@@ -31,7 +31,6 @@ class CustomerGroupModelObserver extends AbstractModelObserver
             'message' => 'Customer group {group} {action}.',
             'context' => [
                 'group' => [
-                    'handler' => 'group',
                     'text' => trim($entity->getData('code')),
                     'id' => (string)$entity->getId(),
                 ],

@@ -36,7 +36,6 @@ class DesignConfigSaveObserver implements ActionObserverInterface
             'message' => 'Design configuration scope {design-config} modified.',
             'context' => [
                 'design-config' => [
-                    'handler' => 'design-config',
                     'text' => $scope,
                     'id' => $scopeId,
                 ],
