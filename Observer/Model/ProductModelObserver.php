@@ -32,6 +32,7 @@ class ProductModelObserver extends AbstractModelObserver
             'context' => [
                 'product' => [
                     'text' => $entity->getData('sku'),
+                    'id' => $entity->getId(),
                 ],
                 'action' => $action,
                 'store-view' => $this->getActiveStoreView(),
