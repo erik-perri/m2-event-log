@@ -47,14 +47,6 @@ if (!$block->getData('single-store-mode')) {
 
     if ($block->getData('user-column')) {
         $userContext = $entry->getEntryContext()->getData('.user');
-        if (!$userContext) {
-            // TODO Legacy code, remove
-            $userContext = [
-                'text' => $entry->getEntryContext()->getData('user-name'),
-                'id' => $entry->getEntryContext()->getData('user-id'),
-                'ip-address' => $entry->getEntryContext()->getData('user-ip'),
-            ];
-        }
         ?>
         <td class="log-user-name">
             <div class="data-grid-cell-content"><?php
