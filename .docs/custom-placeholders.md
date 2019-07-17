@@ -7,12 +7,12 @@ being able to load the current banner (using the `banner-id` context) which allo
 link to always use the most up to date name, or no link can be returned if the banner
 no longer exists.
 
-*See Helper/Placeholder/\*Placeholder.php for more examples.*
+*See Placeholder/Handler/\*Handler.php for more examples.*
 
 
-## Create placeholder class
+## Create handler class
 
-The placeholder class must implement `PlaceholderInterface`.
+The handler class must implement `HandlerInterface`.
 
 ```php
 <?php
@@ -21,10 +21,10 @@ namespace ExampleCompany\ExamplePlugin\EventLog\Placeholder;
 
 // ...
 
-use Ryvon\EventLog\Helper\Placeholder\LinkPlaceholderTrait;
-use Ryvon\EventLog\Helper\Placeholder\PlaceholderInterface;
+use Ryvon\EventLog\Placeholder\Handler\LinkPlaceholderTrait;
+use Ryvon\EventLog\Placeholder\Handler\HandlerInterface;
 
-class BannerPlaceholder implements PlaceholderInterface
+class BannerHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -33,23 +33,24 @@ class BannerPlaceholder implements PlaceholderInterface
     /**
      * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(\Magento\Framework\DataObject $context)
     {
-        $bannerId = $context->getData('banner-id');
-        $bannerName = $context->getData('banner');
+        $bannerId = $context->getData('id');
+        $bannerName = $context->getData('text');
 
         // When invalid context is found we return null which tells the placeholder to
-        // use (and escape) whatever context value is in the banner context.
+        // use (and escape) the text context.
         if (!$bannerId || !$bannerName) {
             return null;
         }
 
-        // Ensure the banner still exists to link to
+        // Ensure the banner still exists to link to.
         $banner = $this->findBannerById($bannerId);
         if (!$banner) {
             return null;
         }
 
+        // Return a link to the banner.
         return $this->buildLinkTag([
             'text' => $banner->getName(),
             'title' => 'Edit this banner in the admin',
@@ -62,9 +63,9 @@ class BannerPlaceholder implements PlaceholderInterface
 }
 ```
 
-## Add placeholder to the replacer
+## Add handler to the replacer
 
-In your plugin's di.xml add the placeholder to the `PlaceholderReplacer` constructor.
+In your plugin's di.xml add the handler to the `PlaceholderProcessor` constructor.
 
 ```xml
 <?xml version="1.0"?>
@@ -73,13 +74,13 @@ In your plugin's di.xml add the placeholder to the `PlaceholderReplacer` constru
 
     <!-- ... -->
 
-    <!-- Add banner placeholder to the placeholder replacer -->
-    <type name="Ryvon\EventLog\Helper\PlaceholderReplacer">
+    <!-- Add the handler to the placeholder processor -->
+    <type name="Ryvon\EventLog\Placeholder\PlaceholderProcessor">
         <arguments>
-            <argument name="placeholders" xsi:type="array">
+            <argument name="handlers" xsi:type="array">
                 <!-- The name attribute should be set to the search string (the text between the curly-brackets). -->
                 <item name="banner" xsi:type="object">
-                    ExampleCompany\ExamplePlugin\EventLog\Placeholder\BannerPlaceholder
+                    ExampleCompany\ExamplePlugin\EventLog\Placeholder\BannerHandler
                 </item>
             </argument>
         </arguments>
