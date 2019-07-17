@@ -110,7 +110,6 @@ class EntryCollection extends AbstractCollection
             $filteredItems = [];
 
             // We loop through the reversed array so we show the latest duplicate (if duplicates are hidden)
-            // This also makes sure the duplicate checker has access to the correct number of duplicates in the render below
             foreach (array_reverse($this->_items) as $item) {
                 /** @var Entry $item */
                 if (!$this->duplicateChecker->isDuplicate($item)) {
