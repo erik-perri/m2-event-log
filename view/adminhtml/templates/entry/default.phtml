@@ -40,7 +40,7 @@ if (!$block->getData('single-store-mode')) {
     if ($storeView) {
         ?>
         <td class="log-store-view">
-            <div class="data-grid-cell-content"><?php echo $block->escapeHtmlAttr($storeView); ?></div>
+            <div class="data-grid-cell-content"><?php echo $block->escapeHtml($storeView); ?></div>
         </td>
         <?php
     }
