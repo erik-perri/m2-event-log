@@ -96,11 +96,11 @@ class DigestSender
     {
         $builder = $this->emailHelper->createDigestEmail($digest);
 
-        $eventData = $this->dataObjectFactory->create([
+        $eventData = $this->dataObjectFactory->create(['data' => [
             'continue' => true,
             'digest' => $digest,
             'builder' => $builder,
-        ]);
+        ]]);
 
         $this->eventManager->dispatch('event_log_email_sending', ['data' => $eventData]);
 
