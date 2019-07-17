@@ -4,7 +4,7 @@ namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Framework\DataObject;
 
-class IpHandler implements HandlerInterface
+class IpAddressHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 

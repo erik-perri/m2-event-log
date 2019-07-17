@@ -107,8 +107,8 @@ class OrderBlock extends EntryBlock
      */
     public function formatIpAddress(string $ipAddress): string
     {
-        return $this->replacePlaceholders('{user-ip}', new DataObject([
-            'user-ip' => $ipAddress,
+        return $this->replacePlaceholders('{ip-address}', new DataObject([
+            'ip-address' => $ipAddress,
         ]));
     }
 }
