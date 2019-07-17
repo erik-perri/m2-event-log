@@ -106,6 +106,12 @@ class OrderReporter
                 break;
         }
 
+        try {
+            $statusLabel = $order->getStatusLabel();
+        } catch (LocalizedException $e) {
+            $statusLabel = sprintf('Unknown (%s)', $order->getStatus());
+        }
+
         $this->eventManager->dispatch('event_log_' . $level, [
             'digest' => $digest,
             'group' => 'orders',
@@ -117,7 +123,7 @@ class OrderReporter
                 'created-at' => $order->getCreatedAt(),
                 'bill-to-name' => $this->getOrderBillToName($order),
                 'price' => $order->getGrandTotal(),
-                'status' => $order->getStatusLabel(),
+                'status' => $statusLabel,
                 'status-code' => $order->getStatus(),
                 'store-view' => $order->getStore() ? $order->getStore()->getFrontendName() : null,
                 'payment-method' => $this->getOrderPaymentMethodTitle($order),
