@@ -4,12 +4,12 @@ namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
 use Ryvon\EventLog\Block\Adminhtml\TemplateBlock;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
-use Ryvon\EventLog\Helper\PlaceholderReplacer;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
 use Magento\Backend\Block\Template;
 use Magento\Framework\DataObject;
 use Magento\Framework\Stdlib\DateTime\Timezone;
+use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
 /**
  * Block class for the default entry block for both the administrator and email.
@@ -22,9 +22,9 @@ class EntryBlock extends TemplateBlock
     private $digestRequestHelper;
 
     /**
-     * @var PlaceholderReplacer
+     * @var PlaceholderProcessor
      */
-    private $placeholderReplacer;
+    private $placeholderProcessor;
 
     /**
      * @var Timezone
@@ -38,14 +38,14 @@ class EntryBlock extends TemplateBlock
 
     /**
      * @param DigestRequestHelper $digestRequestHelper
-     * @param PlaceholderReplacer $placeholderReplacer
+     * @param PlaceholderProcessor $placeholderProcessor
      * @param Timezone $timezone
      * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
         DigestRequestHelper $digestRequestHelper,
-        PlaceholderReplacer $placeholderReplacer,
+        PlaceholderProcessor $placeholderProcessor,
         Timezone $timezone,
         Template\Context $context,
         array $data = []
@@ -53,7 +53,7 @@ class EntryBlock extends TemplateBlock
         parent::__construct($context, $data);
 
         $this->digestRequestHelper = $digestRequestHelper;
-        $this->placeholderReplacer = $placeholderReplacer;
+        $this->placeholderProcessor = $placeholderProcessor;
         $this->timezone = $timezone;
     }
 
@@ -154,7 +154,7 @@ class EntryBlock extends TemplateBlock
      */
     public function getDigest()
     {
-        // TODO Change this to being getData and setData
+        // TODO Change this to getData and setData
         if ($this->currentDigest === null) {
             $this->currentDigest = $this->digestRequestHelper->getCurrentDigest($this->getRequest());
         }
@@ -181,11 +181,11 @@ class EntryBlock extends TemplateBlock
      * Replaces the placeholders in the specified message using the specified context.
      *
      * @param string $message
-     * @param DataObject $context
+     * @param DataObject|array $context
      * @return string
      */
-    public function replacePlaceholders(string $message, DataObject $context): string
+    public function replacePlaceholders(string $message, $context): string
     {
-        return $this->placeholderReplacer->replace($message, $context);
+        return $this->placeholderProcessor->process($message, $context);
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
+use Exception;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\DataObject;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 
-class OrderPlaceholder implements PlaceholderInterface
+class OrderHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -35,19 +37,19 @@ class OrderPlaceholder implements PlaceholderInterface
         UrlInterface $urlBuilder,
         OrderRepository $orderRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder
-    ) {
+    )
+    {
         $this->urlBuilder = $urlBuilder;
         $this->orderRepository = $orderRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $orderId = $context->getData('order');
+        $orderId = $context->getData('text');
         if (!$orderId) {
             return null;
         }
@@ -69,7 +71,7 @@ class OrderPlaceholder implements PlaceholderInterface
 
     /**
      * @param string $incrementId
-     * @return \Magento\Sales\Api\Data\OrderInterface|null
+     * @return OrderInterface|null
      */
     private function findOrderById($incrementId)
     {
@@ -79,7 +81,7 @@ class OrderPlaceholder implements PlaceholderInterface
             if (count($orderList)) {
                 return reset($orderList);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         return null;
     }

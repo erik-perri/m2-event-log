@@ -30,9 +30,12 @@ class ProductModelObserver extends AbstractModelObserver
             'group' => 'admin',
             'message' => 'Product {product} {action}.',
             'context' => [
-                'store-view' => $this->getActiveStoreView(),
-                'product' => $entity->getData('sku'),
+                'product' => [
+                    'text' => $entity->getData('sku'),
+                    'id' => $entity->getId(),
+                ],
                 'action' => $action,
+                'store-view' => $this->getActiveStoreView(),
             ],
         ]);
     }

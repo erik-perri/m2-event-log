@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 trait LinkPlaceholderTrait
 {

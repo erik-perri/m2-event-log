@@ -46,12 +46,21 @@ if (!$block->getData('single-store-mode')) {
     }
 
     if ($block->getData('user-column')) {
+        $userContext = $entry->getEntryContext()->getData('.user');
+        if (!$userContext) {
+            // TODO Legacy code, remove
+            $userContext = [
+                'text' => $entry->getEntryContext()->getData('user-name'),
+                'id' => $entry->getEntryContext()->getData('user-id'),
+                'ip-address' => $entry->getEntryContext()->getData('user-ip'),
+            ];
+        }
         ?>
         <td class="log-user-name">
-            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user-name}', $entry->getEntryContext()); ?></div>
+            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user}', ['user' => $userContext]); ?></div>
         </td>
         <td class="log-user-ip">
-            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user-ip}', $entry->getEntryContext()); ?></div>
+            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{ip-address}', ['ip-address' => $userContext['ip-address'] ?? '']); ?></div>
         </td>
         <?php
     }

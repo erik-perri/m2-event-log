@@ -1,11 +1,11 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\DataObject;
 
-class CmsBlockPlaceholder implements PlaceholderInterface
+class CmsBlockHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -23,13 +23,12 @@ class CmsBlockPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $blockId = $context->getData('cms-block-id');
-        $blockName = $context->getData('cms-block');
+        $blockId = $context->getData('id');
+        $blockName = $context->getData('text');
         if (!$blockId || !$blockName) {
             return null;
         }

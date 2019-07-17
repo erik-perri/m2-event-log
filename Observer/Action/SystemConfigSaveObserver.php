@@ -47,8 +47,8 @@ class SystemConfigSaveObserver implements ActionObserverInterface
             'group' => 'admin',
             'message' => 'Configuration section {config-section} modified.',
             'context' => [
-                'store-view' => $this->storeViewFinder->getActiveStoreView(),
                 'config-section' => $section,
+                'store-view' => $this->storeViewFinder->getActiveStoreView(),
             ],
         ]);
     }

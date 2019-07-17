@@ -1,6 +1,6 @@
 <?php
 
-namespace Ryvon\EventLog\Helper\Placeholder;
+namespace Ryvon\EventLog\Placeholder\Handler;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Catalog\Model\Category;
@@ -10,7 +10,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Helper\ImageLocator;
 
-class CategoryPlaceholder implements PlaceholderInterface
+class CategoryHandler implements HandlerInterface
 {
     use LinkPlaceholderTrait;
 
@@ -58,13 +58,12 @@ class CategoryPlaceholder implements PlaceholderInterface
     }
 
     /**
-     * @param DataObject $context
-     * @return string|null
+     * @inheritDoc
      */
-    public function getReplaceString($context)
+    public function handle(DataObject $context)
     {
-        $categoryId = $context->getData('category-id');
-        $categoryName = $context->getData('category');
+        $categoryId = $context->getData('id');
+        $categoryName = $context->getData('text');
         if (!$categoryId || !$categoryName) {
             return null;
         }

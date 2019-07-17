@@ -30,10 +30,12 @@ class CategoryModelObserver extends AbstractModelObserver
             'group' => 'admin',
             'message' => 'Category {category} {action}.',
             'context' => [
-                'store-view' => $this->getActiveStoreView(),
-                'category' => $entity->getData('name'),
-                'category-id' => $entity->getId(),
+                'category' => [
+                    'text' => $entity->getData('name'),
+                    'id' => $entity->getId(),
+                ],
                 'action' => $action,
+                'store-view' => $this->getActiveStoreView(),
             ],
         ]);
     }

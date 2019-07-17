@@ -83,7 +83,11 @@ class EntryCollection extends AbstractCollection
         foreach ($this->getItems() as $item) {
             /** @var Entry $item */
             $context = $item->getEntryContext();
+            // TODO Legacy code, remove
             if ($context->getData('user-name') || $context->getData('user-ip')) {
+                return true;
+            }
+            if ($context->getData('.user')) {
                 return true;
             }
         }

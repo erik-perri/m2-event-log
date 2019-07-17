@@ -30,10 +30,12 @@ class CmsPageModelObserver extends AbstractModelObserver
             'group' => 'admin',
             'message' => 'Page {cms-page} {action}.',
             'context' => [
-                'store-view' => $this->getActiveStoreView(),
-                'cms-page' => $entity->getData('title'),
-                'cms-page-id' => $entity->getId(),
+                'cms-page' => [
+                    'text' => $entity->getData('title'),
+                    'id' => $entity->getId(),
+                ],
                 'action' => $action,
+                'store-view' => $this->getActiveStoreView(),
             ],
         ]);
     }
