@@ -57,10 +57,18 @@ if (!$block->getData('single-store-mode')) {
         }
         ?>
         <td class="log-user-name">
-            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{user}', ['user' => $userContext]); ?></div>
+            <div class="data-grid-cell-content"><?php
+                if ($userContext) {
+                    echo $block->replacePlaceholders('{user}', ['user' => $userContext]);
+                }
+                ?></div>
         </td>
         <td class="log-user-ip">
-            <div class="data-grid-cell-content"><?php echo $block->replacePlaceholders('{ip-address}', ['ip-address' => $userContext['ip-address'] ?? '']); ?></div>
+            <div class="data-grid-cell-content"><?php
+                if ($userContext) {
+                    echo $block->replacePlaceholders('{ip-address}', ['ip-address' => $userContext['ip-address'] ?? '']);
+                }
+                ?></div>
         </td>
         <?php
     }
