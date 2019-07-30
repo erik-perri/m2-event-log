@@ -3,7 +3,7 @@
 This is the only way to add links or other dynamic content to the log entry.  The
 example below will replace `{banner}` with a link to a banner edit page.  We prefer to
 use a placeholder so the message can be translated later.  It also offers the benefit of
-being able to load the current banner (using the `banner-id` context) which allows the
+being able to load the current banner (using the `id` context) which allows the
 link to always use the most up to date name, or no link can be returned if the banner
 no longer exists.
 
