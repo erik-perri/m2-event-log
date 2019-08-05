@@ -34,7 +34,7 @@ class AdminRolePlugin
         /** @noinspection PhpUnusedParameterInspection */ Role $subject,
         callable $proceed
     ) {
-        // We proceed with the save to obtain the ID in case this is a new attribute.
+        // We proceed with the save to obtain the ID in case this is a new role.
         $return = $proceed();
 
         $this->eventManager->dispatch('event_log_info', [
