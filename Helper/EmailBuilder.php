@@ -4,7 +4,6 @@ namespace Ryvon\EventLog\Helper;
 
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Ryvon\EventLog\Block\Adminhtml\Digest\IndexBlock;
 use Ryvon\EventLog\Model\Config;
 use Ryvon\EventLog\Model\Digest;
@@ -33,11 +32,6 @@ class EmailBuilder
     private $config;
 
     /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var DateRangeBuilder
      */
     private $dateRangeBuilder;
@@ -57,7 +51,6 @@ class EmailBuilder
      * @param EntryRepository $entryRepository
      * @param DigestSummarizer $digestSummarizer
      * @param Config $config
-     * @param StoreManagerInterface $storeManager
      * @param DateRangeBuilder $dateRangeBuilder
      * @param EmailEmogrifier $emailEmogrifier
      * @param LayoutInterface $layout
@@ -67,7 +60,6 @@ class EmailBuilder
         EntryRepository $entryRepository,
         DigestSummarizer $digestSummarizer,
         Config $config,
-        StoreManagerInterface $storeManager,
         DateRangeBuilder $dateRangeBuilder,
         EmailEmogrifier $emailEmogrifier,
         LayoutInterface $layout
@@ -76,7 +68,6 @@ class EmailBuilder
         $this->entryRepository = $entryRepository;
         $this->digestSummarizer = $digestSummarizer;
         $this->config = $config;
-        $this->storeManager = $storeManager;
         $this->dateRangeBuilder = $dateRangeBuilder;
         $this->emailEmogrifier = $emailEmogrifier;
         $this->layout = $layout;
