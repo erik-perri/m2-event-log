@@ -39,6 +39,13 @@ class Index extends Action
      */
     public function execute(): ResultInterface
     {
-        return $this->resultPageFactory->create();
+        $page = $this->resultPageFactory->create();
+
+        $title = $page->getConfig()->getTitle();
+        if ($title->get()) {
+            $title->set(__($title->get()));
+        }
+
+        return $page;
     }
 }
