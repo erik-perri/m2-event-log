@@ -88,8 +88,8 @@ class EmailBuilder
         $subject = sprintf(
             'Event digest (%s) for %s, %s',
             $this->digestSummarizer->getSummaryMessage($summary, true),
-            strip_tags($this->dateRangeBuilder->buildDateRange($digest->getStartedAt(), $digest->getFinishedAt())),
-            strip_tags($this->dateRangeBuilder->buildTimeRange($digest->getStartedAt(), $digest->getFinishedAt()))
+            strip_tags($this->dateRangeBuilder->buildDateRange($digest->getStartedAtDateTime(), $digest->getFinishedAtDateTime())),
+            strip_tags($this->dateRangeBuilder->buildTimeRange($digest->getStartedAtDateTime(), $digest->getFinishedAtDateTime()))
         );
 
         /** @var IndexBlock $block */

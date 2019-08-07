@@ -31,8 +31,8 @@ $next = $this->getNextDigest($current);
                         '{time-range}'
                     ],
                     [
-                        $this->getDateRangeBuilder()->buildDateRange($current->getStartedAt(), $current->getFinishedAt()),
-                        $this->getDateRangeBuilder()->buildTimeRange($current->getStartedAt(), $current->getFinishedAt())
+                        $this->getDateRangeBuilder()->buildDateRange($current->getStartedAtDateTime(), $current->getFinishedAtDateTime()),
+                        $this->getDateRangeBuilder()->buildTimeRange($current->getStartedAtDateTime(), $current->getFinishedAtDateTime())
                     ],
                     __('Showing {date-range}, {time-range}')
                 );

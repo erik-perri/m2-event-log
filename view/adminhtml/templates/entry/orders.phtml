@@ -26,7 +26,7 @@ if (!$incrementId) {
         </div>
     </td>
     <td>
-        <div class="data-grid-cell-content" title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAt())); ?>">
+        <div class="data-grid-cell-content" title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAtDateTime())); ?>">
             <?php echo $block->escapeHtml($block->formatOrderTime($context->getData('created-at'))); ?>
         </div>
     </td>

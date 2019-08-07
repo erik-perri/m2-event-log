@@ -31,4 +31,36 @@ class Digest extends AbstractModel
     {
         $this->_init(DigestResourceModel::class);
     }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getStartedAtDateTime()
+    {
+        if (!$this->getStartedAt()) {
+            return null;
+        }
+
+        try {
+            return new \DateTime($this->getStartedAt());
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getFinishedAtDateTime()
+    {
+        if (!$this->getFinishedAt()) {
+            return null;
+        }
+
+        try {
+            return new \DateTime($this->getFinishedAt());
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

@@ -106,12 +106,12 @@ class EntryBlock extends TemplateBlock
     /**
      * Formats the specified time, including the day if the digest spans multiple days.
      *
-     * @param string|\DateTime $mysqlTime
+     * @param \DateTime $dateTime
      * @return string
      */
-    public function formatLogTime($mysqlTime): string
+    public function formatLogTime($dateTime): string
     {
-        if (!$mysqlTime) {
+        if (!$dateTime) {
             return '';
         }
 
@@ -120,7 +120,7 @@ class EntryBlock extends TemplateBlock
             $format = 'M d, h:i A';
         }
 
-        return $this->getTimezone()->date($mysqlTime)->format($format);
+        return $this->getTimezone()->date($dateTime)->format($format);
     }
 
     /**
@@ -135,14 +135,11 @@ class EntryBlock extends TemplateBlock
             return false;
         }
 
-        $startedAt = $this->timezone->date($digest->getStartedAt());
+        $startedAt = $digest->getStartedAtDateTime();
+        $finishedAt = $digest->getFinishedAtDateTime();
 
-        if ($digest->getFinishedAt()) {
-            $compareTo = $this->timezone->date($digest->getFinishedAt());
-        } else {
-            // If the digest isn't finished we can compare to now
-            $compareTo = $this->timezone->date();
-        }
+        $startedAt = $this->timezone->date($startedAt);
+        $compareTo = $this->timezone->date($finishedAt);
 
         return $startedAt->format('Y-m-d') !== $compareTo->format('Y-m-d');
     }
@@ -164,17 +161,17 @@ class EntryBlock extends TemplateBlock
     /**
      * Formats the specified time for the title attribute.
      *
-     * @param string|\DateTime $mysqlTime
+     * @param \DateTime $dateTime
      * @return string
      */
-    public function formatTitleTime($mysqlTime): string
+    public function formatTitleTime($dateTime): string
     {
-        if (!$mysqlTime) {
+        if (!$dateTime) {
             return '';
         }
 
         $format = 'l F jS, h:i:s A';
-        return $this->timezone->date($mysqlTime)->format($format);
+        return $this->timezone->date($dateTime)->format($format);
     }
 
     /**

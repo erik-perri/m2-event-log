@@ -36,4 +36,20 @@ class Entry extends AbstractModel
     {
         $this->_init(EntryResourceModel::class);
     }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAtDateTime()
+    {
+        if (!$this->getCreatedAt()) {
+            return null;
+        }
+
+        try {
+            return new \DateTime($this->getCreatedAt());
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

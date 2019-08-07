@@ -30,17 +30,15 @@ class DateRangeBuilder
     }
 
     /**
-     * @param \DateTime|string $startedAt
-     * @param \DateTime|string|null $finishedAt
+     * @param \DateTime $startedAt
+     * @param \DateTime|null $finishedAt
      * @return string
      */
     public function buildDateRange($startedAt, $finishedAt): string
     {
         $startedAtLocal = $this->timezone->date($startedAt);
-
         if ($finishedAt === null) {
             $now = $this->timezone->date();
-
             if ($now->format('Y-m-d') !== $startedAtLocal->format('Y-m-d')) {
                 return str_replace(
                     [
@@ -121,8 +119,8 @@ class DateRangeBuilder
     }
 
     /**
-     * @param \DateTime|string $startedAt
-     * @param \DateTime|string|null $finishedAt
+     * @param \DateTime $startedAt
+     * @param \DateTime|null $finishedAt
      * @return string
      */
     public function buildTimeRange($startedAt, $finishedAt): string

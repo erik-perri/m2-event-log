@@ -18,8 +18,8 @@ if (!$block->getData('single-store-mode')) {
 <tr class="data-row <?php echo $block->escapeHtmlAttr($block->getRowClass($entry)); ?>">
     <td class="log-time">
         <div class="data-grid-cell-content"
-             title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAt())); ?>">
-            <?php echo $block->escapeHtml($block->formatLogTime($entry->getCreatedAt())); ?>
+             title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAtDateTime())); ?>">
+            <?php echo $block->escapeHtml($block->formatLogTime($entry->getCreatedAtDateTime())); ?>
         </div>
     </td>
     <td class="log-message" colspan="<?php echo $colspan; ?>">
