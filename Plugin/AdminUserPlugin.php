@@ -59,10 +59,8 @@ class AdminUserPlugin
      * @param callable $proceed
      * @return mixed
      */
-    public function aroundSave(
-        /** @noinspection PhpUnusedParameterInspection */ User $subject,
-        callable $proceed
-    ) {
+    public function aroundSave(User $subject, callable $proceed)
+    {
         // We proceed with the save to obtain the ID in case this is a new user.
         $return = $proceed();
 
@@ -89,9 +87,9 @@ class AdminUserPlugin
      * @param User $subject
      * @return array
      */
-    public function beforeDelete(
-        /** @noinspection PhpUnusedParameterInspection */ User $subject
-    ): array {
+    public function beforeDelete(User $subject): array
+    {
+        // We load the user since during testing the subject only contained the ID, not the username.
         $user = $this->userFactory->create();
         $this->userResourceModel->load($user, $subject->getId());
 
@@ -126,13 +124,13 @@ class AdminUserPlugin
         }
 
         if (!$this->request->isPost() || !in_array($this->request->getFullActionName(), [
-            // Editing their own account
-            'adminhtml_system_account_save',
-            'adminhtml_system_account_delete',
-            // Editing another user's account
-            'adminhtml_user_save',
-            'adminhtml_user_delete',
-        ])) {
+                // Editing their own account
+                'adminhtml_system_account_save',
+                'adminhtml_system_account_delete',
+                // Editing another user's account
+                'adminhtml_user_save',
+                'adminhtml_user_delete',
+            ])) {
             return false;
         }
 

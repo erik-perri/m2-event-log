@@ -30,10 +30,8 @@ class AdminRolePlugin
      * @param callable $proceed
      * @return mixed
      */
-    public function aroundSave(
-        /** @noinspection PhpUnusedParameterInspection */ Role $subject,
-        callable $proceed
-    ) {
+    public function aroundSave(Role $subject, callable $proceed)
+    {
         // We proceed with the save to obtain the ID in case this is a new role.
         $return = $proceed();
 
@@ -58,9 +56,8 @@ class AdminRolePlugin
      * @param Role $subject
      * @return array
      */
-    public function beforeDelete(
-        /** @noinspection PhpUnusedParameterInspection */ Role $subject
-    ): array {
+    public function beforeDelete(Role $subject): array
+    {
         $this->eventManager->dispatch('event_log_info', [
             'group' => 'admin',
             'message' => 'Admin role {role} {action}.',
