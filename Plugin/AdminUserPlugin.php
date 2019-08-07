@@ -70,7 +70,7 @@ class AdminUserPlugin
                 'message' => 'Admin user {user} {action}.',
                 'context' => [
                     'user' => [
-                        'text' => $subject->getData('username'),
+                        'text' => $subject->getUserName(),
                         'id' => (string)$subject->getId(),
                     ],
                     'action' => $subject->isObjectNew() ? 'created' : 'modified',
@@ -99,7 +99,7 @@ class AdminUserPlugin
                 'message' => 'Admin user {user} {action}.',
                 'context' => [
                     'user' => [
-                        'text' => $user->getUsername(),
+                        'text' => $user->getUserName(),
                         'id' => (string)$subject->getId(),
                     ],
                     'action' => 'deleted',
