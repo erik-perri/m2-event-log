@@ -17,7 +17,8 @@ if (!$block->getData('single-store-mode')) {
 ?>
 <tr class="data-row <?php echo $block->escapeHtmlAttr($block->getRowClass($entry)); ?>">
     <td class="log-time">
-        <div class="data-grid-cell-content" title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAt())); ?>">
+        <div class="data-grid-cell-content"
+             title="<?php echo $block->escapeHtmlAttr($block->formatTitleTime($entry->getCreatedAt())); ?>">
             <?php echo $block->escapeHtml($block->formatLogTime($entry->getCreatedAt())); ?>
         </div>
     </td>
@@ -27,9 +28,13 @@ if (!$block->getData('single-store-mode')) {
             <?php if ($duplicates > 1) {
                 $displayCount = number_format($duplicates - 1);
                 ?>
-                <span class="duplicate-count" title="<?php
-                echo sprintf('%s %s', $displayCount, $displayCount === '1' ? 'duplicate' : 'duplicates');
-                ?> of this message <?php echo $displayCount === '1' ? 'was' : 'were'; ?> hidden, this is the most recent.">
+                <span class="duplicate-count" title="<?php echo str_replace(
+                    ['{count}'],
+                    [$displayCount],
+                    $displayCount === '1'
+                        ? __('{count} duplicate of this message was hidden, this is the most recent.')
+                        : __('{count} duplicates of this message were hidden, this is the most recent.')
+                ); ?>">
                     +<?php echo $displayCount; ?>
                 </span>
                 <?php

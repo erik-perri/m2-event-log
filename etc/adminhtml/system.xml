@@ -12,7 +12,7 @@
                    showInStore="1">
                 <label>Event Log</label>
                 <field id="hide_duplicates"
-                       translate="label"
+                       translate="label,comment"
                        type="select"
                        sortOrder="10"
                        showInDefault="1"
@@ -23,7 +23,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="internal_digest_cron"
-                       translate="label"
+                       translate="label,comment"
                        type="select"
                        sortOrder="20"
                        showInDefault="1"
@@ -31,17 +31,17 @@
                        showInStore="0">
                     <label>Run Cron Through Magento</label>
                     <comment>
-                        <![CDATA[
-                            This will automatically finish the digest daily at 8:20 AM and send out the digest email if
-                            that option is enabled.  If this is disabled you will need to run the finish digest command
-                            when you want the digest to be finished and sent.<br/><br/>
-                            Finish Digest Command: <code>bin/magento event-log:finish-digest</code>
-                        ]]>
+<![CDATA[
+This will automatically finish the digest daily at 8:20 AM and send out the digest email if
+that option is enabled.  If this is disabled you will need to run the finish digest command
+when you want the digest to be finished and sent.<br/><br/>
+Finish Digest Command: <code>bin/magento event-log:finish-digest</code>
+]]>
                     </comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="enable_digest_email"
-                       translate="label"
+                       translate="label,comment"
                        type="select"
                        sortOrder="30"
                        showInDefault="1"
@@ -65,7 +65,7 @@
                     </depends>
                 </field>
                 <field id="recipient_email"
-                       translate="label"
+                       translate="label,comment"
                        type="text"
                        sortOrder="50"
                        showInDefault="1"

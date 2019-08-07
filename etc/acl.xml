@@ -6,7 +6,12 @@
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::system">
                     <resource id="Magento_Backend::tools">
-                        <resource id="Ryvon_EventLog::index" title="View Event Log" sortOrder="10"/>
+                        <resource
+                                id="Ryvon_EventLog::index"
+                                title="View Event Log"
+                                sortOrder="10"
+                                translate="title"
+                        />
                     </resource>
                 </resource>
             </resource>

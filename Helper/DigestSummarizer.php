@@ -95,7 +95,7 @@ class DigestSummarizer
                 $text = ($count === 1 ? $map[$key][0] : $map[$key][1]);
             }
 
-            $message[] = number_format($count) . ' ' . $text;
+            $message[] = number_format($count) . ' ' . __($text);
         }
         return implode(', ', $message);
     }

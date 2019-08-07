@@ -19,7 +19,7 @@ $odd = false;
     <thead>
     <?php
     echo $block->renderBlock($template->getHeaderTemplateFile(), $template->getHeaderBlockClass(), [
-        'title' => $group->getTitle(),
+        'title' => __($group->getTitle()),
         'summary' => $collection->buildSummaryMessage(),
         'links' => $group->getHeadingLinks(),
         'user-column' => $hasUserContext,

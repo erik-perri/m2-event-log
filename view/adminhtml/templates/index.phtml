@@ -6,10 +6,10 @@ $digest = $this->getCurrentDigest();
 if ($digest) {
     $groups = $this->buildGroups($digest);
     if (!count($groups)) {
-        $error = 'No log entries found.';
+        $error = __('No log entries found.');
     }
 } else {
-    $error = 'No digests found.';
+    $error = __('No digests found.');
 }
 
 if ($error) {

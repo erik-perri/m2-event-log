@@ -12,11 +12,6 @@ use Ryvon\EventLog\Placeholder\Handler\HandlerInterface;
 class PlaceholderProcessor
 {
     /**
-     * @var string
-     */
-    private $unknownText = '[Unknown]';
-
-    /**
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
@@ -45,7 +40,7 @@ class PlaceholderProcessor
      */
     public function getUnknownText(): string
     {
-        return htmlentities($this->unknownText);
+        return htmlentities(__('[Unknown]'));
     }
 
     /**
@@ -62,7 +57,7 @@ class PlaceholderProcessor
             $context = $this->dataObjectFactory->create(['data' => $context]);
         }
 
-        $message = htmlentities($message, ENT_QUOTES);
+        $message = htmlentities(__($message), ENT_QUOTES);
 
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $withoutHandlers) {
             $placeholderKey = $matches[1];
@@ -96,7 +91,7 @@ class PlaceholderProcessor
             return $this->getUnknownText();
         }
 
-        $plainTextVersion = htmlentities((string)$plainTextVersion);
+        $plainTextVersion = htmlentities(__((string)$plainTextVersion));
 
         $placeholderHandlerId = $context->getData('handler');
         $placeholderHandler = $placeholderHandlerId ? ($this->handlers[$placeholderHandlerId] ?? null) : null;

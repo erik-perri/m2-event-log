@@ -42,10 +42,16 @@ class DateRangeBuilder
             $now = $this->timezone->date();
 
             if ($now->format('Y-m-d') !== $startedAtLocal->format('Y-m-d')) {
-                return sprintf(
-                    '%s - %s',
-                    $this->wrapDate(sprintf('%s %s', $startedAtLocal->format('F'), $startedAtLocal->format('jS'))),
-                    $this->wrapDate(sprintf('%s, %s', $now->format('jS'), $now->format('Y')))
+                return str_replace(
+                    [
+                        '{date-start}',
+                        '{date-end}'
+                    ],
+                    [
+                        $this->wrapDate(sprintf('%s %s', $startedAtLocal->format('F'), $startedAtLocal->format('jS'))),
+                        $this->wrapDate(sprintf('%s, %s', $now->format('jS'), $now->format('Y')))
+                    ],
+                    __('{date-start} - {date-end}')
                 );
             }
 
@@ -64,18 +70,26 @@ class DateRangeBuilder
             );
         }
 
+        $dateStart = $this->wrapDate($startedAtLocal->format('F jS, Y'));
+        $dateEnd = $this->wrapDate($finishedAtLocal->format('F jS, Y'));
+
         if ($startedAtLocal->format('Y-m') === $finishedAtLocal->format('Y-m')) {
-            return sprintf(
-                '%s - %s',
-                $this->wrapDate(sprintf('%s %s', $startedAtLocal->format('F'), $startedAtLocal->format('jS'))),
-                $this->wrapDate(sprintf('%s, %s', $finishedAtLocal->format('jS'), $finishedAtLocal->format('Y')))
-            );
+            $dateStart = $this->wrapDate(sprintf(
+                '%s %s',
+                $startedAtLocal->format('F'),
+                $startedAtLocal->format('jS')
+            ));
+            $dateEnd = $this->wrapDate(sprintf(
+                '%s, %s',
+                $finishedAtLocal->format('jS'),
+                $finishedAtLocal->format('Y')
+            ));
         }
 
-        return sprintf(
-            '%s - %s',
-            $this->wrapDate($startedAtLocal->format('F jS, Y')),
-            $this->wrapDate($finishedAtLocal->format('F jS, Y'))
+        return str_replace(
+            ['{date-start}', '{date-end}'],
+            [$dateStart, $dateEnd],
+            __('{date-start} - {date-end}')
         );
     }
 
@@ -116,18 +130,25 @@ class DateRangeBuilder
         $startedAtLocal = $this->timezone->date($startedAt);
 
         if ($finishedAt === null) {
-            return sprintf(
-                '%s to now',
-                $this->wrapTime($startedAtLocal->format('ga'))
+            return str_replace(
+                ['{time-start}'],
+                [$this->wrapTime($startedAtLocal->format('ga'))],
+                __('{time-start} to now')
             );
         }
 
         $finishedAtLocal = $this->timezone->date($finishedAt);
 
-        return sprintf(
-            '%s - %s',
-            $this->wrapTime($startedAtLocal->format('ga')),
-            $this->wrapTime($finishedAtLocal->format('ga'))
+        return str_replace(
+            [
+                '{time-start}',
+                '{time-end}'
+            ],
+            [
+                $this->wrapTime($startedAtLocal->format('ga')),
+                $this->wrapTime($finishedAtLocal->format('ga'))
+            ],
+            __('{time-start} - {time-end}')
         );
     }
 
