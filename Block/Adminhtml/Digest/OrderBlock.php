@@ -7,7 +7,7 @@ use Exception;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
-use Magento\Framework\Stdlib\DateTime\Timezone;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
@@ -30,7 +30,7 @@ class OrderBlock extends EntryBlock
      * @param DigestRequestHelper $digestRequestHelper
      * @param PlaceholderProcessor $placeholderProcessor
      * @param PricingHelper $priceHelper
-     * @param Timezone $timezone
+     * @param TimezoneInterface $timezone
      * @param UrlInterface $urlBuilder
      * @param Template\Context $context
      * @param array $data
@@ -39,7 +39,7 @@ class OrderBlock extends EntryBlock
         DigestRequestHelper $digestRequestHelper,
         PlaceholderProcessor $placeholderProcessor,
         PricingHelper $priceHelper,
-        Timezone $timezone,
+        TimezoneInterface $timezone,
         UrlInterface $urlBuilder,
         Template\Context $context,
         array $data = []

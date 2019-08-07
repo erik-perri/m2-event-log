@@ -8,7 +8,7 @@ use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
 use Magento\Backend\Block\Template;
 use Magento\Framework\DataObject;
-use Magento\Framework\Stdlib\DateTime\Timezone;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
 /**
@@ -27,7 +27,7 @@ class EntryBlock extends TemplateBlock
     private $placeholderProcessor;
 
     /**
-     * @var Timezone
+     * @var TimezoneInterface
      */
     private $timezone;
 
@@ -39,14 +39,14 @@ class EntryBlock extends TemplateBlock
     /**
      * @param DigestRequestHelper $digestRequestHelper
      * @param PlaceholderProcessor $placeholderProcessor
-     * @param Timezone $timezone
+     * @param TimezoneInterface $timezone
      * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
         DigestRequestHelper $digestRequestHelper,
         PlaceholderProcessor $placeholderProcessor,
-        Timezone $timezone,
+        TimezoneInterface $timezone,
         Template\Context $context,
         array $data = []
     ) {
@@ -60,9 +60,9 @@ class EntryBlock extends TemplateBlock
     /**
      * Helper function to retrieve the timezone helper.
      *
-     * @return Timezone
+     * @return TimezoneInterface
      */
-    public function getTimezone(): Timezone
+    public function getTimezone(): TimezoneInterface
     {
         return $this->timezone;
     }

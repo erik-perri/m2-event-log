@@ -2,12 +2,12 @@
 
 namespace Ryvon\EventLog\Helper;
 
-use Magento\Framework\Stdlib\DateTime\Timezone;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class DateRangeBuilder
 {
     /**
-     * @var Timezone
+     * @var TimezoneInterface
      */
     private $timezone;
 
@@ -22,9 +22,9 @@ class DateRangeBuilder
     private $timeWrapper = '<span class="time">%s</span>';
 
     /**
-     * @param Timezone $timezone
+     * @param TimezoneInterface $timezone
      */
-    public function __construct(Timezone $timezone)
+    public function __construct(TimezoneInterface $timezone)
     {
         $this->timezone = $timezone;
     }
