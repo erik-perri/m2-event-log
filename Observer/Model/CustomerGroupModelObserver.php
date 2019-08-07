@@ -26,6 +26,7 @@ class CustomerGroupModelObserver extends AbstractModelObserver
      */
     protected function handle(AbstractModel $entity, string $action)
     {
+        // TODO This is not catching modifications, only creation and deletes
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',
             'message' => 'Customer group {customer-group} {action}.',
