@@ -23,6 +23,7 @@
                 <item name="cms-page" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CmsPageHandler</item>
                 <item name="config-section" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\ConfigSectionHandler</item>
                 <item name="customer" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CustomerHandler</item>
+                <item name="customer-group" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\CustomerGroupHandler</item>
                 <item name="design-config" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\DesignConfigHandler</item>
                 <item name="ip-address" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\IpAddressHandler</item>
                 <item name="order" xsi:type="object">Ryvon\EventLog\Placeholder\Handler\OrderHandler</item>
