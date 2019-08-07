@@ -2,13 +2,13 @@
 
 namespace Ryvon\EventLog\Block\Adminhtml\Digest;
 
+use Magento\Backend\Block\Template;
+use Magento\Framework\DataObject;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Ryvon\EventLog\Block\Adminhtml\TemplateBlock;
 use Ryvon\EventLog\Helper\DigestRequestHelper;
 use Ryvon\EventLog\Model\Digest;
 use Ryvon\EventLog\Model\Entry;
-use Magento\Backend\Block\Template;
-use Magento\Framework\DataObject;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Ryvon\EventLog\Placeholder\PlaceholderProcessor;
 
 /**
@@ -115,12 +115,12 @@ class EntryBlock extends TemplateBlock
             return '';
         }
 
-        $format = 'h:i A';
-        if ($this->digestSpansMultipleDays()) {
-            $format = 'M d, h:i A';
-        }
-
-        return $this->getTimezone()->date($dateTime)->format($format);
+        return $this->getTimezone()->formatDateTime(
+            $dateTime,
+            $this->digestSpansMultipleDays()
+                ? \IntlDateFormatter::MEDIUM
+                : \IntlDateFormatter::NONE
+        );
     }
 
     /**
@@ -170,8 +170,11 @@ class EntryBlock extends TemplateBlock
             return '';
         }
 
-        $format = 'l F jS, h:i:s A';
-        return $this->timezone->date($dateTime)->format($format);
+        return $this->getTimezone()->formatDateTime(
+            $dateTime,
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::MEDIUM
+        );
     }
 
     /**

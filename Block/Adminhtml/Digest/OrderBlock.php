@@ -90,9 +90,11 @@ class OrderBlock extends EntryBlock
             return '';
         }
 
-        $format = 'M d, h:i A';
         try {
-            return $this->getTimezone()->date(new \DateTime($mysqlTime))->format($format);
+            return $this->getTimezone()->formatDateTime(
+                new \DateTime($mysqlTime),
+                \IntlDateFormatter::MEDIUM
+            );
         } catch (Exception $e) {
             return '';
         }
