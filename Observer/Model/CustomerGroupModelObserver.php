@@ -28,10 +28,10 @@ class CustomerGroupModelObserver extends AbstractModelObserver
     {
         $this->getEventManager()->dispatch('event_log_info', [
             'group' => 'admin',
-            'message' => 'Customer group {group} {action}.',
+            'message' => 'Customer group {customer-group} {action}.',
             'context' => [
-                'group' => [
-                    'text' => trim($entity->getData('code')),
+                'customer-group' => [
+                    'text' => $entity->getData('customer_group_code'),
                     'id' => $entity->getId(),
                 ],
                 'action' => $action,
