@@ -101,7 +101,7 @@ class AdminUserPlugin
                 'message' => 'Admin user {user} {action}.',
                 'context' => [
                     'user' => [
-                        'text' => $subject->getData('username'),
+                        'text' => $user->getUsername(),
                         'id' => (string)$subject->getId(),
                     ],
                     'action' => 'deleted',
