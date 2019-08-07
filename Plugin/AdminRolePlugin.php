@@ -41,7 +41,7 @@ class AdminRolePlugin
             'context' => [
                 'role' => [
                     'text' => $subject->getData('name'),
-                    'id' => (string)$subject->getId(),
+                    'id' => $subject->getId(),
                 ],
                 'action' => $subject->isObjectNew() ? 'created' : 'modified',
             ],
@@ -64,7 +64,7 @@ class AdminRolePlugin
             'context' => [
                 'role' => [
                     'text' => $subject->getData('role_name'),
-                    'id' => (string)$subject->getId(),
+                    'id' => $subject->getId(),
                 ],
                 'action' => 'deleted',
             ],

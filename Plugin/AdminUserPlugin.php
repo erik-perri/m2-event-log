@@ -71,7 +71,7 @@ class AdminUserPlugin
                 'context' => [
                     'user' => [
                         'text' => $subject->getUserName(),
-                        'id' => (string)$subject->getId(),
+                        'id' => $subject->getId(),
                     ],
                     'action' => $subject->isObjectNew() ? 'created' : 'modified',
                 ],
@@ -100,7 +100,7 @@ class AdminUserPlugin
                 'context' => [
                     'user' => [
                         'text' => $user->getUserName(),
-                        'id' => (string)$subject->getId(),
+                        'id' => $user->getId(),
                     ],
                     'action' => 'deleted',
                 ],

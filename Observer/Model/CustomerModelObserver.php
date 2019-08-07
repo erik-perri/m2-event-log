@@ -32,7 +32,7 @@ class CustomerModelObserver extends AbstractModelObserver
             'context' => [
                 'customer' => [
                     'text' => trim(sprintf('%s %s', $entity->getData('firstname'), $entity->getData('lastname'))),
-                    'id' => (string)$entity->getId(),
+                    'id' => $entity->getId(),
                 ],
                 'action' => $action,
                 'store-view' => $this->getActiveStoreView(),

@@ -32,7 +32,7 @@ class CustomerGroupModelObserver extends AbstractModelObserver
             'context' => [
                 'group' => [
                     'text' => trim($entity->getData('code')),
-                    'id' => (string)$entity->getId(),
+                    'id' => $entity->getId(),
                 ],
                 'action' => $action,
             ],
