@@ -126,6 +126,10 @@ class AdminUserPlugin
         }
 
         if (!$this->request->isPost() || !in_array($this->request->getFullActionName(), [
+            // Editing their own account
+            'adminhtml_system_account_save',
+            'adminhtml_system_account_delete',
+            // Editing another user's account
             'adminhtml_user_save',
             'adminhtml_user_delete',
         ])) {
