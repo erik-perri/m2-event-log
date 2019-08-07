@@ -94,7 +94,7 @@ class OrderBlock extends EntryBlock
         try {
             return $this->getTimezone()->date($mysqlTime)->format($format);
         } catch (Exception $e) {
-            return 'Unknown';
+            return '';
         }
     }
 
