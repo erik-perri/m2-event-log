@@ -80,6 +80,16 @@ class EmailBuilder
     public function createDigestEmail(Digest $digest): TransportBuilder
     {
         $entries = $this->entryRepository->findInDigest($digest);
+
+        // After the 2.3.5 update the repository stopped returning all of the fields while running via cron which caused
+        // the summarizer to report the wrong numbers.
+        $entries->addFieldToSelect([
+            'entry_level',
+            'entry_group',
+            'entry_message',
+            'entry_context',
+        ]);
+
         $summary = $this->digestSummarizer->summarize(
             $entries->getUnfilteredItems(),
             true
