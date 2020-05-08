@@ -57,7 +57,7 @@ class PlaceholderProcessor
             $context = $this->dataObjectFactory->create(['data' => $context]);
         }
 
-        $message = htmlentities(__($message), ENT_QUOTES);
+        $message = htmlentities($message, ENT_QUOTES);
 
         return preg_replace_callback('#\{([^}]+)\}#', function ($matches) use ($context, $withoutHandlers) {
             $placeholderKey = $matches[1];
