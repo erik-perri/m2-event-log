@@ -32,8 +32,8 @@ if (!$block->getData('single-store-mode')) {
                     ['{count}'],
                     [$displayCount],
                     $displayCount === '1'
-                        ? __('{count} duplicate of this message was hidden, this is the most recent.')
-                        : __('{count} duplicates of this message were hidden, this is the most recent.')
+                        ? '{count} duplicate of this message was hidden, this is the most recent.'
+                        : '{count} duplicates of this message were hidden, this is the most recent.'
                 ); ?>">
                     +<?php echo $displayCount; ?>
                 </span>
