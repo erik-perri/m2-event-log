@@ -56,7 +56,7 @@ if (!$block->getData('single-store-mode')) {
         <td class="log-user-name">
             <div class="data-grid-cell-content"><?php
                 if ($userContext) {
-                    echo $block->replacePlaceholders('{user}', ['user' => $userContext]);
+                    echo $block->replacePlaceholders('{log-user}', ['log-user' => $userContext]);
                 }
                 ?></div>
         </td>
