@@ -3,7 +3,7 @@
   "description": "Magento 2 plugin to log events.",
   "license": "MIT",
   "require": {
-    "php": "~7.0.13|~7.1.0",
+    "php": "~7.1.3||~7.2.0||~7.3.0||~7.4.0",
     "ext-dom": "*",
     "ext-intl": "*",
     "ext-libxml": "*",
