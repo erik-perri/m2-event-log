@@ -5,7 +5,7 @@ namespace Ryvon\EventLog\Helper;
 use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Component\ComponentRegistrarInterface;
 use Magento\Framework\Filesystem\Io\File;
-use Pelago\Emogrifier;
+use Pelago\Emogrifier\CssInliner;
 
 /**
  * Converts the stylesheets to inline styles for the email.
@@ -23,11 +23,6 @@ class EmailEmogrifier
     private $cssHelper;
 
     /**
-     * @var Emogrifier
-     */
-    private $emogrifier;
-
-    /**
      * @var File
      */
     private $file;
@@ -35,18 +30,15 @@ class EmailEmogrifier
     /**
      * @param ComponentRegistrarInterface $componentRegistrar
      * @param CssHelper $cssHelper
-     * @param Emogrifier $emogrifier
      * @param File $file
      */
     public function __construct(
         ComponentRegistrarInterface $componentRegistrar,
         CssHelper $cssHelper,
-        Emogrifier $emogrifier,
         File $file
     ) {
         $this->componentRegistrar = $componentRegistrar;
         $this->cssHelper = $cssHelper;
-        $this->emogrifier = $emogrifier;
         $this->file = $file;
     }
 
@@ -58,11 +50,7 @@ class EmailEmogrifier
      */
     public function emogrify(string $html): string
     {
-        $this->emogrifier->setCss($this->loadCss());
-        $this->emogrifier->setHtml($html);
-        $this->emogrifier->setDebug(true);
-
-        return $this->emogrifier->emogrify();
+        return CssInliner::fromHtml($html)->inlineCss($this->loadCss())->renderBodyContent();
     }
 
     /**
