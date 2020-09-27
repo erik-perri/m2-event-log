@@ -14,7 +14,7 @@ class CustomerGroupModelObserver extends AbstractModelObserver
     /**
      * @inheritDoc
      */
-    public function findModel(Event $event): AbstractModel
+    public function findModel(Event $event): ?AbstractModel
     {
         $entity = $event->getData('object');
 

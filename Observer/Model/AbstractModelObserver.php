@@ -96,7 +96,7 @@ abstract class AbstractModelObserver implements ObserverInterface
      * @param Event $event
      * @return AbstractModel|null
      */
-    abstract protected function findModel(Event $event): AbstractModel;
+    abstract protected function findModel(Event $event): ?AbstractModel;
 
     /**
      * Dispatches an add log event if the model is valid.

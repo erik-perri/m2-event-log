@@ -84,7 +84,7 @@ class FileLocator
      * @param string $fileName
      * @return string|null
      */
-    public function getPluginFileContents(string $componentName, string $subPath, string $fileName): string
+    public function getPluginFileContents(string $componentName, string $subPath, string $fileName): ?string
     {
         $file = $this->locatePluginFile($componentName, $subPath, $fileName);
 
@@ -117,7 +117,7 @@ class FileLocator
      * @param string $fileName
      * @return string|null
      */
-    public function getVendorFileContents(string $vendorSubPath, string $fileName): string
+    public function getVendorFileContents(string $vendorSubPath, string $fileName): ?string
     {
         $file = $this->locateVendorFile($vendorSubPath, $fileName);
 
