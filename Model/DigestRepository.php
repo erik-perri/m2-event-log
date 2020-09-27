@@ -117,7 +117,7 @@ class DigestRepository
         try {
             $this->digestResourceModel->save($digest);
         } catch (\Exception $e) {
-            return null;
+            return false;
         }
 
         return true;
