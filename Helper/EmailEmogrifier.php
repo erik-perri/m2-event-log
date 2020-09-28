@@ -50,7 +50,7 @@ class EmailEmogrifier
      */
     public function emogrify(string $html): string
     {
-        return CssInliner::fromHtml($html)->inlineCss($this->loadCss())->renderBodyContent();
+        return CssInliner::fromHtml($html)->inlineCss($this->loadCss())->render();
     }
 
     /**
