@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogCacheFlushSystemTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log flush system cache test"/>
+            <description value="Flushing the system (storage) cache should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Go to System > Cache Management -->
+        <amOnPage url="{{AdminCacheManagementPage.url}}" stepKey="amOnPageCacheManagement"/>
+        <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
+
+        <!-- Flush the cache -->
+        <waitForElementVisible selector="#flush_system" stepKey="waitSubmitButton"/>
+        <click selector="#flush_system" stepKey="clickFlush"/>
+
+        <waitForElementVisible selector="//button[@class='action-primary action-accept']" stepKey="waitConfirmButton"/>
+        <click selector="//button[@class='action-primary action-accept']" stepKey="clickConfirm"/>
+
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
+        <see selector="{{AdminMessagesSection.success}}"
+             userInput="You flushed the cache storage."
+             stepKey="seeSuccessMessage"/>
+
+        <!-- Check for the log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+            <argument name="message" value="Flushed cache storage."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>
