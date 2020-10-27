@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogSystemConfigSaveTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log system config test"/>
+            <description value="Configuration changes should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Go to System > Configuration -->
+        <actionGroup ref="NavigateToConfigurationGeneralPage" stepKey="navigationToConfig"/>
+
+        <!-- Save the configuration -->
+        <actionGroup ref="AdminSaveConfigActionGroup" stepKey="saveConfig"/>
+        <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
+
+        <!-- Check for the log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+            <argument name="message" value="Configuration section general modified."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>
