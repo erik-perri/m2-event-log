@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogSuccessfulLoginTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log successful login test"/>
+            <description value="Successful logins should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Check for the log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSuccessLoginMessage">
+            <argument name="message" value="User logged in."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>

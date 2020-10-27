@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogNavigateMenuTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log navigate menu test"/>
+            <description value="Admin should be able to navigate to System > Event Log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Go to System > Event Log -->
+        <actionGroup ref="AdminNavigateMenuActionGroup" stepKey="navigateToEventLogPage">
+            <argument name="menuUiId" value="{{AdminMenuSystem.dataUiId}}"/>
+            <argument name="submenuUiId" value="{{AdminMenuEventLogDigest.dataUiId}}"/>
+        </actionGroup>
+
+        <!-- Check the page title -->
+        <actionGroup ref="AdminAssertPageTitleActionGroup" stepKey="seePageTitle">
+            <argument name="title" value="{{AdminMenuEventLogDigest.pageTitle}}"/>
+        </actionGroup>
+    </test>
+</tests>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AssertEventLogContainsEntryWithUserActionGroup">
+        <annotations>
+            <description>Validate event log entry is present and has the expected user.</description>
+        </annotations>
+        <arguments>
+            <argument name="message" type="string"/>
+            <argument name="user" type="string"/>
+        </arguments>
+
+        <amOnPage url="{{AdminEventLogDigestPage.url}}" stepKey="navigateToEventLogPage"/>
+        <waitForPageLoad time="30" stepKey="waitForEventLogPageLoad"/>
+
+        <see selector="{{AdminEventLogDigestSection.messageWithUser(message, user)}}" userInput="{{user}}"
+             stepKey="assertEventLogMessage"/>
+    </actionGroup>
+</actionGroups>

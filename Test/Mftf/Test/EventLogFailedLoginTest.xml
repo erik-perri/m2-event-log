@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogFailedLoginTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log failed login test"/>
+            <description value="Failed logins should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <magentoCLI command="config:set admin/captcha/enable 0" stepKey="disableAdminCaptcha"/>
+            <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
+
+            <actionGroup ref="LoginAdminWithCredentialsActionGroup" stepKey="loginWithInvalidCredentials">
+                <argument name="adminUser" value="{{InvalidUserAccount.username}}"/>
+                <argument name="adminPassword" value="{{InvalidUserAccount.password}}"/>
+            </actionGroup>
+
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <magentoCLI command="config:set admin/captcha/enable 1" stepKey="enableAdminCaptcha"/>
+            <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Check for the log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFailedLoginMessage">
+            <argument name="message" value="User login failed, invalid credentials."/>
+            <argument name="user" value="{{InvalidUserAccount.username}}"/>
+        </actionGroup>
+    </test>
+</tests>
