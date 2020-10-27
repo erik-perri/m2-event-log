@@ -76,13 +76,14 @@ class AdminLoginFailedObserver implements ObserverInterface
             return 'invalid credentials';
         }
 
+        if (preg_match('#incorrect (recaptcha|captcha)#i', $message)) {
+            return 'incorrect captcha';
+        }
+
         $lowerMessage = strtolower(trim($message, '.'));
         switch ($lowerMessage) {
             case 'your account is temporarily disabled':
                 return 'account is disabled';
-            case 'incorrect recaptcha':
-            case 'incorrect captcha':
-                return 'incorrect captcha';
             default:
                 return sprintf('error sent to user: "%s"', trim($message, '.'));
         }
