@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogCacheRefreshTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log selective cache refresh test"/>
+            <description value="Refreshing of the cache (selective clearing) should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Go to System > Cache Management -->
+        <amOnPage url="{{AdminCacheManagementPage.url}}" stepKey="amOnPageCacheManagement"/>
+        <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
+
+        <!-- Select configuration and blocks HTML rows -->
+        <checkOption selector="{{AdminCacheManagementSection.configurationCheckbox}}" stepKey="checkFirstOption"/>
+        <checkOption selector="{{AdminCacheManagementSection.blocksHtmlCheckbox}}" stepKey="checkThirdOption"/>
+
+        <!-- Refresh the selected cache items -->
+        <selectOption selector="{{AdminCacheManagementSection.massActionSelect}}"
+                      userInput="Refresh"
+                      stepKey="selectRefresh"/>
+        <waitForElementVisible selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="waitRefreshButton"/>
+        <click selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="clickRefresh"/>
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
+        <see selector="{{AdminMessagesSection.success}}"
+             userInput="2 cache type(s) refreshed."
+             stepKey="seeSuccessMessage"/>
+
+        <!-- Check for the log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+            <argument name="message" value="Flushed cache: config, block_html."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>
