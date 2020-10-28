@@ -23,15 +23,15 @@
         <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
 
         <!-- Flush the cache -->
-        <waitForElementVisible selector="{{AdminCacheManagementSection.FlushMagentoCache}}" stepKey="waitSubmitButton"/>
-        <click selector="{{AdminCacheManagementSection.FlushMagentoCache}}" stepKey="clickFlush"/>
+        <waitForElementVisible selector="{{AdminCacheManagementSection.FlushMagentoCache}}" stepKey="waitForFlushButton"/>
+        <click selector="{{AdminCacheManagementSection.FlushMagentoCache}}" stepKey="clickFlushButton"/>
         <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
         <see selector="{{AdminMessagesSection.success}}"
              userInput="The Magento cache storage has been flushed."
              stepKey="seeSuccessMessage"/>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFlushedLog">
             <argument name="message" value="Flushed Magento cache."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>

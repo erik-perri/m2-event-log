@@ -19,7 +19,7 @@
         </after>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSuccessLoginMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSuccessLoginLog">
             <argument name="message" value="User logged in."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>

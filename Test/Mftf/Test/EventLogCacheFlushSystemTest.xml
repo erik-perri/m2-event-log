@@ -22,12 +22,13 @@
         <amOnPage url="{{AdminCacheManagementPage.url}}" stepKey="amOnPageCacheManagement"/>
         <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
 
-        <!-- Flush the cache -->
-        <waitForElementVisible selector="#flush_system" stepKey="waitSubmitButton"/>
-        <click selector="#flush_system" stepKey="clickFlush"/>
+        <!-- Click the flush button -->
+        <waitForElementVisible selector="#flush_system" stepKey="waitForSubmitButton"/>
+        <click selector="#flush_system" stepKey="clickFlushButton"/>
 
-        <waitForElementVisible selector="//button[@class='action-primary action-accept']" stepKey="waitConfirmButton"/>
-        <click selector="//button[@class='action-primary action-accept']" stepKey="clickConfirm"/>
+        <!-- Wait for and confirm the popup -->
+        <waitForElementVisible selector="//button[@class='action-primary action-accept']" stepKey="waitForConfirmButton"/>
+        <click selector="//button[@class='action-primary action-accept']" stepKey="clickConfirmButton"/>
 
         <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
         <see selector="{{AdminMessagesSection.success}}"
@@ -35,7 +36,7 @@
              stepKey="seeSuccessMessage"/>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFlushedLog">
             <argument name="message" value="Flushed cache storage."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>

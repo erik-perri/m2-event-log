@@ -23,22 +23,22 @@
         <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
 
         <!-- Select configuration and blocks HTML rows -->
-        <checkOption selector="{{AdminCacheManagementSection.configurationCheckbox}}" stepKey="checkFirstOption"/>
-        <checkOption selector="{{AdminCacheManagementSection.blocksHtmlCheckbox}}" stepKey="checkThirdOption"/>
+        <checkOption selector="{{AdminCacheManagementSection.configurationCheckbox}}" stepKey="checkConfigurationOption"/>
+        <checkOption selector="{{AdminCacheManagementSection.blocksHtmlCheckbox}}" stepKey="checkBlocksHtmlOption"/>
 
         <!-- Refresh the selected cache items -->
         <selectOption selector="{{AdminCacheManagementSection.massActionSelect}}"
                       userInput="Refresh"
-                      stepKey="selectRefresh"/>
-        <waitForElementVisible selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="waitRefreshButton"/>
-        <click selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="clickRefresh"/>
+                      stepKey="selectRefreshAction"/>
+        <waitForElementVisible selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="waitForRefreshButton"/>
+        <click selector="{{AdminCacheManagementSection.massActionSubmit}}" stepKey="clickRefreshButton"/>
         <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
         <see selector="{{AdminMessagesSection.success}}"
              userInput="2 cache type(s) refreshed."
              stepKey="seeSuccessMessage"/>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeRefreshedLog">
             <argument name="message" value="Flushed cache: config, block_html."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>

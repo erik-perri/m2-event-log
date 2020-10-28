@@ -26,7 +26,7 @@
         <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedLog">
             <argument name="message" value="Configuration section general modified."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>

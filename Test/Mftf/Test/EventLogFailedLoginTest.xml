@@ -29,7 +29,7 @@
         </after>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFailedLoginMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFailedLoginLog">
             <argument name="message" value="User login failed, invalid credentials."/>
             <argument name="user" value="{{InvalidUserAccount.username}}"/>
         </actionGroup>

@@ -29,14 +29,14 @@
         <waitForPageLoad stepKey="waitForDefaultStorePage"/>
 
         <!-- Save the configuration -->
-        <click selector="{{AdminMainActionsSection.save}}" stepKey="clickSave"/>
+        <click selector="{{AdminMainActionsSection.save}}" stepKey="clickSaveButton"/>
         <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
         <see selector="{{AdminMessagesSection.success}}"
              userInput="You saved the configuration."
              stepKey="seeSuccessMessage"/>
 
         <!-- Check for the log entry -->
-        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedMessage">
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeSavedLog">
             <argument name="message" value="Design configuration scope stores modified."/>
             <argument name="user" value="{{DefaultAdminUser.username}}"/>
         </actionGroup>
