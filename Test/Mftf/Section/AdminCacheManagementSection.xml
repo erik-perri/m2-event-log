@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminCacheManagementSection">
+        <element name="flushSystemCache" type="button" selector="#flush_system"/>
+        <element name="okButton" type="button" selector="//button[@class='action-primary action-accept']"/>
+    </section>
+</sections>
