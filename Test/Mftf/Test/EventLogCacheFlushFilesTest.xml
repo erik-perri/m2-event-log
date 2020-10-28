@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogCacheFlushFilesTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log flush cached files test"/>
+            <description value="Flushing the cache files should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Go to System > Cache Management -->
+        <amOnPage url="{{AdminCacheManagementPage.url}}" stepKey="amOnPageCacheManagement"/>
+        <waitForPageLoad stepKey="waitForPageCacheManagementLoad"/>
+
+        <!-- Flush the catalog images cache -->
+        <waitForElementVisible selector="{{AdminCacheManagementSection.additionalCacheButton('Flush Catalog Images Cache')}}"
+                               stepKey="waitForCatalogImagesFlushButton"/>
+        <click selector="{{AdminCacheManagementSection.additionalCacheButton('Flush Catalog Images Cache')}}"
+               stepKey="clickCatalogImagesFlushButton"/>
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}"
+                               stepKey="waitForCatalogImagesSuccessMessage"/>
+        <see selector="{{AdminMessagesSection.success}}"
+             userInput="The image cache was cleaned."
+             stepKey="seeCatalogImagesSuccessMessage"/>
+
+        <!-- Flush the JS/CSS cache -->
+        <click selector="{{AdminCacheManagementSection.additionalCacheButton('Flush JavaScript/CSS Cache')}}"
+               stepKey="clickJsCssFlushButton"/>
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForJsCssSuccessMessage"/>
+        <see selector="{{AdminMessagesSection.success}}"
+             userInput="The JavaScript/CSS cache has been cleaned."
+             stepKey="seeJsCssSuccessMessage"/>
+
+        <!-- Flush the static files cache -->
+        <click selector="{{AdminCacheManagementSection.additionalCacheButton('Flush Static Files Cache')}}"
+               stepKey="clickStaticFilesFlushButton"/>
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForStaticFilesSuccessMessage"/>
+        <see selector="{{AdminMessagesSection.success}}"
+             userInput="The static files cache has been cleaned."
+             stepKey="seeStaticFilesSuccessMessage"/>
+
+        <!-- Check for the catalog images log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeCatalogImagesFlushLog">
+            <argument name="message" value="Flushed catalog images cache."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+
+        <!-- Check for the JS/CSS log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeJsCssFlushLog">
+            <argument name="message" value="Flushed JavaScript/CSS cache."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+
+        <!-- Check for the static files log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeStaticFilesFlushLog">
+            <argument name="message" value="Flushed static files cache."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>
