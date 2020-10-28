@@ -11,6 +11,7 @@
         </annotations>
 
         <before>
+            <magentoCLI command="event-log:finish-digest" stepKey="startNewDigest"/>
             <magentoCLI command="config:set admin/captcha/enable 0" stepKey="disableAdminCaptcha"/>
             <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
 

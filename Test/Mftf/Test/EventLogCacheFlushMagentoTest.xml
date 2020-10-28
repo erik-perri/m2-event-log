@@ -11,6 +11,7 @@
         </annotations>
 
         <before>
+            <magentoCLI command="event-log:finish-digest" stepKey="startNewDigest"/>
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
         </before>
 
