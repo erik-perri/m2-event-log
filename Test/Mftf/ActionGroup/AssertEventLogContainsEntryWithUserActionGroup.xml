@@ -13,7 +13,7 @@
         <amOnPage url="{{AdminEventLogDigestPage.url}}" stepKey="navigateToEventLogPage"/>
         <waitForPageLoad time="30" stepKey="waitForEventLogPageLoad"/>
 
-        <see selector="//main//div[contains(., '{{message}}')]/ancestor::tr//td[@class='log-user-name']//div[contains(., '{{user}}')]"
+        <see selector="//main//td[@class='log-message' and contains(., '{{message}}')]/ancestor::tr//td[@class='log-user-name' and contains(., '{{user}}')]"
              userInput="{{user}}"
              stepKey="assertEventLogMessage"/>
     </actionGroup>
