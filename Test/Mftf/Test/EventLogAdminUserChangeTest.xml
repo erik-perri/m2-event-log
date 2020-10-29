@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="EventLogAdminUserChangeTest">
+        <annotations>
+            <stories value="Event Log"/>
+            <group value="event_log"/>
+            <title value="Event log admin user change test"/>
+            <description value="Admin user changes should show up in event log"/>
+            <severity value="CRITICAL"/>
+        </annotations>
+
+        <before>
+            <magentoCLI command="event-log:finish-digest" stepKey="startNewDigest"/>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <!-- Create a user -->
+        <actionGroup ref="AdminCreateUserActionGroup" stepKey="createAdminUser">
+            <argument name="role" value="adminRole"/>
+            <argument name="User" value="eventLogAdmin"/>
+        </actionGroup>
+
+        <!-- Modify the user -->
+        <actionGroup ref="AdminOpenUserEditPageActionGroup" stepKey="openCreatedUser">
+            <argument name="user" value="eventLogAdmin"/>
+        </actionGroup>
+        <fillField selector="{{AdminEditUserSection.currentPasswordField}}"
+                   userInput="{{_ENV.MAGENTO_ADMIN_PASSWORD}}"
+                   stepKey="enterThePassword"/>
+        <click selector="{{AdminEditUserSection.saveButton}}" stepKey="clickSaveButton"/>
+        <waitForElementVisible selector="{{AdminMessagesSection.success}}" stepKey="waitForSuccessMessage"/>
+
+        <!-- Delete the created user -->
+        <actionGroup ref="AdminDeleteUserActionGroup" stepKey="deleteUser">
+            <argument name="user" value="eventLogAdmin"/>
+        </actionGroup>
+
+        <!-- Check for the create log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeCreatedLog">
+            <argument name="message" value="Admin user {{eventLogAdmin.username}} created."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+
+        <!-- Check for the modify log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeModifyLog">
+            <argument name="message" value="Admin user {{eventLogAdmin.username}} modified."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+
+        <!-- Check for the delete log entry -->
+        <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeDeleteLog">
+            <argument name="message" value="Admin user {{eventLogAdmin.username}} deleted."/>
+            <argument name="user" value="{{DefaultAdminUser.username}}"/>
+        </actionGroup>
+    </test>
+</tests>

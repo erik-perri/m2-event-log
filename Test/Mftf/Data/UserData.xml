@@ -6,4 +6,11 @@
         <data key="username" unique="suffix">invalidUser</data>
         <data key="password" unique="suffix">invalidUserPassword</data>
     </entity>
+
+    <!-- Account used by the admin user change tests -->
+    <entity name="eventLogAdmin" type="user" extends="admin2">
+        <data key="username" unique="suffix">testAccount</data>
+        <!-- AdminDeleteUserActionGroup uses this instead of username for some reason -->
+        <data key="name" unique="suffix">testAccount</data>
+    </entity>
 </entities>
