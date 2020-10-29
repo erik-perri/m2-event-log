@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
-    <section name="AdminEventLogDigestSection">
-        <element name="messageWithUser" type="text" parameterized="true"
-                 selector="//main//div[contains(., '{{var1}}')]/ancestor::tr//td[@class='log-user-name']//div[contains(., '{{var2}}')]"/>
-    </section>
-</sections>
