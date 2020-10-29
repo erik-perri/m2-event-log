@@ -16,8 +16,8 @@
             <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
 
             <actionGroup ref="LoginAdminWithCredentialsActionGroup" stepKey="loginWithInvalidCredentials">
-                <argument name="adminUser" value="{{InvalidUserAccount.username}}"/>
-                <argument name="adminPassword" value="{{InvalidUserAccount.password}}"/>
+                <argument name="adminUser" value="{{invalidUserAccount.username}}"/>
+                <argument name="adminPassword" value="{{invalidUserAccount.password}}"/>
             </actionGroup>
 
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
@@ -32,7 +32,7 @@
         <!-- Check for the log entry -->
         <actionGroup ref="AssertEventLogContainsEntryWithUserActionGroup" stepKey="seeFailedLoginLog">
             <argument name="message" value="User login failed, invalid credentials."/>
-            <argument name="user" value="{{InvalidUserAccount.username}}"/>
+            <argument name="user" value="{{invalidUserAccount.username}}"/>
         </actionGroup>
     </test>
 </tests>
